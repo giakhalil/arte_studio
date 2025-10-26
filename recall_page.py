@@ -319,8 +319,11 @@ def render():
         if current_index < len(artworks):
             artwork = artworks[current_index]
             
-            artwork_key = f"opera_{current_index + 1}"
-            recall_data = RECALL_QUESTIONS.get(artwork_key, {})
+            QUESTION_MAP = {
+                "10661-17csont.jpg": RECALL_QUESTIONS["opera_1"],  # Pellegrinaggio
+                "43944-1deposi1.jpg": RECALL_QUESTIONS["opera_2"], # Deposizione
+                "02502-5season.jpg": RECALL_QUESTIONS["opera_3"]   # Quattro Stagioni
+            }
             
             st.progress((current_index) / len(artworks), text=f"Opera {current_index + 1} di {len(artworks)}")
             
