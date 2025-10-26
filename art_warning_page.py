@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import time
 
 def render():
     def load_css():
@@ -40,4 +41,5 @@ def render():
         st.session_state.app_state = "art_viewing"
         
         st.success("✅ Avvio della visualizzazione opere...")
+        time.sleep(0.3)
         st.rerun()

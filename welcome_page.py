@@ -1,4 +1,5 @@
 import streamlit as st
+import time
 
 def welcome_page():
     def load_css():
@@ -88,6 +89,7 @@ def welcome_page():
                         'consent_given': True
                     }
                     st.session_state.app_state = "interests"
+                    time.sleep(0.2)
                     st.rerun()
                 else:
                     st.warning("⚠️ Completa tutti i campi demografici per procedere")
