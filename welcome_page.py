@@ -1,0 +1,95 @@
+import streamlit as st
+
+def welcome_page():
+    def load_css():
+        with open("style.css") as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+    load_css()
+
+    st.progress(0, text="Fase 1 di 3: Consenso e informazioni demografiche")
+
+    st.markdown('<div class="main-title">Studio sull\'Apprendimento dell\'Arte</div>', unsafe_allow_html=True)
+
+    if 'demographics' not in st.session_state:
+        st.session_state.demographics = None
+
+    st.markdown('<div class="subtitle">Benvenuto/a nel nostro studio di ricerca!</div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    Stiamo studiando **come le persone apprendono e ricordano le opere d'arte** attraverso diverse tipologie di descrizioni.
+
+    **Tempo stimato:** 25-30 minuti
+    """)
+
+    with st.container():
+        st.markdown('<div class="section-header">Maggiori informazioni sullo studio</div>', unsafe_allow_html=True)
+        st.markdown("""
+        **Cosa farete:**
+        - Compilare un breve questionario iniziale (8-10 min)
+        - Visualizzare 3 opere d'arte con descrizioni (12 min)
+        - Rispondere a domande sulle opere viste (10 min)
+        
+        **Condizioni sperimentali:**
+        I partecipanti vengono assegnati casualmente a uno di due gruppi che vedranno descrizioni leggermente diverse.
+        """)
+
+    st.markdown("---")
+    st.markdown('<div class="section-header">Consenso Informato</div>', unsafe_allow_html=True)
+
+    consenso = st.checkbox("**Dichiaro di:**", key="consenso_checkbox")
+    st.markdown("""
+    - Aver letto e compreso le informazioni sullo studio
+    - Essere maggiorenne (18+ anni)
+    - Acconsentire volontariamente a partecipare
+    - Comprendere che posso ritirarmi in qualsiasi momento senza conseguenze
+    - Accettare che i dati anonimi siano utilizzati per scopi di ricerca
+    """)
+
+    if consenso:
+        st.success("Consenso registrato. Procedi con le informazioni demografiche.")
+         
+        st.markdown("---")
+        st.markdown('<div class="section-header">Informazioni Demografiche</div>', unsafe_allow_html=True)
+        
+        with st.form("demographic_form"):
+            col1, col2 = st.columns(2)
+            with col1:
+                age = st.number_input("**Età**", min_value=18, max_value=100, value=18)
+                gender = st.selectbox("**Genere**", ["", "Femmina", "Maschio", "Altro", "Preferisco non dire"])
+                education = st.selectbox("**Livello di istruzione**", [
+                    "", "Licenza media", "Diploma", "Laurea triennale", 
+                    "Laurea magistrale", "Dottorato/Master"
+                ])
+            
+            with col2:
+                art_familiarity = st.slider(
+                    "**Quanto ti consideri esperto di storia dell'arte?**",
+                    min_value=1,  
+                    max_value=5,
+                    value=3,
+                    help="1 = Per niente esperto, 5 = Molto esperto"
+                )
+                museum_visits = st.selectbox(
+                    "**Con quale frequenza visiti musei?**",
+                    ["", "Mai", "Raramente (1-2 volte/anno)", "Qualche volta (3-6 volte/anno)", "Spesso (più di 6 volte/anno)"]
+                )
+            
+            demographics_complete = all([gender, education, museum_visits, art_familiarity])
+            
+            if st.form_submit_button("**Procedi alla Sezione Successiva**", type="primary"):
+                if demographics_complete:
+                    st.session_state.demographics = {
+                        'age': age,
+                        'gender': gender,
+                        'education': education,
+                        'art_familiarity': art_familiarity,
+                        'museum_visits': museum_visits,
+                        'consent_given': True
+                    }
+                    st.session_state.app_state = "interests"
+                    st.rerun()
+                else:
+                    st.warning("⚠️ Completa tutti i campi demografici per procedere")
+    else:
+        st.warning("⚠️ Devi dare il consenso per partecipare allo studio")

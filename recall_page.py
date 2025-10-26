@@ -1,0 +1,466 @@
+import streamlit as st
+import time
+import sys
+import os
+from datetime import datetime
+
+sys.path.append(os.path.dirname(__file__))
+
+from database.artwork_data import get_all_artworks
+from database.mongo_handler import save_user_data
+
+def render():
+    def load_css():
+        css_path = os.path.join(os.getcwd(), "style.css")
+        with open(css_path) as f:
+            st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+    load_css()
+
+    required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id', 'viewing_completed']
+    if not all(st.session_state.get(state) for state in required_states):
+        st.error("❌ Accesso non consentito. Completa prima la visualizzazione delle opere.")
+        st.session_state.app_state = "art_viewing"
+        st.rerun()
+
+    if 'recall_test_started' not in st.session_state:
+        st.session_state.recall_test_started = False
+        st.session_state.current_recall_artwork_index = 0
+        st.session_state.recall_answers = {}
+        st.session_state.test_submitted = False
+        st.session_state.data_saved = False
+        st.session_state.feedback_given = False
+
+    st.markdown('<div class="main-title">Test di Memoria</div>', unsafe_allow_html=True)
+
+    RECALL_QUESTIONS = {
+        "opera_3": {
+            "title": "Le quattro stagioni in una testa",
+            "artist": "Giuseppe Arcimboldo",
+            "questions": [
+                {
+                    "question": "Chi ha ricevuto il dipinto?",
+                    "options": [
+                        "Un cardinale di Roma",
+                        "Un letterato di Mantova", 
+                        "Un principe tedesco",
+                        "Un banchiere veneziano"
+                    ],
+                    "correct_answer": "Un letterato di Mantova"
+                },
+                {
+                    "question": "Quando è stato dipinto?",
+                    "options": [
+                        "Circa 1470",
+                        "Circa 1610", 
+                        "Circa 1720",
+                        "Circa 1590"
+                    ],
+                    "correct_answer": "Circa 1590"
+                },
+                {
+                    "question": "Su cosa è dipinto?",
+                    "options": [
+                        "Tela di lino",
+                        "Tavola di quercia",
+                        "Muro intonacato",
+                        "Legno di pioppo"
+                    ],
+                    "correct_answer": "Legno di pioppo"
+                },
+                {
+                    "question": "Chi è l'artista del dipinto?",
+                    "options": [
+                        "Giuseppe Arcimboldo",
+                        "Leon Battista Alberti",
+                        "Paolo Veronese",
+                        "Tiziano"
+                    ],
+                    "correct_answer": "Giuseppe Arcimboldo"
+                },
+                {
+                    "question": "Di cosa è fatta la barba?",
+                    "options": [
+                        "Lana", 
+                        "Paglia",
+                        "Muschio",
+                        "Radici"
+                    ],
+                    "correct_answer": "Muschio"
+                },
+                {
+                    "question": "Cosa pende dall'orecchio?",
+                    "options": [
+                        "Perle",
+                        "Ciliegie",
+                        "Ghiaccioli",
+                        "Fiori"
+                    ],
+                    "correct_answer": "Ciliegie",
+                },
+                {
+                    "question": "Cosa simboleggia il tronco spoglio?",
+                    "options": [
+                        "L'inverno che non produce nulla",
+                        "La vecchiaia e la saggezza",
+                        "La morte che tutto trasforma", 
+                        "La forza nascosta della natura"
+                    ],
+                    "correct_answer": "L'inverno che non produce nulla",
+                },
+                {
+                    "question": "Come viene descritto il piccolo fiore sul petto della figura?",
+                    "options": [
+                        "Simbolo dell'innocenza",
+                        "Simbolo della primavera",
+                        "Ornamento decorativo",
+                        "Rappresentazione dell'estate"
+                    ],
+                    "correct_answer": "Simbolo della primavera",
+                }
+            ]
+        },
+        "opera_1": {
+            "title": "Pellegrinaggio ai Cedri in Libano",
+            "artist": "Tivadar Csontváry Kosztka", 
+            "questions": [
+                {
+                    "question": "Chi è l'artista del dipinto?",
+                    "options": [
+                        "Tivadar Csontváry Kosztka",
+                        "Gustav Klimt",
+                        "Mihály Munkácsy",
+                        "Pál Szinyei Merse"
+                    ],
+                    "correct_answer": "Tivadar Csontváry Kosztka",
+                },
+                {
+                    "question": "Cosa simboleggia principalmente l'albero di cedro nel dipinto?",
+                    "options": [
+                        "La fertilità della natura",
+                        "La persona dell'artista stesso", 
+                        "La religiosità popolare",
+                        "La forza della nazione ungherese"
+                    ],
+                    "correct_answer":  "La persona dell'artista stesso", 
+                },
+                {
+                    "question": "Come è descritto l'albero centrale?",
+                    "options": [
+                        "Un tronco unico e maestoso",
+                        "Tre tronchi intrecciati",
+                        "Multiple radici esposte",
+                        "Doppio tronco al centro"
+                    ],
+                    "correct_answer": "Doppio tronco al centro",
+                },
+                {
+                    "question": "Cosa succede attorno all'albero nel dipinto?",
+                    "options": [
+                        "Una tempesta in avvicinamento",
+                        "Una celebrazione che ricorda antichi rituali",
+                        "Un incendio boschivo", 
+                        "Una cerimonia nuziale"
+                    ],
+                    "correct_answer": "Una celebrazione che ricorda antichi rituali",
+                },
+                {
+                    "question": "Le figure nel dipinto sono:",
+                    "options": [
+                        "Solo donne",
+                        "Uomini e animali",
+                        "Solo bambini",
+                        "Non ci sono figure"
+                    ],
+                    "correct_answer": "Uomini e animali",
+                },
+                {
+                    "question": "In quale anno è stato realizzato il dipinto?",
+                    "options": [
+                        "circa 1834", 
+                        "circa 1959",
+                        "circa 1783",
+                        "circa 1907"
+                    ],
+                    "correct_answer": "circa 1907",
+                },
+                {
+                    "question": "Quale tecnica pittorica è stata utilizzata?",
+                    "options": [
+                        "Olio su tela",
+                        "Tempera su tavola", 
+                        "Acquerello su carta",
+                        "Affresco"
+                    ],
+                    "correct_answer": "Olio su tela",
+                },
+                {
+                    "question": "Come sono i colori del dipinto?",
+                    "options": [
+                        "Tenui e pastello", 
+                        "Molto scuri e spenti",
+                        "Irreali e simbolici",
+                        "Bianco e nero"
+                    ],
+                    "correct_answer": "Irreali e simbolici",
+                }
+            ]
+        },
+        "opera_2": {
+            "title": "Deposizione",
+            "artist": "Rogier van der Weyden",
+            "questions": [
+                {
+                    "question": "Chi è l'artista del dipinto?",
+                    "options": [
+                        "Jan van Eyck", 
+                        "Rogier van der Weyden",
+                        "Robert Campin",
+                        "Hans Memling"
+                    ],
+                    "correct_answer": "Rogier van der Weyden",
+                },
+                {
+                    "question": "Per chi è stato commissionato il dipinto?",
+                    "options": [
+                        "Il Re di Spagna",
+                        "La Confraternita degli Arcieri",
+                        "Il Monastero dell'Escorial", 
+                        "Il Papa"
+                    ],
+                    "correct_answer": "La Confraternita degli Arcieri",
+                },
+                {
+                    "question": "Come viene descritto lo sfondo del dipinto?",
+                    "options": [
+                        "Un paesaggio naturale",
+                        "Una chiesa gotica", 
+                        "Un cielo nuvoloso",
+                         "Una nicchia dorata come un reliquiario"
+                    ],
+                    "correct_answer":  "Una nicchia dorata come un reliquiario",
+                },
+                {
+                    "question": "Chi regge il corpo di Cristo?",
+                    "options": [
+                        "Giovanni e Maria", 
+                        "Soldati romani",
+                        "Angeli",
+                        "Due uomini anziani",
+                    ],
+                    "correct_answer": "Due uomini anziani",
+                },
+                {
+                    "question": "In che secolo è stato dipinto?",
+                    "options": [
+                        "XIV secolo",
+                        "XVI secolo", 
+                        "XVII secolo",
+                         "XV secolo"
+                    ],
+                    "correct_answer":  "XV secolo",
+                },
+                {
+                    "question": "Con cosa è dipinto?",
+                    "options": [
+                        "Affresco sul muro", 
+                        "Tempera su tela",
+                         "Olio su tavola",
+                        "Carboncino su muro"
+                    ],
+                    "correct_answer":  "Olio su tavola",
+                },
+                {
+                    "question": "Cosa fa Maria nel dipinto?",
+                    "options": [
+                        "Svanisce cadendo a terra",
+                        "Prega in ginocchio", 
+                        "Piange in piedi",
+                        "Abbraccia Cristo"
+                    ],
+                    "correct_answer": "Svanisce cadendo a terra",
+                },
+                {
+                    "question": "Com'è il corpo di Cristo?",
+                    "options": [
+                        "Molto sanguinante e ferito", 
+                        "Pallido ma senza ferite",
+                        "Coperto di spine",
+                        "Immacolato e bello, con solo le ferite",
+                    ],
+                    "correct_answer": "Immacolato e bello, con solo le ferite",
+                }
+            ]
+        }
+    }
+
+    if not st.session_state.recall_test_started:
+        st.markdown("""
+        <div class="warning-box">
+        <h4>Istruzioni del Test</h4>
+        <p>Ora valuteremo quanto ricordi delle opere che hai appena visto.</p>
+        <ul>
+        <li><strong>Per ogni opera</strong>, rispondi alle domande basandoti sulla tua memoria</li>
+        <li><strong>Non puoi tornare indietro</strong> a guardare le opere</li>
+        <li>Il test richiederà circa 5-10 minuti</li>
+        </ul>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        if st.button("Inizia il Test", type="primary", use_container_width=True):
+            st.session_state.recall_test_started = True
+            st.session_state.test_start_time = time.time()
+            st.rerun()
+
+    else:
+        artworks = get_all_artworks()
+        current_index = st.session_state.current_recall_artwork_index
+        
+        if current_index < len(artworks):
+            artwork = artworks[current_index]
+            
+            artwork_key = f"opera_{current_index + 1}"
+            recall_data = RECALL_QUESTIONS.get(artwork_key, {})
+            
+            st.progress((current_index) / len(artworks), text=f"Opera {current_index + 1} di {len(artworks)}")
+            
+            st.markdown(f'<h3>"{artwork["title"]}"', unsafe_allow_html=True)
+            
+            with st.form(key=f"recall_form_{current_index}"):
+                
+                st.subheader("**Domande specifiche sull'opera:**")
+                recall_responses = {}
+                
+                if recall_data and "questions" in recall_data:
+                    for i, q_data in enumerate(recall_data["questions"]):
+                        st.markdown(f"**{q_data['question']}**")
+                        answer = st.radio(
+                            f"Seleziona la risposta corretta:",
+                            options=q_data["options"],
+                            key=f"q_{current_index}_{i}",
+                            index=None
+                        )
+                        recall_responses[f"q_{i+1}"] = {
+                            "question": q_data["question"],
+                            "answer": answer,
+                            "correct_answer": q_data["correct_answer"],
+                            "is_correct": None
+                        }
+                
+                submitted = st.form_submit_button("Salva e Procedi", use_container_width=True)
+                
+                if submitted:
+                    recall_score = 0
+                    total_questions = len(recall_responses)
+                    
+                    for q_key, response in recall_responses.items():
+                        if response["answer"] == response["correct_answer"]:
+                            recall_responses[q_key]["is_correct"] = True
+                            recall_score += 1
+                        else:
+                            recall_responses[q_key]["is_correct"] = False
+                    
+                    st.session_state.recall_answers[artwork['id']] = {
+                        'recall_questions': recall_responses,
+                        'recall_score': recall_score,
+                        'total_recall_questions': total_questions,
+                        'timestamp': time.time()
+                    }
+                    
+                    st.session_state.current_recall_artwork_index += 1
+                    st.rerun()
+        
+        else:
+            if not st.session_state.feedback_given:
+                st.session_state.test_submitted = True
+                test_duration = time.time() - st.session_state.test_start_time
+                
+                total_score = 0
+                total_questions = 0
+                
+                for artwork_id, answers in st.session_state.recall_answers.items():
+                    total_score += answers.get('recall_score', 0)
+                    total_questions += answers.get('total_recall_questions', 0)
+                
+                st.markdown("Riepilogo delle tue risposte")
+                
+                for i, (artwork_id, answers) in enumerate(st.session_state.recall_answers.items()):
+                    st.markdown(f"**Opera {i+1}:**")
+                    st.write(f"- Punteggio recall: {answers.get('recall_score', 0)}/{answers.get('total_recall_questions', 0)}")
+                    st.write("---")
+                
+                st.success(f"### ✅ Test completato! Punteggio totale: {total_score}/{total_questions}")
+                
+                st.markdown("---")
+                group_name = "Gruppo B - Descrizioni Personalizzate" if st.session_state.experimental_group == 'B' else "Gruppo A - Descrizioni Standard"
+                
+                st.markdown(f"""
+                <div class="warning-box">
+                <h4>ℹ️ Informazioni sulla Sperimentazione</h4>
+                <p>Hai fatto parte del <strong>{group_name}</strong>.</p>
+                <p>{'Le descrizioni delle opere che hai letto erano personalizzate in base ai tuoi interessi.' if st.session_state.experimental_group == 'B' else 'Le descrizioni delle opere che hai letto erano descrizioni standard, identiche per tutti i partecipanti.'}</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                st.markdown("---")
+                st.markdown("Il tuo feedback")
+                st.markdown("Ci piacerebbe conoscere la tua opinione sull'esperienza:")
+                
+                with st.form("feedback_form"):
+                    feedback = st.text_area(
+                        "Cosa ne pensi di questa sperimentazione? Hai notato qualcosa di particolare nelle descrizioni? Come ti sei sentito durante l'esperienza?",
+                        height=150,
+                        placeholder="Scrivi qui il tuo feedback... (facoltativo ma molto apprezzato)"
+                    )
+                    
+                    feedback_submitted = st.form_submit_button("Invia Feedback e Completa Studio", type="primary", use_container_width=True)
+                    
+                    if feedback_submitted:
+                        st.session_state.feedback_given = True
+                        st.session_state.user_feedback = feedback
+                        st.rerun()
+            
+            else:
+                if not st.session_state.data_saved:
+                    test_duration = time.time() - st.session_state.test_start_time
+                    total_score = sum(answers.get('recall_score', 0) for answers in st.session_state.recall_answers.values())
+                    total_questions = sum(answers.get('total_recall_questions', 0) for answers in st.session_state.recall_answers.values())
+                    
+                    final_data = {
+                        'participant_id': st.session_state.participant_id,
+                        'demographics': st.session_state.demographics,
+                        'all_interest_ratings': st.session_state.interest_ratings,
+                        'top_3_interests': st.session_state.top_3_interests,
+                        'experimental_group': st.session_state.experimental_group,
+                        'recall_test': {
+                            'recall_answers': st.session_state.recall_answers,
+                            'total_recall_score': total_score,
+                            'total_recall_questions': total_questions,
+                            'test_duration': test_duration,
+                            'completed_timestamp': datetime.now().isoformat()
+                        },
+                        'user_feedback': st.session_state.get('user_feedback', ''),
+                        'study_completed': True,
+                    }
+                    
+                    try:
+                        save_user_data(final_data)
+                        st.session_state.data_saved = True
+                        st.success("✅ I tuoi dati sono stati salvati con successo!")
+                    except Exception as e:
+                        st.error(f"Errore nel salvataggio dei dati: {e}")
+                else:
+                    st.info("ℹ️ I dati sono già stati salvati.")
+                
+                st.markdown("""
+                <div class="success-box">
+                <h4>Studio Completato!</h4>
+                <p>Grazie mille per aver partecipato a questo studio. I tuoi contributi sono preziosi per la nostra ricerca sull'apprendimento personalizzato nell'arte!</p>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                if st.button("Termina Studio", type="primary", use_container_width=True):
+                    for key in list(st.session_state.keys()):
+                        del st.session_state[key]
+                    st.session_state.app_state = "welcome"
+                    st.rerun()
