@@ -324,6 +324,7 @@ def render():
                 "43944-1deposi1.jpg": RECALL_QUESTIONS["opera_2"], # Deposizione
                 "02502-5season.jpg": RECALL_QUESTIONS["opera_3"]   # Quattro Stagioni
             }
+            recall_data = QUESTION_MAP.get(artwork_id, {})
             
             st.progress((current_index) / len(artworks), text=f"Opera {current_index + 1} di {len(artworks)}")
             
