@@ -63,7 +63,7 @@ def welcome_page():
                     "Laurea magistrale", "Dottorato/Master"
                 ])
             
-            with col2:
+            with col2: # modifica 
                 art_familiarity = st.selectbox(
                     "**Qual è la tua esperienza con l'arte?**",
                     ["", "Nessuna esperienza formale", "Ho studiato arte a scuola", 
