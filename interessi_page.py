@@ -19,7 +19,7 @@ def interessi_page():
         st.session_state.app_state = "welcome"
         st.rerun()
 
-    st.progress(50, text="Fase 3 di 4: Inventario interessi")
+    st.progress(75, text="Fase 3 di 4: Inventario interessi")
 
     st.markdown('<div class="main-title">I tuoi Interessi</div>', unsafe_allow_html=True)
     st.markdown("""
