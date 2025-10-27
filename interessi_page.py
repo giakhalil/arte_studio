@@ -113,6 +113,6 @@ def interessi_page():
     if st.session_state.get('profile_completed'):
         st.success("✅ Profilo completato con successo!")
         
-        if st.button("➡️ Procedi alla Visualizzazione delle Opere", type="primary", use_container_width=True):
+        if st.button("Procedi alla Visualizzazione delle Opere", type="primary", use_container_width=True):
             st.session_state.app_state = "art_warning"
             st.rerun()

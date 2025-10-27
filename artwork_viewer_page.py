@@ -44,6 +44,20 @@ def render():
     st.progress(min(progress, 1.0), text=f"Opera {current_index + 1} di 3")
     
     countdown_ph = st.empty()
+
+    st.markdown("""
+    <div class="warning-box">
+        <h4>Istruzioni importanti</h4>
+        <ul>
+            <li>Leggi attentamente la descrizione e osserva l'opera</li>
+            <li><strong>Non prendere appunti</strong></li>
+            <li>Il passaggio alla prossima opera avverrà automaticamente</li>
+            <li>Cerca di comprendere e ricordare quanto più possibile</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
     
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
     
@@ -64,12 +78,13 @@ def render():
             
             for image_path in possible_paths:
                 if os.path.exists(image_path):
-                    st.image(
-                        image_path, 
-                        use_column_width=True
-                    )
-                    image_found = True
-                    break
+                     st.markdown(f"""
+                <div style="display: flex; justify-content: center; align-items: center; height: 500px; background-color: #f8f9fa;">
+                    <img src="{image_path}" style="max-height: 480px; max-width: 90%; object-fit: contain;">
+                </div>
+                """, unsafe_allow_html=True)
+                image_found = True
+                break
             
             if not image_found:
                 st.error(f"Immagine non trovata: {artwork['image_url']}")
@@ -89,19 +104,6 @@ def render():
     
     st.markdown("---")
     
-    st.markdown("""
-    <div class="warning-box">
-        <h4>Istruzioni importanti</h4>
-        <ul>
-            <li>Leggi attentamente la descrizione e osserva l'opera</li>
-            <li><strong>Non prendere appunti</strong></li>
-            <li>Il passaggio alla prossima opera avverrà automaticamente</li>
-            <li>Cerca di comprendere e ricordare quanto più possibile</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
     
     mm = int(remaining_time // 60)
     ss = int(remaining_time % 60)
