@@ -207,92 +207,92 @@ def render():
             ]
         },
         "opera_2": {
-            "title": "Deposizione",
-            "artist": "Rogier van der Weyden",
+            "title": "Il Banchiere e sua Moglie",
+            "artist": "Quentin Massys",
             "questions": [
                 {
                     "question": "Chi è l'artista del dipinto?",
                     "options": [
+                        "Quentin Massys",
+                        "Pieter Bruegel il Vecchio",
                         "Jan van Eyck", 
+                        "Hieronymus Bosch"
+                    ],
+                    "correct_answer": "Quentin Massys"
+                },
+                {
+                    "question": "In quale anno è stato realizzato il dipinto?",
+                    "options": [
+                        "1485",
+                        "1530", 
+                        "1550",
+                        "1514"
+                    ],
+                    "correct_answer": "1514"
+                },
+                {
+                    "question": "Quale tecnica pittorica è stata utilizzata?",
+                    "options": [
+                        "Tempera su tavola",
+                        "Olio su tela",
+                        "Affresco",
+                        "Olio su tavola"
+                    ],
+                    "correct_answer": "Olio su tavola"
+                },
+                {
+                    "question": "Cosa riflette lo specchio convesso nel dipinto?",
+                    "options": [
+                        "Una finestra con paesaggio",
+                        "L'autoritratto dell'artista",
+                        "La città di Anversa",
+                        "Un altro cliente del banchiere"
+                    ],
+                    "correct_answer": "L'autoritratto dell'artista"
+                },
+                {
+                    "question": "Quale artista precedente viene citato nel dipinto attraverso lo specchio?",
+                    "options": [
+                        "Jan van Eyck",
                         "Rogier van der Weyden",
                         "Robert Campin",
                         "Hans Memling"
                     ],
-                    "correct_answer": "Rogier van der Weyden",
+                    "correct_answer": "Jan van Eyck"
                 },
                 {
-                    "question": "Per chi è stato commissionato il dipinto?",
+                    "question": "Cosa sta facendo la moglie nel dipinto?",
                     "options": [
-                        "Il Re di Spagna",
-                        "La Confraternita degli Arcieri",
-                        "Il Monastero dell'Escorial", 
-                        "Il Papa"
+                        "Conta monete",
+                        "Cuce un abito",
+                        "Scrive una lettera",
+                        "Sfoglia un libro di preghiere"
                     ],
-                    "correct_answer": "La Confraternita degli Arcieri",
+                    "correct_answer": "Sfoglia un libro di preghiere"
                 },
                 {
-                    "question": "Come viene descritto lo sfondo del dipinto?",
+                    "question": "Quale genere pittorico rappresenta questo dipinto?",
                     "options": [
-                        "Un paesaggio naturale",
-                        "Una chiesa gotica", 
-                        "Un cielo nuvoloso",
-                         "Una nicchia dorata come un reliquiario"
+                        "Ritratto ufficiale",
+                        "Pittura storica",
+                        "Pittura di genere",
+                        "Natura morta"
                     ],
-                    "correct_answer":  "Una nicchia dorata come un reliquiario",
+                    "correct_answer": "Pittura di genere"
                 },
                 {
-                    "question": "Chi regge il corpo di Cristo?",
+                    "question": "Come sono descritte le espressioni dei personaggi?",
                     "options": [
-                        "Giovanni e Maria", 
-                        "Soldati romani",
-                        "Angeli",
-                        "Due uomini anziani",
+                        "Gioiose e vivaci",
+                        "Angosciate e preoccupate",
+                        "Curiose e interessate",
+                        "Indifferenti e distaccate"
                     ],
-                    "correct_answer": "Due uomini anziani",
-                },
-                {
-                    "question": "In che secolo è stato dipinto?",
-                    "options": [
-                        "XIV secolo",
-                        "XVI secolo", 
-                        "XVII secolo",
-                         "XV secolo"
-                    ],
-                    "correct_answer":  "XV secolo",
-                },
-                {
-                    "question": "Con cosa è dipinto?",
-                    "options": [
-                        "Affresco sul muro", 
-                        "Tempera su tela",
-                         "Olio su tavola",
-                        "Carboncino su muro"
-                    ],
-                    "correct_answer":  "Olio su tavola",
-                },
-                {
-                    "question": "Cosa fa Maria nel dipinto?",
-                    "options": [
-                        "Svanisce cadendo a terra",
-                        "Prega in ginocchio", 
-                        "Piange in piedi",
-                        "Abbraccia Cristo"
-                    ],
-                    "correct_answer": "Svanisce cadendo a terra",
-                },
-                {
-                    "question": "Com'è il corpo di Cristo?",
-                    "options": [
-                        "Molto sanguinante e ferito", 
-                        "Pallido ma senza ferite",
-                        "Coperto di spine",
-                        "Immacolato e bello, con solo le ferite",
-                    ],
-                    "correct_answer": "Immacolato e bello, con solo le ferite",
+                    "correct_answer": "Indifferenti e distaccate"
                 }
             ]
         }
-    }
+    } 
 
     if not st.session_state.recall_test_started:
         st.markdown("""
@@ -321,14 +321,14 @@ def render():
             
             QUESTION_MAP = {
                 "10661-17csont.jpg": RECALL_QUESTIONS["opera_1"],  # Pellegrinaggio
-                "43944-1deposi1.jpg": RECALL_QUESTIONS["opera_2"], # Deposizione
+                "24610-moneylen.jpg": RECALL_QUESTIONS["opera_2"], # Banchiere e moglie
                 "02502-5season.jpg": RECALL_QUESTIONS["opera_3"]   # Quattro Stagioni
             }
             recall_data = QUESTION_MAP.get(artwork['id'], {}) 
             
             st.progress((current_index) / len(artworks), text=f"Opera {current_index + 1} di {len(artworks)}")
             
-            st.markdown(f'<h3>"{artwork["title"]}"', unsafe_allow_html=True)
+            st.markdown(f'<h3>"{artwork["title"]}"</h3>', unsafe_allow_html=True)
             
             with st.form(key=f"recall_form_{current_index}"):
                 

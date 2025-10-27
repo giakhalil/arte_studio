@@ -32,67 +32,27 @@ visive di simboli che emergono dalla profondità dell'anima umana" (Lajos Német
 """
     },
     {
-        "id": "43944-1deposi1.jpg",
-        "title": "Deposizione", 
-        "artist": "Rogier van der Weyden",
-        "year": "c. 1435",
-        "style": "Olio su tavola di quercia, 220 x 262 cm",
-        "image_url": "43944-1deposi1.jpg",
-        "standard_description": """
-Il dipinto più antico che possa essere attribuito a Rogier van der Weyden con una certa sicurezza
-è anche l'opera esistente più grande e influente dell'artista: la grande Deposizione. Non può essere 
-stato dipinto molto dopo il 1435, l'anno stabilito con metodi di datazione dendrocronologica, il
-che coinciderebbe anche con le circostanze della vita di Rogier in quel periodo. D'altra parte, deve
-essere stato dipinto prima del 1443, data della copia più antica (nella Sint-Pieterskerk, Lovanio). 
-La Deposizione era una pala d'altare, destinata alla cappella della Confraternita degli Arcieri di Lovanio, 
-che la commissionò. (Le due piccole balestre negli speroni inferiori del traforo nel dipinto si riferiscono 
-alla Confraternita).
-Maria d'Ungheria (1505-1558), Reggente dei Paesi Bassi, acquisì il dipinto dagli Arcieri di Lovanio 
-prima del 1548. In seguito entrò in possesso di suo nipote, il Re Filippo II di Spagna (1527-1598; re dal 1556), 
-che infine la collocò nel monastero-fortezza dell'Escorial da lui fondato vicino a Madrid. A quel tempo,
-la Deposizione formava il centro di un trittico, ma non ci sono indicazioni che i pannelli laterali fossero 
-originariamente parte dell'opera; è più probabile che la Deposizione fosse originariamente un pannello unico.
-Con i suoi circa 2,2 metri di altezza e 2,6 metri di larghezza, il dipinto è molto grande secondo gli standard usuali 
-dei quadri fiamminghi primitivi; in termini di concezione è veramente monumentale. Dieci figure in tutto coprono 
-quasi interamente la superficie dipinta, con le loro teste vicine al bordo superiore del pannello. Il corpo 
-di Gesù è stato già rimosso dalla Croce e viene accolto da due uomini anziani, il barbuto Giuseppe d'Arimatea e Nicodemo. 
-Circondati dagli amici addolorati di Gesù, stanno reggendo il Suo corpo morto per un momento prima di deporlo a terra. 
-Maria sta svenendo cadendo a terra accanto a suo figlio, e viene sorretta da Giovanni, il discepolo prediletto di Gesù,
-e da una delle donne sante. All'estrema destra, la disperata Maria Maddalena sembra sul punto di collassare.
-La scena rappresentata sarebbe durata solo un momento, ma non c'è nulla di momentaneo nella sua raffigurazione, che è completamente 
-distaccata dall'evento storico. Rogier ottiene questo effetto principalmente collocando il gruppo in una nicchia dipinta simile a
-un reliquiario d'altare; il colle del Golgota, il Luogo dei Teschi dove sorgeva la Croce, è suggerito solo da teschi e ossa di braccia 
-sulla stretta striscia di pavimento in pietra. Viene così stabilito un collegamento con quei reliquiari dorati contenenti statue dipinte 
-che erano una forma particolarmente costosa e sfarzosa di pala d'altare. Tuttavia, Rogier non stava imitando un altare scolpito. Mostra figure 
-"vive" piuttosto che statue, e l'effetto realistico è enfatizzato dal loro aspetto, quasi a grandezza naturale, nel luogo dove ci 
-si aspetterebbero semplici statue di legno in un altare. Usando tali metodi, Rogier conferisce loro la tridimensionalità delle statue 
-ma l'aspetto di un dipinto, che è molto più realistico della scultura. Tuttavia, tali considerazioni avrebbero giocato 
-solo una parte minore nella decisione di Rogier di ambientare la scena nella nicchia d'altare dipinta. 
-La sua preoccupazione principale era enfatizzare l'incisività della raffigurazione. Rogier si allontana persino 
-deliberatamente da ciò che può essere immaginato razionalmente, rompendo così con il modo di rappresentazione spaziale realistica che
-era stata raggiunta solo di recente nella pittura. La nicchia che dipinge è abbastanza profonda in fondo al quadro per accogliere diverse figure, 
-il montante della Croce e la scala appoggiata contro di essa; ma in alcune aree in alto sembra avvicinarsi alla superficie del quadro - l'aiutante sulla scala
- è premuto strettamente nello spazio superiore poco profondo del reliquiario, mentre la testa del barbuto Giuseppe d'Arimatea appena sotto sembra sporgere dal quadro. 
- Tutte le figure sono portate in primo piano dal muro posteriore dorato, così che lo spazio le circonda da vicino: per quanto convincenti possano sembrare le loro azioni individualmente, 
- non ci sarebbe mai stato spazio sufficiente per tutte loro in realtà. Il risultato è un senso di atemporalità e un'intensità quasi opprimente.
-La nicchia dipinta offrì a Rogier un altro vantaggio: poteva mantenere il fondo dorato usuale nella pittura medievale 
-senza offendere le esigenze della raffigurazione naturalistica. Lo sfondo del dipinto è, infatti, una superficie dorata reale e anche una rappresentazione 
-pittorica di una - il retro del reliquiario. Rogier mette in relazione le figure tra loro in una composizione magistrale, eppure enfatizza
- una serie di accenti diversi. Il corpo esanime di Cristo è al centro e sembra essere tenuto in modo abbastanza naturale dai due uomini, quasi frontale rispetto 
- all'osservatore, con quasi nulla altro che lo invada. Questa è la parte del quadro destinata a ispirare la maggiore reverenza, riferendosi al sacramento in cui, 
- nella fede cattolica, l'ostia e il vino diventano il corpo e il sangue di Cristo. Durante la funzione divina, il pane e il vino sarebbero stati posti sull'altare sotto questo dipinto, 
- e quando il sacerdote alzava l'ostia sopra la sua testa durante la cerimonia, la congregazione lo avrebbe visto farlo direttamente di fronte al corpo dipinto di Cristo.
-Il corpo quasi radiante è immacolato e bello, non deturpato dai segni della flagellazione, e la sua forma delicata ma quasi gonfia ha una distinta morbidezza sensuale. 
-Solo i segni delle cinque ferite sono brutti squarci che sanguinano. Tuttavia, il lungo rivolo di sangue dalla ferita nel costato di Cristo scorre sul corpo come una linea delicata che traccia la curva dello stomaco.
-L'altro personaggio principale nel dipinto è Maria. La Madre di Dio, che sprofonda a terra come morta, forma un parallelo con Cristo, permettendo all'artista di creare un legame tra i due gruppi principali in un audace 
-effetto di composizione, poiché si stanno muovendo in direzioni diverse: Cristo viene portato via verso destra, mentre Maria sta cadendo a sinistra. Allo stesso tempo, la corrispondenza tra le figure illustra un'importante 
-idea teologica dell'epoca: il compassionevole soffrire di Maria stessa e la sua parte nell'atto di redenzione di Cristo. Sulla destra del quadro, non direttamente coinvolta nell'azione, sta Maria Maddalena. I suoi magnifici abiti mondani, 
-con il vestito scollato che mostra i suoi seni pieni e sensuali, indicano che lei è la "grande peccatrice" che ha abbandonato la sua vita depravata e si è rivolta a Cristo pentita. In termini di composizione, la figura della Maddalena chiude il quadro a
- destra come una grande parentesi, corrispondendo alla figura similmente curva di Giovanni a sinistra. La curva del mantello di Maria Maddalena, che si protende in avanti nel quadro, è riecheggiata dall'orlo della veste di broccato indossata da Nicodemo,
-   e proseguita nella metà sinistra del quadro dalle pieghe dell'abito blu della Vergine Maria. Tali forme e linee sovrapposte determinano la struttura dell'intero quadro: la curva del corpo di Cristo è continuata nel braccio sinistro della Maddalena, 
-   ed è attraversata dalla diagonale che corre in direzione opposta dagli occhi di Nicodemo, attraverso le mani di Cristo e Maria, fino alle orbite del teschio. Anche il braccio sinistro di Cristo riecheggia i movimenti che sembrano curvarsi e ruotare l'uno sull'altro al centro del quadro.
-La Deposizione è tra i capolavori eccelsi dell'arte fiamminga e uno dei pilastri della fama di Rogier. Come opera di un pittore di 35-40 anni, difficilmente può essere descritta come una produzione giovanile, eppure solo con questo dipinto iniziamo a vedere Rogier
- più chiaramente come una personalità artistica. Soprattutto, il quadro mostra inconfondibili somiglianze con alcune delle opere maggiori del Maestro di Flémalle.
+ "id": "24610-moneylen.jpg",
+    "title": "Il Banchiere e sua Moglie", 
+    "artist": "Quentin Massys",
+    "year": "1514",
+    "style": "Olio su tavola, 71 x 68 cm",
+    "image_url": "24610-moneylen.jpg",
+    "standard_description": """
+In una certa misura in opposizione ai Romanisti tra i suoi contemporanei, Massys rimase fedele
+alle tradizioni stabilite dall'arte fiamminga primitiva. Tuttavia, le influenze italiane, alle quali fu esposto 
+solo indirettamente, si fanno sentire nella monumentalizzazione delle sue figure.
+Il Banchiere e sua Moglie è un esempio precoce della pittura di genere che fiorirà nelle Fiandre e nei Paesi Bassi 
+settentrionali nel corso del XVI secolo. Seduti dietro il tavolo, e entrambi parzialmente tagliati su un lato dalla cornice, 
+le figure sono posizionate arretrate rispetto al bordo anteriore del dipinto. Sebbene sofisticate nelle loro sfumature cromatiche, 
+i volti esprimono una relativa indifferenza.
+Piene di vita propria, invece, sono le nature morte dei dettagli: il codice sontuosamente illuminato 
+attraverso cui la donna sta sfogliando le pagine, lo specchio angolato che riflette il mondo esterno nel dipinto 
+con un magistrale scorcio, e il bicchiere, gli accessori e le monete che brillano sul tavolo e sugli scaffali contro la parete posteriore. 
+Nel ruolo dominante che concede a questi oggetti, il dipinto segna un passo importante lungo il percorso verso la natura morta pura.
+Inserendo il proprio autoritratto nel dipinto - riflesso nello specchio convesso - Massys rievoca l'uso di questo espediente 
+da parte di Jan van Eyck ne I Coniugi Arnolfini del 1434.
+Esistono diverse copie del dipinto, in parte differenti.
 """
     },
     {
