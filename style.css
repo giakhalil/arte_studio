@@ -5,11 +5,11 @@
 .main-title {
     color: #4b2e39;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 580;
     margin-bottom: 1rem;
     border-bottom: 3px solid #4b2e39;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
 }
 .subtitle {
     color: #6C596E;
@@ -21,9 +21,9 @@
 .section-header {
     color: #6C596E;
     font-weight: 700;
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
 }
 .subsection-header {
     color: #6C596E;

@@ -2,7 +2,7 @@ import streamlit as st
 st.cache_data.clear()
 st.cache_resource.clear()
 
-st.set_page_config(page_title="Studio Artistico", page_icon="🎨", layout="wide")
+st.set_page_config(page_title="Studio Artistico", page_icon="🎨", layout="centered", nitial_sidebar_state="collapsed")
 
 if 'app_state' not in st.session_state:
     st.session_state.app_state = "welcome"

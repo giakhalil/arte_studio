@@ -64,12 +64,11 @@ def welcome_page():
                 ])
             
             with col2:
-                art_familiarity = st.slider(
-                    "**Quanto ti consideri esperto di storia dell'arte?**",
-                    min_value=1,  
-                    max_value=5,
-                    value=3,
-                    help="1 = Per niente esperto, 5 = Molto esperto"
+                art_familiarity = st.selectbox(
+                    "**Qual è la tua esperienza con l'arte?**",
+                    ["", "Nessuna esperienza formale", "Ho studiato arte a scuola", 
+                    "Ho frequentato corsi di disegno/pittura", "Ho studiato arte all'università",
+                    "Lavoro nel settore artistico"]
                 )
                 museum_visits = st.selectbox(
                     "**Con quale frequenza visiti musei?**",
