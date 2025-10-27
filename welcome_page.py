@@ -77,10 +77,14 @@ def show_demographics_section():
         
         with col2:
             art_familiarity = st.selectbox(
-                "**Qual è la tua esperienza con l'arte?**",
-                ["", "Nessuna esperienza formale", "Ho studiato arte a scuola", 
-                 "Ho frequentato corsi di disegno/pittura", "Ho studiato arte all'università",
-                 "Lavoro nel settore artistico"]
+            "**Qual è la tua esperienza con l'arte?**",
+            ["", 
+            "Nessuna esperienza (non visito musei e non mi interesso di arte)",
+            "Appassionato autodidatta (mi informo e visito mostre per interesse personale)",
+            "Praticante amatoriale (disegno/dipingo per hobby)",
+            "Ho una formazione tecnica (corsi specifici di disegno/pittura/scultura)",
+            "Studio o ho studiato arte a livello universitario/accademico",
+            "Lavoro professionalmente nel settore artistico"]
             )
             museum_visits = st.selectbox(
                 "**Con quale frequenza visiti musei?**",
