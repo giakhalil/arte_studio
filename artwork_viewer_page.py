@@ -47,47 +47,45 @@ def render():
     
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
     
-    try:
-        image_filename = artwork['image_url']
-        
-        possible_paths = [
-            os.path.join("images", image_filename),
-            os.path.join(os.getcwd(), "images", image_filename),
-            image_filename if os.path.isabs(image_filename) else None
-        ]
-        possible_paths = [p for p in possible_paths if p]
-        
-        image_found = False
-        image_path_used = None
-        
-        for image_path in possible_paths:
-            if os.path.exists(image_path):
-                st.image(
-                    image_path, 
-                    use_column_width=True, 
-                    caption=f"{artwork['title']} - {artwork['artist']}"
-                )
-                image_found = True
-                image_path_used = image_path
-                break
-        
-        if not image_found:
-            st.error(f"Immagine non trovata: {artwork['image_url']}")
-            st.info("**Percorsi cercati:**")
-            for path in possible_paths:
-                exists = "✅" if os.path.exists(path) else "❌"
-                st.text(f"{exists} {path}")
-            st.warning("Controlla che le immagini siano nella cartella 'images/' nella directory del progetto")
-            
-    except Exception as e:
-        st.error(f"❌ Errore nel caricamento dell'immagine: {e}")
-        st.exception(e)
+    col_img, col_desc = st.columns([1, 1])
     
-    description = get_artwork_description(
-        artwork,
-        st.session_state.experimental_group,
-        st.session_state.top_3_interests
-    )
+    with col_img:
+        try:
+            image_filename = artwork['image_url']
+            
+            possible_paths = [
+                os.path.join("images", image_filename),
+                os.path.join(os.getcwd(), "images", image_filename),
+                image_filename if os.path.isabs(image_filename) else None
+            ]
+            possible_paths = [p for p in possible_paths if p]
+            
+            image_found = False
+            
+            for image_path in possible_paths:
+                if os.path.exists(image_path):
+                    st.image(
+                        image_path, 
+                        use_column_width=True
+                    )
+                    image_found = True
+                    break
+            
+            if not image_found:
+                st.error(f"Immagine non trovata: {artwork['image_url']}")
+                
+        except Exception as e:
+            st.error(f"❌ Errore nel caricamento dell'immagine: {e}")
+    
+    with col_desc:
+        description = get_artwork_description(
+            artwork,
+            st.session_state.experimental_group,
+            st.session_state.top_3_interests
+        )
+        
+        st.markdown("### Descrizione dell'opera")
+        st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
     
     st.markdown("---")
     
@@ -104,9 +102,6 @@ def render():
     """, unsafe_allow_html=True)
     
     st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
-    
-    st.markdown("### Descrizione dell'opera")
-    st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
     
     mm = int(remaining_time // 60)
     ss = int(remaining_time % 60)
