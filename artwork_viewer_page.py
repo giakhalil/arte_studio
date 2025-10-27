@@ -92,7 +92,7 @@ def render():
                     st.markdown(f"""
                     <div style="display: flex; justify-content: center; align-items: center; padding: 20px;">
                         <img src="data:{mime_type};base64,{img_base64}" 
-                             style="max-width: 350px; max-height: 350px; width: auto; height: auto; object-fit: contain;">
+                             style="max-width: 500px; max-height: 500px; width: auto; height: auto; object-fit: contain;">
                     </div>
                     """, unsafe_allow_html=True)
                     
