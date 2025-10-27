@@ -32,7 +32,7 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
     
-    VIEWING_TIME = 20
+    VIEWING_TIME = 2000
     
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
