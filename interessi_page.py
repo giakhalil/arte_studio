@@ -19,7 +19,7 @@ def interessi_page():
         st.session_state.app_state = "welcome"
         st.rerun()
 
-    st.progress(33, text="Fase 2 di 3: Inventario interessi")
+    st.progress(50, text="Fase 3 di 4: Inventario interessi")
 
     st.markdown('<div class="main-title">I tuoi Interessi</div>', unsafe_allow_html=True)
     st.markdown("""
@@ -77,7 +77,7 @@ def interessi_page():
             )
 
     if not st.session_state.get('profile_completed'):
-        submitted = st.button("✅ Profilo Completato", type="primary", use_container_width=True)
+        submitted = st.button("Profilo Completato", type="primary", use_container_width=True)
 
         if submitted:
             ratings = st.session_state.interest_ratings

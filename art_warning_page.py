@@ -19,7 +19,7 @@ def render():
         st.session_state.app_state = "welcome"
         st.rerun()
 
-    st.progress(0.66, text="Fase 3 di 3: Visualizzazione opere e test")
+    st.progress(75, text="Fase 4 di 4: Visualizzazione opere e test")
 
     st.markdown('<div class="main-title">Visualizzazione Opere d\'Arte</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-header">Istruzioni per la fase successiva</div>', unsafe_allow_html=True)

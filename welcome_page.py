@@ -14,7 +14,7 @@ def welcome_page():
         show_consent_section()
 
 def show_consent_section():
-    st.progress(0, text="Fase 1 di 3: Consenso informato")
+    st.progress(0, text="Fase 1 di 4: Consenso informato")
 
     st.markdown('<div class="main-title">Studio sull\'Apprendimento dell\'Arte</div>', unsafe_allow_html=True)
     st.markdown('<div class="subtitle">Benvenuto/a nel nostro studio di ricerca!</div>', unsafe_allow_html=True)
@@ -59,7 +59,7 @@ def show_consent_section():
         st.warning("⚠️ Devi dare il consenso per partecipare allo studio")
 
 def show_demographics_section():
-    st.progress(33, text="Fase 2 di 3: Informazioni demografiche")
+    st.progress(25, text="Fase 2 di 4: Informazioni demografiche")
 
     st.markdown('<div class="main-title">Informazioni Demografiche</div>', unsafe_allow_html=True)
     st.markdown("Per favore, fornisci alcune informazioni di base:")
