@@ -8,13 +8,15 @@ def welcome_page():
 
     load_css()
 
-    st.progress(0, text="Fase 1 di 3: Consenso e informazioni demografiche")
+    if st.session_state.get('consent_given', False):
+        show_demographics_section()
+    else:
+        show_consent_section()
+
+def show_consent_section():
+    st.progress(0, text="Fase 1 di 3: Consenso informato")
 
     st.markdown('<div class="main-title">Studio sull\'Apprendimento dell\'Arte</div>', unsafe_allow_html=True)
-
-    if 'demographics' not in st.session_state:
-        st.session_state.demographics = None
-
     st.markdown('<div class="subtitle">Benvenuto/a nel nostro studio di ricerca!</div>', unsafe_allow_html=True)
 
     st.markdown("""
@@ -48,49 +50,55 @@ def welcome_page():
     """)
 
     if consenso:
-        st.success("Consenso registrato. Procedi con le informazioni demografiche.")
-         
-        st.markdown("---")
-        st.markdown('<div class="section-header">Informazioni Demografiche</div>', unsafe_allow_html=True)
+        st.success("✅ Consenso registrato con successo!")
         
-        with st.form("demographic_form"):
-            col1, col2 = st.columns(2)
-            with col1:
-                age = st.number_input("**Età**", min_value=18, max_value=100, value=18)
-                gender = st.selectbox("**Genere**", ["", "Femmina", "Maschio", "Altro", "Preferisco non dire"])
-                education = st.selectbox("**Livello di istruzione**", [
-                    "", "Licenza media", "Diploma", "Laurea triennale", 
-                    "Laurea magistrale", "Dottorato/Master"
-                ])
-            
-            with col2: # modifica 
-                art_familiarity = st.selectbox(
-                    "**Qual è la tua esperienza con l'arte?**",
-                    ["", "Nessuna esperienza formale", "Ho studiato arte a scuola", 
-                    "Ho frequentato corsi di disegno/pittura", "Ho studiato arte all'università",
-                    "Lavoro nel settore artistico"]
-                )
-                museum_visits = st.selectbox(
-                    "**Con quale frequenza visiti musei?**",
-                    ["", "Mai", "Raramente (1-2 volte/anno)", "Qualche volta (3-6 volte/anno)", "Spesso (più di 6 volte/anno)"]
-                )
-            
-            demographics_complete = all([gender, education, museum_visits, art_familiarity])
-            
-            if st.form_submit_button("**Procedi alla Sezione Successiva**", type="primary"):
-                if demographics_complete:
-                    st.session_state.demographics = {
-                        'age': age,
-                        'gender': gender,
-                        'education': education,
-                        'art_familiarity': art_familiarity,
-                        'museum_visits': museum_visits,
-                        'consent_given': True
-                    }
-                    st.session_state.app_state = "interests"
-                    time.sleep(0.2)
-                    st.rerun()
-                else:
-                    st.warning("⚠️ Completa tutti i campi demografici per procedere")
+        if st.button("**Procedi alle Informazioni Demografiche**", type="primary", use_container_width=True):
+            st.session_state.consent_given = True
+            st.rerun()
     else:
         st.warning("⚠️ Devi dare il consenso per partecipare allo studio")
+
+def show_demographics_section():
+    st.progress(33, text="Fase 2 di 3: Informazioni demografiche")
+
+    st.markdown('<div class="main-title">Informazioni Demografiche</div>', unsafe_allow_html=True)
+    st.markdown("Per favore, fornisci alcune informazioni di base:")
+
+    with st.form("demographic_form"):
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            age = st.number_input("**Età**", min_value=18, max_value=100, value=18)
+            gender = st.selectbox("**Genere**", ["", "Femmina", "Maschio", "Altro", "Preferisco non dire"])
+            education = st.selectbox("**Livello di istruzione**", [
+                "", "Licenza media", "Diploma", "Laurea triennale", 
+                "Laurea magistrale", "Dottorato/Master"
+            ])
+        
+        with col2:
+            art_familiarity = st.selectbox(
+                "**Qual è la tua esperienza con l'arte?**",
+                ["", "Nessuna esperienza formale", "Ho studiato arte a scuola", 
+                 "Ho frequentato corsi di disegno/pittura", "Ho studiato arte all'università",
+                 "Lavoro nel settore artistico"]
+            )
+            museum_visits = st.selectbox(
+                "**Con quale frequenza visiti musei?**",
+                ["", "Mai", "Raramente (1-2 volte/anno)", "Qualche volta (3-6 volte/anno)", "Spesso (più di 6 volte/anno)"]
+            )
+        
+        demographics_complete = all([age >= 18, gender, education, art_familiarity, museum_visits])
+        
+        if st.form_submit_button("**Procedi alla Sezione Interessi**", type="primary", use_container_width=True):
+            if demographics_complete:
+                st.session_state.demographics = {
+                    'age': age,
+                    'gender': gender,
+                    'education': education,
+                    'art_familiarity': art_familiarity,
+                    'museum_visits': museum_visits
+                }
+                st.session_state.app_state = "interests"
+                st.rerun()
+            else:
+                st.warning("⚠️ Completa tutti i campi demografici per procedere")

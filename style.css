@@ -5,7 +5,7 @@
 .main-title {
     color: #4b2e39;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 580;
     margin-bottom: 1rem;
     border-bottom: 3px solid #4b2e39;
@@ -15,20 +15,20 @@
     color: #6C596E;
     text-align: center;
     font-weight: 400;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 2rem;
 }
 .section-header {
     color: #6C596E;
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1rem;
     margin-top: 1rem;
     margin-bottom: 0.5rem;
 }
 .subsection-header {
     color: #6C596E;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
 }
