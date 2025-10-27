@@ -70,25 +70,23 @@ def render():
             possible_paths = [
                 os.path.join("images", image_filename),
                 os.path.join(os.getcwd(), "images", image_filename),
-                image_filename if os.path.isabs(image_filename) else None
             ]
-            possible_paths = [p for p in possible_paths if p]
             
-            image_found = False
-            
-            for image_path in possible_paths:
-                if os.path.exists(image_path):
-                     st.markdown(f"""
-                <div style="display: flex; justify-content: center; align-items: center; height: 500px; background-color: #f8f9fa;">
-                    <img src="{image_path}" style="max-height: 480px; max-width: 90%; object-fit: contain;">
-                </div>
-                """, unsafe_allow_html=True)
-                image_found = True
-                break
-            
-            if not image_found:
-                st.error(f"Immagine non trovata: {artwork['image_url']}")
+            image_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    image_path = path
+                    break
                 
+            if image_path:
+               st.markdown(f'''
+            <div style="display: flex; justify-content: center; align-items: center; height: 500px; background-color: #f8f9fa; border-radius: 10px;">
+                <img src="{image_path}" style="max-height: 480px; max-width: 90%; object-fit: contain;">
+            </div>
+            ''', unsafe_allow_html=True)
+            else:
+                st.error(f"Immagine non trovata: {artwork['image_url']}")
+            
         except Exception as e:
             st.error(f"❌ Errore nel caricamento dell'immagine: {e}")
     
