@@ -79,7 +79,7 @@ def render():
                 if os.path.exists(image_path):
                     st.image(
                         image_path,
-                        width=200 
+                        width=200,
                         use_column_width=True
                     )
                     image_found = True
