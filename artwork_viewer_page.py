@@ -32,7 +32,7 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
     
-    VIEWING_TIME = 2000
+    VIEWING_TIME = 20
     
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
@@ -44,8 +44,21 @@ def render():
     st.progress(min(progress, 1.0), text=f"Opera {current_index + 1} di 3")
     
     countdown_ph = st.empty()
-    
+    st.markdown("""
+    <div class="warning-box">
+        <h4>Istruzioni importanti</h4>
+        <ul>
+            <li>Leggi attentamente la descrizione e osserva l'opera</li>
+            <li><strong>Non prendere appunti</strong></li>
+            <li>Il passaggio alla prossima opera avverrà automaticamente</li>
+            <li>Cerca di comprendere e ricordare quanto più possibile</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
+    
+    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
     
     col_img, col_desc = st.columns([1, 1])
     
@@ -87,21 +100,7 @@ def render():
         st.markdown("### Descrizione dell'opera")
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
     
-    st.markdown("---")
-    
-    st.markdown("""
-    <div class="warning-box">
-        <h4>Istruzioni importanti</h4>
-        <ul>
-            <li>Leggi attentamente la descrizione e osserva l'opera</li>
-            <li><strong>Non prendere appunti</strong></li>
-            <li>Il passaggio alla prossima opera avverrà automaticamente</li>
-            <li>Cerca di comprendere e ricordare quanto più possibile</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
+    st.markdown("---") 
     
     mm = int(remaining_time // 60)
     ss = int(remaining_time % 60)
