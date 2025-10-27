@@ -2,6 +2,7 @@ import streamlit as st
 import time
 import sys
 import os
+import base64
 sys.path.append(os.path.dirname(__file__))
 from database.artwork_data import get_artwork_by_index, get_artwork_description
 
@@ -16,7 +17,7 @@ def render():
     
     required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
     if not all(st.session_state.get(state) for state in required_states):
-        st.error("❌ Accesso non consentito. Completa prima il profilo.")
+        st.error("⚠ Accesso non consentito. Completa prima il profilo.")
         st.session_state.app_state = "interests"
         st.rerun()
     
@@ -77,11 +78,24 @@ def render():
             
             for image_path in possible_paths:
                 if os.path.exists(image_path):
-                    st.image(
-                        image_path,
-                        width=200,
-                        use_column_width=True
-                    )
+                    with open(image_path, "rb") as img_file:
+                        img_bytes = img_file.read()
+                        img_base64 = base64.b64encode(img_bytes).decode()
+                    
+                    if image_path.lower().endswith('.png'):
+                        mime_type = "image/png"
+                    elif image_path.lower().endswith(('.jpg', '.jpeg')):
+                        mime_type = "image/jpeg"
+                    else:
+                        mime_type = "image/jpeg"
+                    
+                    st.markdown(f"""
+                    <div style="display: flex; justify-content: center; align-items: center; padding: 20px;">
+                        <img src="data:{mime_type};base64,{img_base64}" 
+                             style="max-width: 350px; max-height: 350px; width: auto; height: auto; object-fit: contain;">
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
                     image_found = True
                     break
             
@@ -89,7 +103,7 @@ def render():
                 st.error(f"Immagine non trovata: {artwork['image_url']}")
                 
         except Exception as e:
-            st.error(f"❌ Errore nel caricamento dell'immagine: {e}")
+            st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
     
     with col_desc:
         description = get_artwork_description(
