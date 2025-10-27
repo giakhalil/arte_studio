@@ -115,10 +115,10 @@
     display: none !important;
 }
 
-.stImage img {
-    max-height: 500px !important;
+img[data-testid="stImage"] {
+    max-height: 300px !important;
     width: auto !important;
-    max-width: 90% !important;
+    max-width: 80% !important;
     object-fit: contain !important;
     display: block !important;
     margin: 0 auto !important;
