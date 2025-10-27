@@ -114,3 +114,22 @@
 .stApp > header {
     display: none !important;
 }
+
+.stImage img {
+    max-height: 500px !important;
+    width: auto !important;
+    max-width: 90% !important;
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+}
+
+.image-container {
+    height: 520px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: #f8f9fa !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+}

@@ -44,20 +44,6 @@ def render():
     st.progress(min(progress, 1.0), text=f"Opera {current_index + 1} di 3")
     
     countdown_ph = st.empty()
-
-    st.markdown("""
-    <div class="warning-box">
-        <h4>Istruzioni importanti</h4>
-        <ul>
-            <li>Leggi attentamente la descrizione e osserva l'opera</li>
-            <li><strong>Non prendere appunti</strong></li>
-            <li>Il passaggio alla prossima opera avverrà automaticamente</li>
-            <li>Cerca di comprendere e ricordare quanto più possibile</li>
-        </ul>
-    </div>
-    """, unsafe_allow_html=True)
-
-    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
     
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
     
@@ -70,23 +56,24 @@ def render():
             possible_paths = [
                 os.path.join("images", image_filename),
                 os.path.join(os.getcwd(), "images", image_filename),
+                image_filename if os.path.isabs(image_filename) else None
             ]
+            possible_paths = [p for p in possible_paths if p]
             
-            image_path = None
-            for path in possible_paths:
-                if os.path.exists(path):
-                    image_path = path
+            image_found = False
+            
+            for image_path in possible_paths:
+                if os.path.exists(image_path):
+                    st.image(
+                        image_path, 
+                        use_column_width=True
+                    )
+                    image_found = True
                     break
-                
-            if image_path:
-               st.markdown(f'''
-            <div style="display: flex; justify-content: center; align-items: center; height: 500px; background-color: #f8f9fa; border-radius: 10px;">
-                <img src="{image_path}" style="max-height: 480px; max-width: 90%; object-fit: contain;">
-            </div>
-            ''', unsafe_allow_html=True)
-            else:
-                st.error(f"Immagine non trovata: {artwork['image_url']}")
             
+            if not image_found:
+                st.error(f"Immagine non trovata: {artwork['image_url']}")
+                
         except Exception as e:
             st.error(f"❌ Errore nel caricamento dell'immagine: {e}")
     
@@ -102,6 +89,19 @@ def render():
     
     st.markdown("---")
     
+    st.markdown("""
+    <div class="warning-box">
+        <h4>Istruzioni importanti</h4>
+        <ul>
+            <li>Leggi attentamente la descrizione e osserva l'opera</li>
+            <li><strong>Non prendere appunti</strong></li>
+            <li>Il passaggio alla prossima opera avverrà automaticamente</li>
+            <li>Cerca di comprendere e ricordare quanto più possibile</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
     
     mm = int(remaining_time // 60)
     ss = int(remaining_time % 60)
