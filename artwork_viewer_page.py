@@ -37,6 +37,14 @@ def render():
     if 'artwork_elapsed_time' not in st.session_state:
         st.session_state.artwork_elapsed_time = 0.0
 
+    
+    if 'page_visibility_changed' not in st.session_state:
+        st.session_state.page_visibility_changed = False
+    if 'focus_lost_count' not in st.session_state:
+        st.session_state.focus_lost_count = 0
+    if 'inactive_periods' not in st.session_state:
+        st.session_state.inactive_periods = []
+
     current_index = st.session_state.current_artwork_index
     artwork = get_artwork_by_index(current_index)
     if not artwork:
@@ -48,12 +56,100 @@ def render():
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
 
+   
+    visibility_js = """
+    <script>
+    let lastFocusTime = Date.now();
+    let currentInactiveStart = null;
+
+    function handleVisibilityChange() {
+        const now = Date.now();
+        
+        if (document.hidden) {
+            // Pagina non visibile - utente ha cambiato scheda
+            currentInactiveStart = now;
+            window.parent.postMessage({
+                type: 'streamlit:setComponentValue',
+                value: 'focus_lost_' + now
+            }, '*');
+        } else {
+            // Pagina di nuovo visibile
+            if (currentInactiveStart) {
+                const inactiveDuration = (now - currentInactiveStart) / 1000;
+                window.parent.postMessage({
+                    type: 'streamlit:setComponentValue',
+                    value: 'focus_regained_' + inactiveDuration.toFixed(1)
+                }, '*');
+                currentInactiveStart = null;
+            }
+            lastFocusTime = now;
+        }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Monitora anche gli eventi di focus/blur della finestra
+    window.addEventListener('blur', function() {
+        currentInactiveStart = Date.now();
+        window.parent.postMessage({
+            type: 'streamlit:setComponentValue',
+            value: 'window_blurred'
+        }, '*');
+    });
+    
+    window.addEventListener('focus', function() {
+        if (currentInactiveStart) {
+            const inactiveDuration = (Date.now() - currentInactiveStart) / 1000;
+            window.parent.postMessage({
+                type: 'streamlit:setComponentValue',
+                value: 'window_focused_' + inactiveDuration.toFixed(1)
+            }, '*');
+            currentInactiveStart = null;
+        }
+    });
+    </script>
+    """
+
+    
+    st.components.v1.html(visibility_js, height=0)
+
+  
+    query_params = st.experimental_get_query_params()
+    for key, value in query_params.items():
+        if 'focus_lost' in key or 'window_blurred' in key:
+            st.session_state.page_visibility_changed = True
+            st.session_state.focus_lost_count += 1
+            st.session_state.page_was_inactive = True
+            st.experimental_set_query_params()
+            break
+        elif 'focus_regained' in key or 'window_focused' in key:
+            if value and len(value) > 0:
+                try:
+                    duration = float(value[0].split('_')[-1])
+                    st.session_state.inactive_periods.append({
+                        'artwork_index': current_index,
+                        'duration': duration,
+                        'timestamp': time.time()
+                    })
+                except:
+                    pass
+            st.experimental_set_query_params()
+            break
+
     elapsed_time = time.time() - st.session_state.artwork_start_time + st.session_state.artwork_elapsed_time
     remaining_time = max(VIEWING_TIME - elapsed_time, 0)
     progress = elapsed_time / VIEWING_TIME
 
     st.progress(min(progress, 1.0), text=f"Opera {current_index + 1} di 3")
     countdown_ph = st.empty()
+
+  
+    if st.session_state.page_visibility_changed:
+        st.error("""
+        ⚠ **ATTENZIONE: Hai cambiato scheda o finestra!** 
+        Questo è stato registrato nel sistema. 
+        Per favore, mantieni la concentrazione sullo studio.
+        """)
 
     st.markdown("""
     <div class="warning-box">
@@ -111,6 +207,23 @@ def render():
 
     st.markdown("---")
 
+    
+    with st.expander("📊 Monitoraggio Attività (Solo per ricerca)"):
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Cambi scheda rilevati", st.session_state.focus_lost_count)
+        with col2:
+            status = "⚠️ ATTENZIONE PERSA" if st.session_state.page_visibility_changed else "✅ IN STUDIO"
+            st.metric("Stato attuale", status)
+        
+        if st.session_state.inactive_periods:
+            current_artwork_periods = [p for p in st.session_state.inactive_periods 
+                                     if p['artwork_index'] == current_index]
+            if current_artwork_periods:
+                st.write("Periodi di inattività per questa opera:")
+                for i, period in enumerate(current_artwork_periods[-3:]):  # Ultimi 3 periodi
+                    st.write(f"- {period['duration']:.1f} secondi")
+
     while remaining_time > 0:
         mm = int(remaining_time // 60)
         ss = int(remaining_time % 60)
@@ -125,12 +238,25 @@ def render():
     st.session_state.artwork_start_time = None
     st.session_state.artwork_elapsed_time = 0.0
 
+
+    if st.session_state.page_visibility_changed:
+       
+        print(f"PARTICIPANT {st.session_state.participant_id}: Focus perso {st.session_state.focus_lost_count} volte durante l'opera {current_index + 1}")
+
     if current_index < 2:
         st.session_state.current_artwork_index += 1
         st.rerun()
     else:
         st.session_state.viewing_completed = True
+        
+        if st.session_state.focus_lost_count > 0:
+            st.warning(f"""
+            **Nota per il ricercatore:** 
+            Il partecipante ha cambiato scheda/finestra {st.session_state.focus_lost_count} volte durante lo studio.
+            Totale periodi di inattività: {len(st.session_state.inactive_periods)}
+            """)
+        
         st.success("✅ Visualizzazione opere completata! Procedendo al test...")
-        time.sleep(2)
+        time.sleep(0.5)
         st.session_state.app_state = "recall"
         st.rerun()
