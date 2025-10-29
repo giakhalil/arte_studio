@@ -68,6 +68,7 @@ def render():
         <ul>
             <li>Leggi attentamente la descrizione e osserva l'opera</li>
             <li><strong>Non prendere appunti</strong></li>
+            <li><strong>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</strong></li>
             <li>Il passaggio alla prossima opera avverrà automaticamente</li>
             <li>Cerca di comprendere e ricordare quanto più possibile</li>
         </ul>
@@ -75,7 +76,6 @@ def render():
     """, unsafe_allow_html=True)
 
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
-    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
 
     col_img, col_desc = st.columns([1, 1])
 
@@ -114,6 +114,7 @@ def render():
             st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
 
     with col_desc:
+        st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
         description = get_artwork_description(
             artwork,
             st.session_state.experimental_group,
