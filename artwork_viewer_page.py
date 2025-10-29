@@ -58,9 +58,7 @@ def render():
     """, unsafe_allow_html=True)
 
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
-    
-    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
-    
+
     col_img, col_desc = st.columns([1, 1])
     
     with col_img:
@@ -106,6 +104,7 @@ def render():
             st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
     
     with col_desc:
+        st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
         description = get_artwork_description(
             artwork,
             st.session_state.experimental_group,
