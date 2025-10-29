@@ -24,9 +24,17 @@ def render():
 
     if 'current_artwork_index' not in st.session_state:
         st.session_state.current_artwork_index = 0
+
+    if 'artwork_start_time' not in st.session_state:
         st.session_state.artwork_start_time = None
+
+    if 'viewing_completed' not in st.session_state:
         st.session_state.viewing_completed = False
+
+    if 'page_was_inactive' not in st.session_state:
         st.session_state.page_was_inactive = False
+
+    if 'artwork_elapsed_time' not in st.session_state:
         st.session_state.artwork_elapsed_time = 0.0
 
     current_index = st.session_state.current_artwork_index
@@ -126,4 +134,3 @@ def render():
         time.sleep(2)
         st.session_state.app_state = "recall"
         st.rerun()
-
