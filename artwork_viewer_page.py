@@ -70,7 +70,7 @@ def render():
     </script>
     """, height=0)
 
-    with st.form(key="inactivity_detector", border=False):
+    with st.form(key="inactivity_detector"):
         inactive_detected = st.checkbox(
             "inactive", 
             value=st.session_state.get('page_was_inactive', False),
@@ -78,7 +78,7 @@ def render():
             label_visibility="collapsed"
         )
         
-        submitted = st.form_submit_button("check", type="secondary")
+        submitted = st.form_submit_button("check")
         
         if submitted:
             if inactive_detected:
