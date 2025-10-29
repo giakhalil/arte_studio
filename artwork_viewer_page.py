@@ -27,37 +27,10 @@ def render():
         st.session_state.artwork_start_time = None
         st.session_state.viewing_completed = False
         st.session_state.page_was_inactive = False
-
-    if 'inactive_flag_key' not in st.session_state:
-        st.session_state.inactive_flag_key = f"inactive_{id(st.session_state)}"
-
-    st.components.v1.html(f"""
-    <script>
-    const flagKey = '{st.session_state.inactive_flag_key}';
-
-    document.addEventListener('visibilitychange', function() {{
-        if (document.hidden) {{
-            sessionStorage.setItem(flagKey, 'true');
-        }} else {{
-            if (sessionStorage.getItem(flagKey) === 'true') {{
-                const url = new URL(window.location);
-                url.searchParams.set('page_inactive', '1');
-                window.location.href = url.toString();
-            }}
-        }}
-    }});
-    </script>
-    """, height=0)
-    try:
-        query_params = st.experimental_get_query_params()
-        if "page_inactive" in query_params:
-            st.session_state.page_was_inactive = True
-    except Exception:
-        pass
+        st.session_state.artwork_elapsed_time = 0.0
 
     current_index = st.session_state.current_artwork_index
     artwork = get_artwork_by_index(current_index)
-
     if not artwork:
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
@@ -67,12 +40,11 @@ def render():
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
 
-    elapsed_time = time.time() - st.session_state.artwork_start_time
+    elapsed_time = time.time() - st.session_state.artwork_start_time + st.session_state.artwork_elapsed_time
     remaining_time = max(VIEWING_TIME - elapsed_time, 0)
     progress = elapsed_time / VIEWING_TIME
 
     st.progress(min(progress, 1.0), text=f"Opera {current_index + 1} di 3")
-
     countdown_ph = st.empty()
 
     st.markdown("""
@@ -81,7 +53,7 @@ def render():
         <ul>
             <li>Leggi attentamente la descrizione e osserva l'opera</li>
             <li><strong>Non prendere appunti</strong></li>
-            <li><strong>Non aprire altre schede o finestre nel browser</strong>, altrimenti i tuoi dati NON veranno considerati</li>
+            <li><strong>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</strong></li>
             <li>Il passaggio alla prossima opera avverrà automaticamente</li>
             <li>Cerca di comprendere e ricordare quanto più possibile</li>
         </ul>
@@ -89,9 +61,7 @@ def render():
     """, unsafe_allow_html=True)
 
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
-
     col_img, col_desc = st.columns([1, 1])
-
     with col_img:
         try:
             image_filename = artwork['image_url']
@@ -107,16 +77,11 @@ def render():
                     with open(image_path, "rb") as img_file:
                         img_bytes = img_file.read()
                         img_base64 = base64.b64encode(img_bytes).decode()
-                    if image_path.lower().endswith('.png'):
-                        mime_type = "image/png"
-                    elif image_path.lower().endswith(('.jpg', '.jpeg')):
-                        mime_type = "image/jpeg"
-                    else:
-                        mime_type = "image/jpeg"
+                    mime_type = "image/png" if image_path.lower().endswith('.png') else "image/jpeg"
                     st.markdown(f"""
                     <div style="display: flex; justify-content: center; align-items: center; padding: 20px;">
-                        <img src="data:{mime_type};base64,{img_base64}" 
-                             style="max-width: 500px; max-height: 500px; width: auto; height: auto; object-fit: contain;">
+                        <img src="data:{mime_type};base64,{img_base64}"
+                             style="max-width: 500px; max-height: 500px; object-fit: contain;">
                     </div>
                     """, unsafe_allow_html=True)
                     image_found = True
@@ -137,27 +102,28 @@ def render():
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    st.write("Page inactive:", st.session_state.get("page_was_inactive", False))
 
-    if remaining_time <= 0:
-        if not st.session_state.viewing_completed:
-            if current_index < 2:
-                st.session_state.current_artwork_index += 1
-                st.session_state.artwork_start_time = None
-                st.rerun()
-            else:
-                st.session_state.viewing_completed = True
-                st.session_state.artwork_start_time = None
-                st.success("✅ Visualizzazione opere completata! Procedendo al test...")
-                time.sleep(0.5)
-                st.session_state.app_state = "recall"
-                st.rerun()
-    else:
-        while remaining_time > 0:
-            mm = int(remaining_time // 60)
-            ss = int(remaining_time % 60)
-            countdown_ph.metric("Tempo rimanente", f"{mm:02d}:{ss:02d}")
-            time.sleep(0.5)
-            elapsed_time = time.time() - st.session_state.artwork_start_time
-            remaining_time = max(VIEWING_TIME - elapsed_time, 0)
+    while remaining_time > 0:
+        mm = int(remaining_time // 60)
+        ss = int(remaining_time % 60)
+        countdown_ph.metric("Tempo rimanente", f"{mm:02d}:{ss:02d}")
+        time.sleep(1)
+        elapsed_time = time.time() - st.session_state.artwork_start_time + st.session_state.artwork_elapsed_time
+        remaining_time = max(VIEWING_TIME - elapsed_time, 0)
+        st.session_state.artwork_elapsed_time = elapsed_time
+
+    if elapsed_time < VIEWING_TIME:
+        st.session_state.page_was_inactive = True 
+    st.session_state.artwork_start_time = None
+    st.session_state.artwork_elapsed_time = 0.0
+
+    if current_index < 2:
+        st.session_state.current_artwork_index += 1
         st.rerun()
+    else:
+        st.session_state.viewing_completed = True
+        st.success("✅ Visualizzazione opere completata! Procedendo al test...")
+        time.sleep(2)
+        st.session_state.app_state = "recall"
+        st.rerun()
+
