@@ -28,61 +28,19 @@ def render():
         st.session_state.viewing_completed = False
         st.session_state.page_was_inactive = False
 
-    st.components.v1.html("""
-    <script>
-    document.addEventListener('visibilitychange', function() {
-        if (document.hidden) {
-            let flag = document.getElementById('inactivity_flag');
-            if (!flag) {
-                flag = document.createElement('div');
-                flag.id = 'inactivity_flag';
-                flag.style.display = 'none';
-                document.body.appendChild(flag);
-            }
-            flag.setAttribute('data-inactive', 'true');
-        }
-    });
-    
-    if (document.hidden) {
-        let flag = document.getElementById('inactivity_flag');
-        if (!flag) {
-            flag = document.createElement('div');
-            flag.id = 'inactivity_flag';
-            flag.style.display = 'none';
-            document.body.appendChild(flag);
-        }
-        flag.setAttribute('data-inactive', 'true');
-    }
-    </script>
-    """, height=0)
+    st.components.v1.html(""" 
+                        <script> 
+                        document.addEventListener('visibilitychange', function() { 
+                          if (document.hidden) { 
+                            fetch('/?page_inactive=1').catch(()=>{}); 
+                          } 
+                        }); 
+                        </script> 
+                        """, height=0)
 
-    st.components.v1.html("""
-    <script>
-    setTimeout(function() {
-        const flag = document.getElementById('inactivity_flag');
-        if (flag && flag.getAttribute('data-inactive') === 'true') {
-            const streamlitFlag = document.createElement('div');
-            streamlitFlag.id = 'streamlit_detect_inactive';
-            streamlitFlag.innerHTML = 'INACTIVE_DETECTED';
-            document.body.appendChild(streamlitFlag);
-        }
-    }, 100);
-    </script>
-    """, height=0)
-
-    with st.form(key="inactivity_detector"):
-        inactive_detected = st.checkbox(
-            "inactive", 
-            value=st.session_state.get('page_was_inactive', False),
-            key="inactive_checkbox",
-            label_visibility="collapsed"
-        )
-        
-        submitted = st.form_submit_button("check")
-        
-        if submitted:
-            if inactive_detected:
-                st.session_state.page_was_inactive = True
+    query_params = st.experimental_get_query_params() 
+    if "page_inactive" in query_params: 
+        st.session_state.page_was_inactive = True
 
     current_index = st.session_state.current_artwork_index
     artwork = get_artwork_by_index(current_index)
@@ -91,7 +49,7 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
 
-    VIEWING_TIME = 20
+    VIEWING_TIME = 200
 
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
