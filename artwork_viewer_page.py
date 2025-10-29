@@ -123,10 +123,6 @@ def render():
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    
-    mm = int(remaining_time // 60)
-    ss = int(remaining_time % 60)
-    countdown_ph.metric("Tempo rimanente", f"{mm:02d}:{ss:02d}")
 
     if remaining_time <= 0:
         if not st.session_state.viewing_completed:
@@ -142,5 +138,12 @@ def render():
                 st.session_state.app_state = "recall"
                 st.rerun()
     else:
-        time.sleep(1)
+        while remaining_time > 0:
+            mm = int(remaining_time // 60)
+            ss = int(remaining_time % 60)
+            countdown_ph.metric("Tempo rimanente", f"{mm:02d}:{ss:02d}")
+            time.sleep(1)
+            elapsed_time = time.time() - st.session_state.artwork_start_time
+            remaining_time = max(VIEWING_TIME - elapsed_time, 0)
+        
         st.rerun()
