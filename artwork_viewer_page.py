@@ -89,7 +89,6 @@ def render():
     """, unsafe_allow_html=True)
 
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
-    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
 
     col_img, col_desc = st.columns([1, 1])
 
@@ -128,6 +127,7 @@ def render():
             st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
 
     with col_desc:
+        st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
         description = get_artwork_description(
             artwork,
             st.session_state.experimental_group,
@@ -137,6 +137,7 @@ def render():
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
+    st.write("Page inactive:", st.session_state.get("page_was_inactive", False))
 
     if remaining_time <= 0:
         if not st.session_state.viewing_completed:
@@ -148,7 +149,7 @@ def render():
                 st.session_state.viewing_completed = True
                 st.session_state.artwork_start_time = None
                 st.success("✅ Visualizzazione opere completata! Procedendo al test...")
-                time.sleep(2)
+                time.sleep(0.5)
                 st.session_state.app_state = "recall"
                 st.rerun()
     else:
@@ -156,7 +157,7 @@ def render():
             mm = int(remaining_time // 60)
             ss = int(remaining_time % 60)
             countdown_ph.metric("Tempo rimanente", f"{mm:02d}:{ss:02d}")
-            time.sleep(1)
+            time.sleep(0.5)
             elapsed_time = time.time() - st.session_state.artwork_start_time
             remaining_time = max(VIEWING_TIME - elapsed_time, 0)
         st.rerun()
