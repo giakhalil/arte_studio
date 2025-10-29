@@ -445,6 +445,7 @@ def render():
                         },
                         'user_feedback': st.session_state.get('user_feedback', ''),
                         'study_completed': True,
+                          'page_was_inactive': st.session_state.get('page_was_inactive', False),
                     }
                     
                     try:

@@ -19,6 +19,9 @@ def interessi_page():
         st.session_state.app_state = "welcome"
         st.rerun()
 
+    if 'interests_start_time' not in st.session_state:
+        st.session_state.interests_start_time = time.time()
+
     st.progress(75, text="Fase 3 di 4: Inventario interessi")
 
     st.markdown('<div class="main-title">I tuoi Interessi</div>', unsafe_allow_html=True)
@@ -80,6 +83,8 @@ def interessi_page():
         submitted = st.button("Profilo Completato", type="primary", use_container_width=True)
 
         if submitted:
+            interests_time_spent = time.time() - st.session_state.interests_start_time
+            st.session_state.interests_time_spent = interests_time_spent
             ratings = st.session_state.interest_ratings
             sorted_interests = sorted(ratings.items(), key=lambda x: x[1], reverse=True)
             top_3_interests = [interest[0] for interest in sorted_interests[:3]]
@@ -98,6 +103,7 @@ def interessi_page():
                 'top_3_interests': top_3_interests,
                 'top_3_scores': [ratings[interest] for interest in top_3_interests],
                 'experimental_group': st.session_state.experimental_group,
+                'interests_page_time': interests_time_spent,
             }
 
             success, participant_id = save_user_data(user_complete_data)
