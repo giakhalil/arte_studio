@@ -27,20 +27,44 @@ def render():
         st.session_state.artwork_start_time = None
         st.session_state.viewing_completed = False
         st.session_state.page_was_inactive = False
+        st.session_state.inactive_flag_key = f"inactive_{id(st.session_state)}"
 
-    st.components.v1.html(""" 
-                        <script> 
-                        document.addEventListener('visibilitychange', function() { 
-                          if (document.hidden) { 
-                            fetch('/?page_inactive=1').catch(()=>{}); 
-                          } 
-                        }); 
-                        </script> 
-                        """, height=0)
+    st.components.v1.html(f""" 
+        <script>
+        const flagKey = '{st.session_state.inactive_flag_key}';
+        
+        document.addEventListener('visibilitychange', function() {{ 
+            if (document.hidden) {{ 
+                // Salva nel sessionStorage del browser
+                sessionStorage.setItem(flagKey, 'true');
+                
+                // Prova anche con query params
+                const url = new URL(window.location);
+                url.searchParams.set('page_inactive', '1');
+                window.history.replaceState({{}}, '', url);
+            }} 
+        }}); 
+        
+        // Al caricamento, controlla se c'è il flag
+        if (sessionStorage.getItem(flagKey) === 'true') {{
+            const url = new URL(window.location);
+            url.searchParams.set('page_inactive', '1');
+            window.history.replaceState({{}}, '', url);
+        }}
+        </script> 
+        """, height=0)
 
-    query_params = st.experimental_get_query_params() 
-    if "page_inactive" in query_params: 
-        st.session_state.page_was_inactive = True
+    try:
+        query_params = st.query_params
+        if "page_inactive" in query_params or query_params.get("page_inactive") == "1":
+            st.session_state.page_was_inactive = True
+    except:
+        try:
+            query_params = st.experimental_get_query_params() 
+            if "page_inactive" in query_params:
+                st.session_state.page_was_inactive = True
+        except:
+            pass
 
     current_index = st.session_state.current_artwork_index
     artwork = get_artwork_by_index(current_index)
@@ -49,7 +73,7 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
 
-    VIEWING_TIME = 200
+    VIEWING_TIME = 30
 
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
@@ -70,12 +94,12 @@ def render():
             <li><strong>Non prendere appunti</strong></li>
             <li>Il passaggio alla prossima opera avverrà automaticamente</li>
             <li>Cerca di comprendere e ricordare quanto più possibile</li>
+            <li><strong>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</strong></li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
 
     st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
-    st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
 
     col_img, col_desc = st.columns([1, 1])
 
@@ -114,6 +138,7 @@ def render():
             st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
 
     with col_desc:
+        st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
         description = get_artwork_description(
             artwork,
             st.session_state.experimental_group,
