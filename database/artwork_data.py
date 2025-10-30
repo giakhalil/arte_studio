@@ -33,7 +33,7 @@ visive di simboli che emergono dalla profondità dell'anima umana" (Lajos Német
     },
     {
  "id": "24610-moneylen.jpg",
-    "title": "Il Banchiere e sua Moglie", 
+    "title": "Il cambiavalute e sua moglie", 
     "artist": "Quentin Massys",
     "year": "1514",
     "style": "Olio su tavola, 71 x 68 cm",

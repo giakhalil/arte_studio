@@ -207,7 +207,7 @@ def render():
             ]
         },
         "opera_2": {
-            "title": "Il Banchiere e sua Moglie",
+            "title": "Il cambiavalute e sua moglie",
             "artist": "Quentin Massys",
             "questions": [
                 {
@@ -246,7 +246,7 @@ def render():
                         "Una finestra con paesaggio",
                         "L'autoritratto dell'artista",
                         "La città di Anversa",
-                        "Un altro cliente del banchiere"
+                        "Un altro cliente del cambiavalute"
                     ],
                     "correct_answer": "L'autoritratto dell'artista"
                 },
@@ -266,9 +266,9 @@ def render():
                         "Conta monete",
                         "Cuce un abito",
                         "Scrive una lettera",
-                        "Sfoglia un libro di preghiere"
+                        "Sfoglia un libro"
                     ],
-                    "correct_answer": "Sfoglia un libro di preghiere"
+                    "correct_answer": "Sfoglia un libro"
                 },
                 {
                     "question": "Quale genere pittorico rappresenta questo dipinto?",
@@ -321,7 +321,7 @@ def render():
             
             QUESTION_MAP = {
                 "10661-17csont.jpg": RECALL_QUESTIONS["opera_1"],  # Pellegrinaggio
-                "24610-moneylen.jpg": RECALL_QUESTIONS["opera_2"], # Banchiere e moglie
+                "24610-moneylen.jpg": RECALL_QUESTIONS["opera_2"], # Il cambiavalute e sua moglie
                 "02502-5season.jpg": RECALL_QUESTIONS["opera_3"]   # Quattro Stagioni
             }
             recall_data = QUESTION_MAP.get(artwork['id'], {}) 
@@ -436,6 +436,7 @@ def render():
                         'all_interest_ratings': st.session_state.interest_ratings,
                         'top_3_interests': st.session_state.top_3_interests,
                         'experimental_group': st.session_state.experimental_group,
+                        'interests_page_time': st.session_state.interests_time_spent,
                         'recall_test': {
                             'recall_answers': st.session_state.recall_answers,
                             'total_recall_score': total_score,
@@ -446,7 +447,7 @@ def render():
                         'user_feedback': st.session_state.get('user_feedback', ''),
                         'study_completed': True,
                         'page_was_inactive': st.session_state.get('page_was_inactive', False),
-                        'excluded_from_analysis': True if st.session_state.get('page_was_inactive', False) else False
+                        'excluded_from_analysis': True if st.session_state.get('page_was_inactive', False) else False,
                     }
                     
                     try:
