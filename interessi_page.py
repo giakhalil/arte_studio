@@ -1,7 +1,7 @@
 import streamlit as st
 import random
 import time
-from database.mongo_handler import save_user_data
+from database.mongo_handler import generate_participant_id
 
 def interessi_page():
     def load_css():
@@ -93,29 +93,11 @@ def interessi_page():
             if 'experimental_group' not in st.session_state:
                 st.session_state.experimental_group = random.choice(['A', 'B'])
 
-            user_complete_data = {
-                'age': st.session_state.demographics['age'],
-                'gender': st.session_state.demographics['gender'],
-                'education': st.session_state.demographics['education'],
-                'art_familiarity': st.session_state.demographics['art_familiarity'],
-                'museum_visits': st.session_state.demographics['museum_visits'],
-                'all_interest_ratings': st.session_state.interest_ratings,
-                'top_3_interests': top_3_interests,
-                'top_3_scores': [ratings[interest] for interest in top_3_interests],
-                'experimental_group': st.session_state.experimental_group,
-                'interests_page_time': interests_time_spent,
-            }
-
-            success, participant_id = save_user_data(user_complete_data)
-
-            if success:
-                st.session_state.participant_id = participant_id
-                st.session_state.data_saved = True
-                st.session_state.profile_completed = True
-                st.rerun()
-            else:
-                st.error("❌ Errore nel salvataggio dei dati. Riprova.")
-
+            st.session_state.participant_id = generate_participant_id()
+            st.session_state.data_saved = True 
+            st.session_state.profile_completed = True
+            st.rerun()
+            
     if st.session_state.get('profile_completed'):
         st.success("✅ Profilo completato con successo!")
         

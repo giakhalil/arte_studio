@@ -11,7 +11,7 @@ def render():
 
     load_css()
 
-    required_states = ['demographics', 'top_3_interests', 'experimental_group', 'data_saved']
+    required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
     missing_states = [state for state in required_states if not st.session_state.get(state)]
 
     if missing_states:
