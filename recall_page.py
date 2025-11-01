@@ -356,16 +356,7 @@ def render():
             st.markdown(f'<h3>"{artwork["title"]}"</h3>', unsafe_allow_html=True)
             
             with st.form(key=f"recall_form_{current_index}"):
-                all_questions_answered = True
-            for i, q_data in enumerate(recall_data["questions"]):
-                if st.session_state.get(f"q_{current_index}_{i}") is None:
-                    all_questions_answered = False
-                    break
-
-            if not all_questions_answered:
-                st.error("❌ **Devi rispondere a tutte le domande prima " \
-                "di procedere.** Puoi selezionare 'Non mi ricordo' se non ricordi la risposta.")
-
+                
                 st.subheader("**Domande specifiche sull'opera:**")
                 recall_responses = {}
                 
@@ -384,6 +375,14 @@ def render():
                             "correct_answer": q_data["correct_answer"],
                             "is_correct": None
                         }
+                
+                all_questions_answered = True
+                for i in range(len(recall_data["questions"])):
+                    if st.session_state.get(f"q_{current_index}_{i}") is None:
+                        all_questions_answered = False
+                        break
+                if not all_questions_answered:
+                    st.error("❌ **Devi rispondere a tutte le domande prima di procedere.** Puoi selezionare 'Non mi ricordo' se non ricordi la risposta.")
                 
                 submitted = st.form_submit_button("Salva e Procedi", use_container_width=True, disabled=not all_questions_answered)
                 
