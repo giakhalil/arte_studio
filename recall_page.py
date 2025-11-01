@@ -340,9 +340,9 @@ def render():
     else:
         
         FIXED_ARTWORK_ORDER = [
-            "10661-17csont.jpg",    # Pellegrinaggio ai Cedri in Libano
-            "24610-moneylen.jpg",   # Il cambiavalute e sua moglie  
-            "02502-5season.jpg"     # Le quattro stagioni in una testa
+            "10661-17csont.jpg",
+            "24610-moneylen.jpg",  
+            "02502-5season.jpg"     
         ]
         
         current_index = st.session_state.current_recall_artwork_index
@@ -383,20 +383,21 @@ def render():
                             "is_correct": None
                         }
                 
-                all_questions_answered = True
-                unanswered_questions = []
-                
-                for i, (q_key, response) in enumerate(recall_responses.items()):
-                    if response["answer"] is None:
-                        all_questions_answered = False
-                        unanswered_questions.append(i + 1)
-                
-                if not all_questions_answered:
-                    st.error(f"❌ **Devi rispondere a tutte le domande prima di procedere.** Domande mancanti: {', '.join(map(str, unanswered_questions))}")
-                
-                submitted = st.form_submit_button("Salva e Procedi", use_container_width=True, disabled=not all_questions_answered)
+                submitted = st.form_submit_button("Salva e Procedi", use_container_width=True)
                 
                 if submitted:
+                    all_questions_answered = True
+                    unanswered_questions = []
+                    
+                    for i, (q_key, response) in enumerate(recall_responses.items()):
+                        if response["answer"] is None:
+                            all_questions_answered = False
+                            unanswered_questions.append(i + 1)
+                    
+                    if not all_questions_answered:
+                        st.error(f"❌ **Devi rispondere a tutte le domande prima di procedere.** Domande mancanti: {', '.join(map(str, unanswered_questions))}")
+                        st.stop()
+                    
                     recall_score = 0
                     total_questions = len(recall_responses)
                     
