@@ -377,10 +377,11 @@ def render():
                         }
                 
                 all_questions_answered = True
-                for i in range(len(recall_data["questions"])):
-                    if st.session_state.get(f"q_{current_index}_{i}") is None:
+                for q_key, response in recall_responses.items():
+                    if response["answer"] is None:
                         all_questions_answered = False
                         break
+                
                 if not all_questions_answered:
                     st.error("❌ **Devi rispondere a tutte le domande prima di procedere.** Puoi selezionare 'Non mi ricordo' se non ricordi la risposta.")
                 
