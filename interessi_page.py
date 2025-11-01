@@ -49,7 +49,7 @@ def interessi_page():
     ]
 
     if 'interest_ratings' not in st.session_state:
-        st.session_state.interest_ratings = {category: 3 for category in interest_categories}
+        st.session_state.interest_ratings = {category: 1 for category in interest_categories}
 
     st.markdown('<div class="section-header">Valuta i tuoi interessi</div>', unsafe_allow_html=True)
     st.caption("(1 = Per niente interessato, 5 = Molto interessato)")
@@ -63,8 +63,7 @@ def interessi_page():
                 category,
                 min_value=1, 
                 max_value=5, 
-                value=1,
-                value=st.session_state.interest_ratings.get(category, 3),
+                value=st.session_state.interest_ratings.get(category, 1),
                 key=f"rate_{category}",
                 on_change=lambda cat=category: st.session_state.interest_ratings.update({cat: st.session_state[f"rate_{cat}"]})
             )
@@ -75,7 +74,7 @@ def interessi_page():
                 category,
                 min_value=1, 
                 max_value=5, 
-                value=st.session_state.interest_ratings.get(category, 3),
+                value=st.session_state.interest_ratings.get(category, 1),
                 key=f"rate_{category}",
                 on_change=lambda cat=category: st.session_state.interest_ratings.update({cat: st.session_state[f"rate_{cat}"]})
             )
