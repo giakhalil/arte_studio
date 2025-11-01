@@ -386,37 +386,31 @@ def render():
                 submitted = st.form_submit_button("Salva e Procedi", use_container_width=True)
                 
                 if submitted:
-                    all_questions_answered = True
-                    unanswered_questions = []
-                    
-                    for i, (q_key, response) in enumerate(recall_responses.items()):
-                        if response["answer"] is None:
-                            all_questions_answered = False
-                            unanswered_questions.append(i + 1)
+                    all_questions_answered = all(response["answer"] is not None for response in recall_responses.values())
                     
                     if not all_questions_answered:
+                        unanswered_questions = [i + 1 for i, (q_key, response) in enumerate(recall_responses.items()) if response["answer"] is None]
                         st.error(f"❌ **Devi rispondere a tutte le domande prima di procedere.** Domande mancanti: {', '.join(map(str, unanswered_questions))}")
-                        st.stop()
-                    
-                    recall_score = 0
-                    total_questions = len(recall_responses)
-                    
-                    for q_key, response in recall_responses.items():
-                        if response["answer"] == response["correct_answer"]:
-                            recall_responses[q_key]["is_correct"] = True
-                            recall_score += 1
-                        else:
-                            recall_responses[q_key]["is_correct"] = False
-                    
-                    st.session_state.recall_answers[artwork['id']] = {
-                        'recall_questions': recall_responses,
-                        'recall_score': recall_score,
-                        'total_recall_questions': total_questions,
-                        'timestamp': time.time()
-                    }
-                    
-                    st.session_state.current_recall_artwork_index += 1
-                    st.rerun()
+                    else:
+                        recall_score = 0
+                        total_questions = len(recall_responses)
+                        
+                        for q_key, response in recall_responses.items():
+                            if response["answer"] == response["correct_answer"]:
+                                recall_responses[q_key]["is_correct"] = True
+                                recall_score += 1
+                            else:
+                                recall_responses[q_key]["is_correct"] = False
+                        
+                        st.session_state.recall_answers[artwork['id']] = {
+                            'recall_questions': recall_responses,
+                            'recall_score': recall_score,
+                            'total_recall_questions': total_questions,
+                            'timestamp': time.time()
+                        }
+                        
+                        st.session_state.current_recall_artwork_index += 1
+                        st.rerun()
         
         else:
             if not st.session_state.feedback_given:
