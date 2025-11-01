@@ -43,8 +43,6 @@ class DescriptionGenerator:
     def get_standard_description(self, artwork_data):
         if self.use_real_api:
             prompt = f"""
-Agisci come una guida turistica museale. Descrivi la seguente opera d'arte in modo chiaro e coinvolgente.
-
 CONTESTO: Stai conducendo una visita educativa per visitatori.
 
 IL TUO PROCESSO:
@@ -85,8 +83,6 @@ Informazioni di base sull'opera:
             interests_text = ", ".join(top_interests[:3])
             
             prompt = f"""
-Agisci come una guida turistica museale che crea connessioni personalizzate per i visitatori. Descrivi la seguente opera d'arte in modo chiaro e coinvolgente.
-
 CONTESTO: Stai conducendo una visita educativa, collegando i concetti artistici dell'opera ai mondi esperienziali dei visitatori in modo totalmente naturale e celato.
 
 IL TUO PROCESSO:

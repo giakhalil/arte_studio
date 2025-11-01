@@ -28,20 +28,6 @@ def render():
         st.session_state.viewing_completed = False
         st.session_state.page_was_inactive = False
 
-    st.components.v1.html(""" 
-                        <script> 
-                        document.addEventListener('visibilitychange', function() { 
-                          if (document.hidden) { 
-                            fetch('/?page_inactive=1').catch(()=>{}); 
-                          } 
-                        }); 
-                        </script> 
-                        """, height=0)
-
-    query_params = st.experimental_get_query_params() 
-    if "page_inactive" in query_params: 
-        st.session_state.page_was_inactive = True
-
     current_index = st.session_state.current_artwork_index
     artwork = get_artwork_by_index(current_index)
 

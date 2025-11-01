@@ -63,6 +63,7 @@ def interessi_page():
                 category,
                 min_value=1, 
                 max_value=5, 
+                value=1,
                 value=st.session_state.interest_ratings.get(category, 3),
                 key=f"rate_{category}",
                 on_change=lambda cat=category: st.session_state.interest_ratings.update({cat: st.session_state[f"rate_{cat}"]})

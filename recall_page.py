@@ -44,7 +44,8 @@ def render():
                         "Un cardinale di Roma",
                         "Un letterato di Mantova", 
                         "Un principe tedesco",
-                        "Un banchiere veneziano"
+                        "Un banchiere veneziano",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Un letterato di Mantova"
                 },
@@ -54,7 +55,8 @@ def render():
                         "Circa 1470",
                         "Circa 1610", 
                         "Circa 1720",
-                        "Circa 1590"
+                        "Circa 1590",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Circa 1590"
                 },
@@ -64,7 +66,8 @@ def render():
                         "Tela di lino",
                         "Tavola di quercia",
                         "Muro intonacato",
-                        "Legno di pioppo"
+                        "Legno di pioppo",
+                        "Non mi ricordo",
                     ],
                     "correct_answer": "Legno di pioppo"
                 },
@@ -74,7 +77,8 @@ def render():
                         "Giuseppe Arcimboldo",
                         "Leon Battista Alberti",
                         "Paolo Veronese",
-                        "Tiziano"
+                        "Tiziano",
+                        "Non mi ricordo", 
                     ],
                     "correct_answer": "Giuseppe Arcimboldo"
                 },
@@ -84,7 +88,8 @@ def render():
                         "Lana", 
                         "Paglia",
                         "Muschio",
-                        "Radici"
+                        "Radici",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Muschio"
                 },
@@ -94,7 +99,8 @@ def render():
                         "Perle",
                         "Ciliegie",
                         "Ghiaccioli",
-                        "Fiori"
+                        "Fiori",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Ciliegie",
                 },
@@ -104,7 +110,8 @@ def render():
                         "L'inverno che non produce nulla",
                         "La vecchiaia e la saggezza",
                         "La morte che tutto trasforma", 
-                        "La forza nascosta della natura"
+                        "La forza nascosta della natura",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "L'inverno che non produce nulla",
                 },
@@ -114,7 +121,8 @@ def render():
                         "Simbolo dell'innocenza",
                         "Simbolo della primavera",
                         "Ornamento decorativo",
-                        "Rappresentazione dell'estate"
+                        "Rappresentazione dell'estate",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Simbolo della primavera",
                 }
@@ -130,7 +138,8 @@ def render():
                         "Tivadar Csontváry Kosztka",
                         "Gustav Klimt",
                         "Mihály Munkácsy",
-                        "Pál Szinyei Merse"
+                        "Pál Szinyei Merse",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Tivadar Csontváry Kosztka",
                 },
@@ -140,7 +149,8 @@ def render():
                         "La fertilità della natura",
                         "La persona dell'artista stesso", 
                         "La religiosità popolare",
-                        "La forza della nazione ungherese"
+                        "La forza della nazione ungherese",
+                        "Non mi ricordo"
                     ],
                     "correct_answer":  "La persona dell'artista stesso", 
                 },
@@ -150,7 +160,8 @@ def render():
                         "Un tronco unico e maestoso",
                         "Tre tronchi intrecciati",
                         "Multiple radici esposte",
-                        "Doppio tronco al centro"
+                        "Doppio tronco al centro",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Doppio tronco al centro",
                 },
@@ -160,7 +171,8 @@ def render():
                         "Una tempesta in avvicinamento",
                         "Una celebrazione che ricorda antichi rituali",
                         "Un incendio boschivo", 
-                        "Una cerimonia nuziale"
+                        "Una cerimonia nuziale",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Una celebrazione che ricorda antichi rituali",
                 },
@@ -170,7 +182,8 @@ def render():
                         "Solo donne",
                         "Uomini e animali",
                         "Solo bambini",
-                        "Non ci sono figure"
+                        "Non ci sono figure",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Uomini e animali",
                 },
@@ -180,7 +193,8 @@ def render():
                         "circa 1834", 
                         "circa 1959",
                         "circa 1783",
-                        "circa 1907"
+                        "circa 1907",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "circa 1907",
                 },
@@ -190,7 +204,8 @@ def render():
                         "Olio su tela",
                         "Tempera su tavola", 
                         "Acquerello su carta",
-                        "Affresco"
+                        "Affresco",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Olio su tela",
                 },
@@ -200,7 +215,8 @@ def render():
                         "Tenui e pastello", 
                         "Molto scuri e spenti",
                         "Irreali e simbolici",
-                        "Bianco e nero"
+                        "Bianco e nero",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Irreali e simbolici",
                 }
@@ -216,7 +232,8 @@ def render():
                         "Quentin Massys",
                         "Pieter Bruegel il Vecchio",
                         "Jan van Eyck", 
-                        "Hieronymus Bosch"
+                        "Hieronymus Bosch",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Quentin Massys"
                 },
@@ -226,7 +243,8 @@ def render():
                         "1485",
                         "1530", 
                         "1550",
-                        "1514"
+                        "1514",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "1514"
                 },
@@ -236,7 +254,8 @@ def render():
                         "Tempera su tavola",
                         "Olio su tela",
                         "Affresco",
-                        "Olio su tavola"
+                        "Olio su tavola",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Olio su tavola"
                 },
@@ -246,7 +265,8 @@ def render():
                         "Una finestra con paesaggio",
                         "L'autoritratto dell'artista",
                         "La città di Anversa",
-                        "Un altro cliente del cambiavalute"
+                        "Un altro cliente del cambiavalute",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "L'autoritratto dell'artista"
                 },
@@ -256,7 +276,8 @@ def render():
                         "Jan van Eyck",
                         "Rogier van der Weyden",
                         "Robert Campin",
-                        "Hans Memling"
+                        "Hans Memling",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Jan van Eyck"
                 },
@@ -266,7 +287,8 @@ def render():
                         "Conta monete",
                         "Cuce un abito",
                         "Scrive una lettera",
-                        "Sfoglia un libro"
+                        "Sfoglia un libro",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Sfoglia un libro"
                 },
@@ -276,7 +298,8 @@ def render():
                         "Ritratto ufficiale",
                         "Pittura storica",
                         "Pittura di genere",
-                        "Natura morta"
+                        "Natura morta",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Pittura di genere"
                 },
@@ -286,7 +309,8 @@ def render():
                         "Gioiose e vivaci",
                         "Angosciate e preoccupate",
                         "Curiose e interessate",
-                        "Indifferenti e distaccate"
+                        "Indifferenti e distaccate",
+                        "Non mi ricordo"
                     ],
                     "correct_answer": "Indifferenti e distaccate"
                 }
@@ -303,6 +327,7 @@ def render():
         <li><strong>Per ogni opera</strong>, rispondi alle domande basandoti sulla tua memoria</li>
         <li><strong>Non puoi tornare indietro</strong> a guardare le opere</li>
         <li>Il test richiederà circa 5-10 minuti</li>
+        <li><strong>Devi rispondere a tutte le domande</strong> prima di procedere</li>
         </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -331,7 +356,16 @@ def render():
             st.markdown(f'<h3>"{artwork["title"]}"</h3>', unsafe_allow_html=True)
             
             with st.form(key=f"recall_form_{current_index}"):
-                
+                all_questions_answered = True
+            for i, q_data in enumerate(recall_data["questions"]):
+                if st.session_state.get(f"q_{current_index}_{i}") is None:
+                    all_questions_answered = False
+                    break
+
+            if not all_questions_answered:
+                st.error("❌ **Devi rispondere a tutte le domande prima " \
+                "di procedere.** Puoi selezionare 'Non mi ricordo' se non ricordi la risposta.")
+
                 st.subheader("**Domande specifiche sull'opera:**")
                 recall_responses = {}
                 
@@ -351,7 +385,7 @@ def render():
                             "is_correct": None
                         }
                 
-                submitted = st.form_submit_button("Salva e Procedi", use_container_width=True)
+                submitted = st.form_submit_button("Salva e Procedi", use_container_width=True, disabled=not all_questions_answered)
                 
                 if submitted:
                     recall_score = 0
@@ -412,7 +446,7 @@ def render():
                 
                 with st.form("feedback_form"):
                     feedback = st.text_area(
-                        "Cosa ne pensi di questa sperimentazione? Hai notato qualcosa di particolare nelle descrizioni? Come ti sei sentito durante l'esperienza?",
+                        "Cosa ne pensi di questa sperimentazione? Hai notato qualcosa di particolare nelle descrizioni? Come ti sei sentito durante l'esperienza? (o altre osservazioni da condividere)",
                         height=150,
                         placeholder="Scrivi qui il tuo feedback... (facoltativo ma molto apprezzato)"
                     )
@@ -446,8 +480,6 @@ def render():
                         },
                         'user_feedback': st.session_state.get('user_feedback', ''),
                         'study_completed': True,
-                        'page_was_inactive': st.session_state.get('page_was_inactive', False),
-                        'excluded_from_analysis': True if st.session_state.get('page_was_inactive', False) else False,
                     }
                     
                     try:
