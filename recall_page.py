@@ -338,20 +338,27 @@ def render():
             st.rerun()
 
     else:
-        artworks = get_all_artworks()
+        
+        FIXED_ARTWORK_ORDER = [
+            "10661-17csont.jpg",    # Pellegrinaggio ai Cedri in Libano
+            "24610-moneylen.jpg",   # Il cambiavalute e sua moglie  
+            "02502-5season.jpg"     # Le quattro stagioni in una testa
+        ]
+        
         current_index = st.session_state.current_recall_artwork_index
         
-        if current_index < len(artworks):
-            artwork = artworks[current_index]
+        if current_index < len(FIXED_ARTWORK_ORDER):
+            artwork_id = FIXED_ARTWORK_ORDER[current_index]
+            all_artworks = get_all_artworks()
+            artwork = next((art for art in all_artworks if art['id'] == artwork_id), None)
             
-            QUESTION_MAP = {
-                "10661-17csont.jpg": RECALL_QUESTIONS["opera_1"],  # Pellegrinaggio
-                "24610-moneylen.jpg": RECALL_QUESTIONS["opera_2"], # Il cambiavalute e sua moglie
-                "02502-5season.jpg": RECALL_QUESTIONS["opera_3"]   # Quattro Stagioni
-            }
-            recall_data = QUESTION_MAP.get(artwork['id'], {}) 
+            recall_data = {
+                "10661-17csont.jpg": RECALL_QUESTIONS["opera_1"],
+                "24610-moneylen.jpg": RECALL_QUESTIONS["opera_2"], 
+                "02502-5season.jpg": RECALL_QUESTIONS["opera_3"]
+            }.get(artwork_id, {})
             
-            st.progress((current_index) / len(artworks), text=f"Opera {current_index + 1} di {len(artworks)}")
+            st.progress((current_index) / len(FIXED_ARTWORK_ORDER), text=f"Opera {current_index + 1} di {len(FIXED_ARTWORK_ORDER)}")
             
             st.markdown(f'<h3>"{artwork["title"]}"</h3>', unsafe_allow_html=True)
             
@@ -377,13 +384,15 @@ def render():
                         }
                 
                 all_questions_answered = True
-                for q_key, response in recall_responses.items():
+                unanswered_questions = []
+                
+                for i, (q_key, response) in enumerate(recall_responses.items()):
                     if response["answer"] is None:
                         all_questions_answered = False
-                        break
+                        unanswered_questions.append(i + 1)
                 
                 if not all_questions_answered:
-                    st.error("❌ **Devi rispondere a tutte le domande prima di procedere.** Puoi selezionare 'Non mi ricordo' se non ricordi la risposta.")
+                    st.error(f"❌ **Devi rispondere a tutte le domande prima di procedere.** Domande mancanti: {', '.join(map(str, unanswered_questions))}")
                 
                 submitted = st.form_submit_button("Salva e Procedi", use_container_width=True, disabled=not all_questions_answered)
                 
