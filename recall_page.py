@@ -485,6 +485,8 @@ def render():
                         'user_feedback': st.session_state.get('user_feedback', ''),
                         'study_completed': True,
                     }
+
+                    final_data['generated_descriptions'] = st.session_state.get('generated_descriptions', {})
                     
                     try:
                         save_user_data(final_data)

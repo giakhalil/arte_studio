@@ -74,6 +74,8 @@ Informazioni di base sull'opera:
 {artwork_data['standard_description']}
 """
             description = self._call_openrouter_api(prompt)
+            if description:
+                description = description.replace('**', '')
             return description if description else artwork_data['standard_description']
         else:
             return artwork_data['standard_description']
@@ -120,6 +122,8 @@ Informazioni di base sull'opera:
 {artwork_data['standard_description']}
 """
             description = self._call_openrouter_api(prompt)
+            if description:
+                description = description.replace('**', '')
             return description if description else artwork_data['standard_description']
         else:
             return artwork_data['standard_description']

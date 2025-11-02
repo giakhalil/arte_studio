@@ -108,4 +108,16 @@ def get_artwork_description(artwork, experimental_group, top_interests):
     else:  
         description = generator.get_standard_description(artwork)  
     
+    artwork_id = artwork['id']
+    if 'generated_descriptions' not in st.session_state:
+        st.session_state.generated_descriptions = {}
+    
+    st.session_state.generated_descriptions[artwork_id] = {
+        'description': description,
+        'experimental_group': experimental_group,
+        'top_interests': top_interests,
+        'artwork_title': artwork['title'],
+        'artwork_artist': artwork['artist']
+    }
+    
     return description
