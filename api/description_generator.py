@@ -101,7 +101,8 @@ Per ogni interesse, valuta il potenziale di collegamento con:
      - I TEMI dell'opera (soggetto, simbolismo, messaggio)
      - La COMPOSIZIONE (struttura, ritmo, organizzazione visiva)  
      - La TECNICA (stile, uso del colore, materiali)
-   - Selezione l'interesse con il collegamento più concreto. 
+3. SELEZIONA SOLO UNO dei tre interessi, il più pertinente con l'opera. 
+Usa eclusivamente quell'interesse per tutte le analogie. 
 
 CONTROLLI CRITICI:
 - Tutte le informazioni devono essere corrette e contestualizzate.
