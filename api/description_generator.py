@@ -96,21 +96,24 @@ IL TUO PROCESSO:
     - Gli elementi visivi chiave e la composizione
     - Il contesto storico e i significati/temi
 
-2. Analizza questi interessi: {interests_text}. 
-- Identifica uno solo tra essi che si collega in modo più naturale e significativo alla storia o ai temi dell'opera.
-- Integra tutte le analogie esclusivamente a partire da questo interesse, in modo fluido e coerente, senza mai nominarlo direttamente come “interesse scelto”.
-- Le analogie devono aiutare i visitatori a capire meglio l'opera attraverso ciò che già conoscono, usando esempi concreti, accessibili e naturali (mai astratti o troppo allegorici).
+2. Considera questi tre interessi: {interests_text}. 
+Per ogni interesse, valuta il potenziale di collegamento con:
+     - I TEMI dell'opera (soggetto, simbolismo, messaggio)
+     - La COMPOSIZIONE (struttura, ritmo, organizzazione visiva)  
+     - La TECNICA (stile, uso del colore, materiali)
+   - Selezione l'interesse con il collegamento più concreto. 
 
 CONTROLLI CRITICI:
 - Tutte le informazioni devono essere corrette e contestualizzate.
-- Linguaggio chiaro e naturale. 
-- Almeno tre analogie presenti nel output finale. 
+- Integra 3 analogie ESPLICATIVE basate SOLO sull'interesse selezionato
+- Ogni analogia deve chiarire un aspetto specifico dell'opera
+- Usa linguaggio naturale, mai nominare direttamente l'interesse scelto
 
 OUTPUT FINALE:
 - 150-200 parole
 - Narrazione unica e coerente
 - Fatti artistici e analogie integrati organicamente
-- Tono accessibile ma denso di significato
+- Tono accessibile ma informativo
 
 Informazioni opera:
 - Titolo: {artwork_data['title']}
