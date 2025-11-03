@@ -4,6 +4,9 @@ import sys
 import os
 import base64
 
+sys.path.append(os.path.dirname(__file__))
+from database.artwork_data import get_artwork_by_index, get_artwork_description
+
 def render():
     def load_css():
         css_path = os.path.join(os.getcwd(), "style.css")
@@ -26,7 +29,6 @@ def render():
         st.session_state.page_was_inactive = False
 
     current_index = st.session_state.current_artwork_index
-    from database.artwork_data import get_artwork_by_index, get_artwork_description
     artwork = get_artwork_by_index(current_index)
 
     if not artwork:
