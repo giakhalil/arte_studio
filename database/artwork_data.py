@@ -103,9 +103,12 @@ def get_artwork_description(artwork, experimental_group, top_interests):
     
     from api.description_generator import DescriptionGenerator
     generator = DescriptionGenerator()
+    artworks_ids = [a['id'] for a in ARTWORKS]
+    shuffled_interests = random.sample(top_interests, len(top_interests))
+    artwork_interest_map = dict(zip(artworks_ids, shuffled_interests))
     
     if experimental_group == 'B':  
-        description = generator.get_personalized_description(artwork, top_interests)
+        description = generator.get_personalized_description(artwork, artwork_interest_map)
     else:  
         description = generator.get_standard_description(artwork)  
     

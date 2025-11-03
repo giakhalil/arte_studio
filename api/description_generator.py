@@ -124,23 +124,10 @@ Informazioni di base sull'opera:
         else:
             return artwork_data['standard_description']
     
-    def get_personalized_description(self, artwork_data, top_interests):
+    def get_personalized_description(self, artwork_data, artwork_interest_map):
         if self.use_real_api:
             artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
-
-            artworks = [
-            "10661-17csont.jpg",
-            "24610-moneylen.jpg",
-            "02502-5season.jpg"
-        ]
-
-            shuffled_interests = random.sample(top_interests, len(top_interests))
-            artwork_interest_map = {
-                artwork_id: interest
-                for artwork_id, interest in zip(artworks, shuffled_interests)
-            }
-
-            selected_interest = artwork_interest_map.get(artwork_data['id'], top_interests[0])
+            selected_interest = artwork_interest_map.get(artwork_data['id'])
             prompt = f"""
 CONTESTO: Stai conducendo una visita educativa per visitatori, 
 dove l'obiettivo è rendere l'opera più comprensibile intrecciando i concetti 
