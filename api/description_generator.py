@@ -44,7 +44,7 @@ class DescriptionGenerator:
     
     def get_standard_description(self, artwork_data):
         if self.use_real_api:
-            artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
+            artwork_specific_facts = get_artwork_specific_facts(artwork_data['id'])
             prompt = f"""
 CONTESTO: Stai conducendo una visita educativa per visitatori.
 
@@ -88,7 +88,7 @@ Informazioni obbligatorie da includere;
     def get_personalized_description(self, artwork_data, top_interests):
         if self.use_real_api:
             interests_text = ", ".join(top_interests[:3])
-            artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
+            artwork_specific_facts = get_artwork_specific_facts(artwork_data['id'])
             
             prompt = f"""
 CONTESTO: Stai conducendo una visita educativa per visitatori, 
