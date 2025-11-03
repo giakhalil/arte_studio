@@ -1,6 +1,4 @@
 import streamlit as st
-st.cache_data.clear()
-st.cache_resource.clear()
 
 st.set_page_config(page_title="Studio Artistico", page_icon="🎨", layout="wide")
 

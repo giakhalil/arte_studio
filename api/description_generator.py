@@ -14,7 +14,6 @@ class DescriptionGenerator:
         
         facts_map = {
             "10661-17csont.jpg": """
-INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
 - L'artista è Tivadar Csontváry Kosztka
 - Dipinto nel 1907 (circa)
 - Tecnica: Olio su tela
@@ -26,7 +25,6 @@ INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
 - Scritti di Csontváry menzionano l'albero come simbolo della sua persona
 """,
             "24610-moneylen.jpg": """
-INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
 - L'artista è Quentin Massys
 - Dipinto nel 1514
 - Tecnica: Olio su tavola
@@ -38,7 +36,6 @@ INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
 - Segna un passo importante verso la natura morta pura
 """,
             "02502-5season.jpg": """
-INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
 - L'artista è Giuseppe Arcimboldo
 - Dipinto circa nel 1590
 - Tecnica: Olio su legno di pioppo
@@ -51,7 +48,7 @@ INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
 """
         }
         
-        return facts_map.get(artwork_id, "Includi tutti i dettagli artistici principali.")
+        return facts_map.get(artwork_id)
     
     def _call_openrouter_api(self, prompt):
         try:
@@ -103,10 +100,12 @@ CONTROLLI CRITICI:
 - Tutte le informazioni devono essere corrette e contestualizzate.
 - Linguaggio chiaro e naturale. 
 
+
 OUTPUT FINALE:
 - 150-200 parole
 - Narrazione unica e coerente
 - Tono accessibile ma denso di significato
+- Informazioni obbligatorie da includere: {artwork_specific_facts}
 
 Informazioni opera:
 - Titolo: {artwork_data['title']}
@@ -116,8 +115,6 @@ Informazioni opera:
 
 Informazioni di base sull'opera:
 {artwork_data['standard_description']}
-Informazioni obbligatorie da includere;
-{artwork_specific_facts}
 """
             description = self._call_openrouter_api(prompt)
             if description:
@@ -162,6 +159,7 @@ OUTPUT FINALE:
 - Narrazione unica e coerente
 - Fatti artistici e analogie integrati organicamente
 - Tono accessibile ma informativo
+- Informazioni obbligatorie da includere: {artwork_specific_facts}
 
 Informazioni opera:
 - Titolo: {artwork_data['title']}
@@ -171,8 +169,6 @@ Informazioni opera:
 
 Informazioni di base sull'opera:
 {artwork_data['standard_description']}
-Informazioni obbligatorie da includere: 
-{artwork_specific_facts}
 """
             description = self._call_openrouter_api(prompt)
             if description:
