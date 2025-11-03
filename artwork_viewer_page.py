@@ -110,10 +110,10 @@ def render():
                 st.session_state.current_artwork_index += 1
                 st.session_state.artwork_start_time = None
                 st.toast(f"➡ Passaggio automatico all'opera {current_index + 2}...", icon="🖼️")
-                st.experimental_rerun()
+                st.rerun()  
             else:
                 st.session_state.viewing_completed = True
                 st.session_state.artwork_start_time = None
                 st.success("✅ Visualizzazione opere completata! Procedendo al test...")
                 st.session_state.app_state = "recall"
-                st.experimental_rerun()
+                st.rerun() 
