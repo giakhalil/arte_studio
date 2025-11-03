@@ -46,23 +46,22 @@ class DescriptionGenerator:
 CONTESTO: Stai conducendo una visita educativa per visitatori.
 
 IL TUO PROCESSO:
-1. Identifica i fatti storico-artistici essenziali. Includi informazioni su:
+1. Presenta con rigore i dati fondamentali: 
     - L'artista e quando è stata creata
     - La tecnica artistica e lo stile utilizzato
     - Gli elementi visivi chiave e la composizione
     - Il contesto storico e i significati/temi
-2. Organizza le informazioni in una struttura chiara e logica
-3. Mantieni il rigore accademico restando coinvolgente
+2. Organizza le informazioni in un flusso narrativo logico, con tono coinvolgente e narrativo
+3. Evita commenti personali o interpretazioni soggettive.
 
 CONTROLLI CRITICI:
-- Assicurati che tutte le informazioni fattuali siano accurate e ben contestualizzate
-- Evita interpretazioni soggettive o opinioni personali
+- Tutte le informazioni devono essere corrette e contestualizzate.
+- Linguaggio accessibile, scorrevole, adatto a una guida dal vivo. 
 
 OUTPUT FINALE:
 - 150-200 parole
-- Fatti storico-artistici completi
-- Descrizione educativa chiara e strutturata
-- Tono coinvolgente e accessibile.
+- Struttura coerente e progressiva
+- Descrizione completa, chiara e appassionante. 
 
 Informazioni opera:
 - Titolo: {artwork_data['title']}
@@ -85,32 +84,33 @@ Informazioni di base sull'opera:
             interests_text = ", ".join(top_interests[:3])
             
             prompt = f"""
-CONTESTO: Stai conducendo una visita educativa, collegando i concetti artistici dell'opera ai mondi esperienziali dei visitatori in modo totalmente naturale e celato.
+CONTESTO: Stai conducendo una visita educativa per visitatori, 
+dove l'obiettivo è rendere l'opera più comprensibile intrecciando i concetti 
+artistici con gli interessi personali dei visitatori. 
 
 IL TUO PROCESSO:
-1. Identifica i fatti storico-artistici essenziali. Includi informazioni su:
+1. Presenta con rigore i dati fondamentali: 
     - L'artista e quando è stata creata
     - La tecnica artistica e lo stile utilizzato
     - Gli elementi visivi chiave e la composizione
     - Il contesto storico e i significati/temi
 
-2. Trova connessioni genuine tra l'opera e questi interessi: {interests_text}. 
+2. Integra analogie genuine tra l'opera e questi interessi: {interests_text}. 
 Le analogie devono:
-- Essere celate nel flusso narrativo, senza formule fisse.
-- Essere almeno una per ogni interesse dato
-- Rivelare un aspetto significativo dell'opera
+- riferirsi esclusivamente a questi interessi,
+- emergere in modo naturale, non didascalico,
+- aiutare a comprendere meglio l'opera tramite ciò che piace ai visitatori.
 
 CONTROLLI CRITICI:
-- Assicurati che tutte le informazioni fattuali siano accurate e ben contestualizzate
-- Analogie significative e non forzate
-- Integrazione totale delle analogie nel racconto
+- Tutte le informazioni devono essere corrette e contestualizzate,
+- Linguaggio accessibile, scorrevole, adatto a una guida dal vivo, 
+- Almeno tre analogie presenti nel output finale. 
 
 OUTPUT FINALE:
-- 150-200 parole
-- Fatti storico-artistici completi
-- Un unico flusso narrativo coinvolgente
-- Fatti artistici e analogie fuse organicamente
-- Linguaggio accessibile ma profondo
+- 150-200 parole,
+- Narrazione unica e coerente,
+- Fatti artistici e analogie integrati organicamente,
+- Tono accessibile ma denso di significato.
 
 Informazioni opera:
 - Titolo: {artwork_data['title']}
