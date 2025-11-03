@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import json
+import random
 
 
 class DescriptionGenerator:
@@ -127,6 +128,7 @@ Informazioni di base sull'opera:
         if self.use_real_api:
             interests_text = ", ".join(top_interests[:3])
             artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
+            selected_interest = random.choice(top_interests[:3])
             
             prompt = f"""
 CONTESTO: Stai conducendo una visita educativa per visitatori, 
@@ -140,22 +142,16 @@ IL TUO PROCESSO:
     - Gli elementi visivi chiave e la composizione
     - Il contesto storico e i significati/temi
 
-2. Considera questi tre interessi: {interests_text}. 
-Per ogni interesse, valuta il potenziale di collegamento con:
-     - I TEMI dell'opera (soggetto, simbolismo, messaggio)
-     - La COMPOSIZIONE (struttura, ritmo, organizzazione visiva)  
-     - La TECNICA (stile, uso del colore, materiali)
-3. SELEZIONA SOLO UNO dei tre interessi, il più pertinente con l'opera. 
-Usa eclusivamente quell'interesse per tutte le analogie. 
+2. Trova connessioni genuine tra l'opera e questo interesse: {selected_interest}
 
 CONTROLLI CRITICI:
 - Tutte le informazioni devono essere corrette e contestualizzate.
-- Integra 3 analogie ESPLICATIVE basate SOLO sull'interesse selezionato
+- Integra almeno 3 analogie ESPLICATIVE basate sull'interesse selezionato
 - Ogni analogia deve chiarire un aspetto specifico dell'opera
 - Usa linguaggio naturale, mai nominare direttamente l'interesse scelto
 
 OUTPUT FINALE:
-- 150-200 parole
+- circa 200 parole
 - Narrazione unica e coerente
 - Fatti artistici e analogie integrati organicamente
 - Tono accessibile ma informativo
