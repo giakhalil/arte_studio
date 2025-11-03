@@ -97,13 +97,14 @@ IL TUO PROCESSO:
     - Il contesto storico e i significati/temi
 
 2. Analizza questi interessi: {interests_text}. 
-- Identifica quale dei tre si collega in modo più naturale e significativo alla storia e ai temi dell'opera.
-- Integra analogie genuine e pertinenti, evitando riferimenti forzati.
-- Le analogie devono emergere in modo fluido, non didascalico, e rendere l’opera più vicina ai visitatori.
+- Identifica uno solo tra essi che si collega in modo più naturale e significativo 
+alla storia o ai temi dell'opera.
+- Sviluppa tutte le analogie esclusivamente a partire da questo interesse, 
+in modo fluido e organico.
+- Le analogie devono essere genuine, mai forzate, e rendere l'opera più comprensibile ai visitatori.
 
 CONTROLLI CRITICI:
 - Tutte le informazioni devono essere corrette e contestualizzate.
-- Le analogie devono derivare unicamente dagli interessi forniti.
 - Linguaggio chiaro e naturale. 
 - Almeno tre analogie presenti nel output finale. 
 
