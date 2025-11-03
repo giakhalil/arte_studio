@@ -1,6 +1,8 @@
 import streamlit as st
 import requests
 import json
+from database.artwork_data import get_artwork_specific_facts
+
 
 class DescriptionGenerator:
     def __init__(self, use_real_api=True):
@@ -42,6 +44,7 @@ class DescriptionGenerator:
     
     def get_standard_description(self, artwork_data):
         if self.use_real_api:
+            artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
             prompt = f"""
 CONTESTO: Stai conducendo una visita educativa per visitatori.
 
@@ -72,6 +75,8 @@ Informazioni opera:
 
 Informazioni di base sull'opera:
 {artwork_data['standard_description']}
+Informazioni obbligatorie da includere;
+{artwork_specific_facts}
 """
             description = self._call_openrouter_api(prompt)
             if description:
@@ -83,6 +88,7 @@ Informazioni di base sull'opera:
     def get_personalized_description(self, artwork_data, top_interests):
         if self.use_real_api:
             interests_text = ", ".join(top_interests[:3])
+            artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
             
             prompt = f"""
 CONTESTO: Stai conducendo una visita educativa per visitatori, 
@@ -124,6 +130,8 @@ Informazioni opera:
 
 Informazioni di base sull'opera:
 {artwork_data['standard_description']}
+Informazioni obbligatorie da includere: 
+{artwork_specific_facts}
 """
             description = self._call_openrouter_api(prompt)
             if description:
