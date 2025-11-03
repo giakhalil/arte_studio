@@ -82,48 +82,6 @@ Il dipinto è così, in ogni caso, e se lo vedrai, ti piacerà straordinariament
     }
 ]
 
-def get_artwork_specific_facts(artwork_id):
-    
-    facts_map = {
-        "10661-17csont.jpg": """
-INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
-- L'artista è Tivadar Csontváry Kosztka
-- Dipinto nel 1907 
-- Tecnica: Olio su tela
-- L'albero di cedro simboleggia la persona dell'artista stesso
-- L'albero centrale ha un doppio tronco
-- Attorno all'albero si svolge una celebrazione che ricorda antichi rituali
-- Figure presenti nel quadro (Persone e animali)
-- I colori sono irreali e simbolici
-- Scritti di Csontváry menzionano l'albero come simbolo della sua persona
-""",
-        "24610-moneylen.jpg": """
-INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
-- L'artista è Quentin Massys
-- Dipinto nel 1514
-- Tecnica: Olio su tavola
-- Lo specchio convesso riflette l'autoritratto dell'artista
-- La moglie sta sfogliando un libro
-- L'artista cita Jan van Eyck attraverso lo specchio
-- Genere: pittura di genere
-- Espressioni dei personaggi: indifferenti e distaccate
-""",
-        "02502-5season.jpg": """
-INFORMAZIONI SPECIFICHE DA INCLUIRE OBBLIGATORIAMENTE:
-- L'artista è Giuseppe Arcimboldo
-- Dipinto circa nel 1590
-- Tecnica: Olio su legno di pioppo
-- Realizzato per Don Gregorio Comanini, un letterato mantovano
-- La barba è fatta di ciuffi di muschio
-- Dall'orecchio pendono ciliegie
-- Il tronco spoglio simbolizza l'inverno che non produce nulla
-- Il piccolo fiore sul petto simboleggia la primavera
-- Il dipinto rappresenta le quattro stagioni in una sola testa
-"""
-    }
-    
-    return facts_map.get(artwork_id, "Includi tutti i dettagli artistici principali.")
-
 def initialize_artwork_order():
     if 'artwork_order' not in st.session_state:
         artwork_indices = list(range(len(ARTWORKS)))
