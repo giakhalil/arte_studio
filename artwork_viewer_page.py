@@ -6,6 +6,10 @@ import base64
 sys.path.append(os.path.dirname(__file__))
 
 def render():
+    if "app_state" not in st.session_state:
+        st.session_state.app_state = "welcome"
+        st.warning("⚠ Sessione riavviata. Torna alla schermata iniziale.")
+        st.rerun()
     def load_css():
         css_path = os.path.join(os.getcwd(), "style.css")
         if os.path.exists(css_path):
@@ -120,7 +124,6 @@ def render():
                 st.session_state.viewing_completed = True
                 st.session_state.artwork_start_time = None
                 st.success("✅ Visualizzazione opere completata! Procedendo al test...")
-                time.sleep(2)
                 st.session_state.app_state = "recall"
                 st.rerun()
     else:
