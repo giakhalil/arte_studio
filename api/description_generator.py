@@ -51,17 +51,18 @@ IL TUO PROCESSO:
     - La tecnica artistica e lo stile utilizzato
     - Gli elementi visivi chiave e la composizione
     - Il contesto storico e i significati/temi
-2. Organizza le informazioni in un flusso narrativo logico, con tono coinvolgente e narrativo
+2. Organizza le informazioni in un flusso narrativo logico, con tono coinvolgente e narrativo.
 3. Evita commenti personali o interpretazioni soggettive.
 
 CONTROLLI CRITICI:
 - Tutte le informazioni devono essere corrette e contestualizzate.
-- Linguaggio accessibile, scorrevole, adatto a una guida dal vivo. 
+- Linguaggio chiaro e naturale. 
 
 OUTPUT FINALE:
 - 150-200 parole
-- Struttura coerente e progressiva
-- Descrizione completa, chiara e appassionante. 
+- Narrazione unica e coerente
+- Tono accessibile ma denso di significato
+
 
 Informazioni opera:
 - Titolo: {artwork_data['title']}
@@ -95,22 +96,22 @@ IL TUO PROCESSO:
     - Gli elementi visivi chiave e la composizione
     - Il contesto storico e i significati/temi
 
-2. Integra analogie genuine tra l'opera e questi interessi: {interests_text}. 
-Le analogie devono:
-- riferirsi esclusivamente a questi interessi,
-- emergere in modo naturale, non didascalico,
-- aiutare a comprendere meglio l'opera tramite ciò che piace ai visitatori.
+2. Analizza questi interessi: {interests_text}. 
+- Identifica quale dei tre si collega in modo più naturale e significativo alla storia e ai temi dell'opera.
+- Integra analogie genuine e pertinenti, evitando riferimenti forzati.
+- Le analogie devono emergere in modo fluido, non didascalico, e rendere l’opera più vicina ai visitatori.
 
 CONTROLLI CRITICI:
-- Tutte le informazioni devono essere corrette e contestualizzate,
-- Linguaggio accessibile, scorrevole, adatto a una guida dal vivo, 
+- Tutte le informazioni devono essere corrette e contestualizzate.
+- Le analogie devono derivare unicamente dagli interessi forniti.
+- Linguaggio chiaro e naturale. 
 - Almeno tre analogie presenti nel output finale. 
 
 OUTPUT FINALE:
-- 150-200 parole,
-- Narrazione unica e coerente,
-- Fatti artistici e analogie integrati organicamente,
-- Tono accessibile ma denso di significato.
+- 150-200 parole
+- Narrazione unica e coerente
+- Fatti artistici e analogie integrati organicamente
+- Tono accessibile ma denso di significato
 
 Informazioni opera:
 - Titolo: {artwork_data['title']}
