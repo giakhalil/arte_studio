@@ -250,23 +250,19 @@ OBBLIGATORIA: inserire 1 analogia legata a aggregazione/presenza/dinamiche relaz
 
 TOTALE: minimo 3 analogie, ideale 4
 
-VINCOLI ASSOLUTI
-OBBLIGATORIO:
+VINCOLI ASSOLUTI:
+OBBLIGATORIO: Minimo 350 parole
+OBBLIGATORIO: 3-4 analogie discrete (almeno 3, massimo 4) riguardo solo l'interesse: {selected_interest}
+OBBLIGATORIO: Ogni elemento visivo rilevante descritto
+OBBLIGATORIO: Dati storici precisi e verificabili
+OBBLIGATORIO: Usare tutte le informazioni in {artwork_specific_facts}
 
-Minimo 350 parole
-3-4 analogie discrete (almeno 3, massimo 4) riguardo solo l'interesse: {selected_interest}
-Ogni elemento visivo rilevante descritto
-Dati storici precisi e verificabili
-Usare tutte le informazioni in {artwork_specific_facts}
-
-SEVERAMENTE VIETATO:
-
-Nominare l'interesse o suoi sinonimi diretti (es. "social", "media", "post", "condivisione", "like")
-Usare formule come "come un...", "simile a un...", "ricorda..."
-Analogie generiche non legate a elementi specifici
-Descrizioni superficiali o incomplete
-Paragrafi conclusivi riassuntivi
-Non dividere esplicitamente i paragrafi inserendo il titolo
+SEVERAMENTE VIETATO: Nominare l'interesse o suoi sinonimi diretti (es. "social", "media", "post", "condivisione", "like")
+SEVERAMENTE VIETATO: Usare formule come "come un...", "simile a un...", "ricorda..."
+SEVERAMENTE VIETATO: Analogie generiche non legate a elementi specifici
+SEVERAMENTE VIETATO: Descrizioni superficiali o incomplete
+SEVERAMENTE VIETATO: Paragrafi conclusivi riassuntivi
+SEVERAMENTE VIETATO: Non dividere esplicitamente i paragrafi inserendo il titolo
 
 
 DATI DELL'OPERA
