@@ -62,7 +62,7 @@ class DescriptionGenerator:
                     "X-Title": "Arte studio",
                 },
                 data=json.dumps({
-                    "model": "openai/gpt-5-mini",
+                    "model": "openai/gpt-4o-mini-2024-07-18",
                     "messages": [
                         {
                             "role": "user",
