@@ -254,7 +254,7 @@ VINCOLI ASSOLUTI
 OBBLIGATORIO:
 
 Minimo 350 parole
-3-4 analogie discrete (almeno 3, massimo 4)
+3-4 analogie discrete (almeno 3, massimo 4) riguardo solo l'interesse: {selected_interest}
 Ogni elemento visivo rilevante descritto
 Dati storici precisi e verificabili
 Usare tutte le informazioni in {artwork_specific_facts}
@@ -266,7 +266,7 @@ Usare formule come "come un...", "simile a un...", "ricorda..."
 Analogie generiche non legate a elementi specifici
 Descrizioni superficiali o incomplete
 Paragrafi conclusivi riassuntivi
-Non dividere esplicitamente i paragrafin inserendo il titolo
+Non dividere esplicitamente i paragrafi inserendo il titolo
 
 
 DATI DELL'OPERA
