@@ -62,14 +62,14 @@ class DescriptionGenerator:
                     "X-Title": "Arte studio",
                 },
                 data=json.dumps({
-                    "model": "openai/gpt-4o-mini-2024-07-18",
+                    "model": "openai/gpt-5-mini",
                     "messages": [
                         {
                             "role": "user",
                             "content": prompt
                         }
                     ],
-                    "max_tokens": 800,
+                    "max_tokens": 1500,
                     "temperature": 0.7
                 }),
                 timeout=60
