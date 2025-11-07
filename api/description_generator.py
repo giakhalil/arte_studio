@@ -86,36 +86,55 @@ class DescriptionGenerator:
         if self.use_real_api:
             artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
             prompt = f"""
-CONTESTO: Stai conducendo una visita educativa per visitatori.
+Sei una guida museale esperta. Crei descrizioni complete e rigorose di opere d'arte.
 
-IL TUO PROCESSO:
-1. Presenta con rigore i dati fondamentali: 
-    - L'artista e quando è stata creata
-    - La tecnica artistica e lo stile utilizzato
-    - Gli elementi visivi chiave e la composizione
-    - Il contesto storico e i significati/temi
-2. Organizza le informazioni in un flusso narrativo logico, con tono coinvolgente e narrativo.
-3. Evita commenti personali o interpretazioni soggettive.
+STRUTTURA OBBLIGATORIA (4-5 PARAGRAFI)
 
-CONTROLLI CRITICI:
-- Tutte le informazioni devono essere corrette e contestualizzate.
-- Linguaggio chiaro e naturale. 
+PARAGRAFO 1 - Introduzione (4-5 frasi)
+- Artista, titolo, anno, tecnica, dimensioni
+- Movimento artistico e contesto storico
+- Committenza o destinazione (se nota)
 
+PARAGRAFI 2-3 - Analisi visiva completa (6-8 frasi ciascuno)
+- Descrizione sistematica di TUTTI gli elementi visivi
+- Composizione, prospettiva, uso della luce
+- Dettagli tecnici (pennellate, colori, materiali)
+- Particolarità formali e innovazioni
 
-OUTPUT FINALE:
-- 150-200 parole
-- Narrazione unica e coerente
-- Tono accessibile ma denso di significato
-- Informazioni obbligatorie da includere: {artwork_specific_facts}
+PARAGRAFO 4 - Simbologia e significato (5-6 frasi)
+- Interpretazione simbolica degli elementi
+- Temi iconografici e messaggi principali
+- Riferimenti culturali e storici pertinenti
 
-Informazioni opera:
-- Titolo: {artwork_data['title']}
-- Artista: {artwork_data['artist']}
-- Anno: {artwork_data['year']}
-- Stile: {artwork_data['style']}
+LUNGHEZZA MINIMA: 350-400 parole
 
-Informazioni di base sull'opera:
-{artwork_data['standard_description']}
+STRATEGIA DI DISTRIBUZIONE
+PARAGRAFO 1 (Introduzione):
+PARAGRAFO 2 (Analisi visiva 1):
+PARAGRAFO 3 (Analisi visiva 2):
+PARAGRAFO 4 (Simbologia):
+
+VINCOLI ASSOLUTI
+OBBLIGATORIO:
+- Minimo 350 parole
+- Ogni elemento visivo rilevante descritto
+- Dati storici precisi e verificabili
+- Usare tutte le informazioni in {artwork_specific_facts}
+
+SEVERAMENTE VIETATO:
+- Inserire analogie, paragoni o confronti estranei all’opera
+- Descrizioni superficiali o incomplete
+- Paragrafi conclusivi riassuntivi
+- Non dividere esplicitamente i paragrafin inserendo il titolo
+
+DATI DELL'OPERA
+Titolo: {artwork_data['title']}
+Artista: {artwork_data['artist']}
+Anno: {artwork_data['year']}
+Tecnica/Dimensioni: {artwork_data['style']}
+Descrizione di base: {artwork_data['standard_description']}
+Informazioni specifiche da includere:
+{artwork_specific_facts}
 """
             description = self._call_openrouter_api(prompt)
             if description:
@@ -129,40 +148,135 @@ Informazioni di base sull'opera:
             artwork_specific_facts = self._get_artwork_specific_facts(artwork_data['id'])
             selected_interest = artwork_interest_map.get(artwork_data['id'])
             prompt = f"""
-CONTESTO: Stai conducendo una visita educativa per visitatori, 
-dove l'obiettivo è rendere l'opera più comprensibile intrecciando i concetti 
-artistici con gli interessi personali dei visitatori. 
+Sei una guida museale esperta. Crei descrizioni complete e rigorose di opere d'arte, arricchite da analogie 
+discrete che evocano il campo d'interesse del visitatore SENZA mai nominarlo esplicitamente.
 
-IL TUO PROCESSO:
-1. Presenta con rigore i dati fondamentali: 
-    - L'artista e quando è stata creata
-    - La tecnica artistica e lo stile utilizzato
-    - Gli elementi visivi chiave e la composizione
-    - Il contesto storico e i significati/temi
+STRUTTURA OBBLIGATORIA (4-5 PARAGRAFI)
+PARAGRAFO 1 - Introduzione (4-5 frasi)
 
-2. Trova connessioni genuine tra l'opera e questo interesse: {selected_interest}
+Artista, titolo, anno, tecnica, dimensioni
+Movimento artistico e contesto storico
+Committenza o destinazione (se nota)
+[INSERIRE 1 ANALOGIA qui se pertinente]
 
-CONTROLLI CRITICI:
-- Tutte le informazioni devono essere corrette e contestualizzate.
-- Integra almeno 3 analogie ESPLICATIVE basate sull'interesse selezionato
-- Ogni analogia deve chiarire un aspetto specifico dell'opera
-- Usa linguaggio naturale, mai nominare direttamente l'interesse scelto
+PARAGRAFI 2-3 - Analisi visiva completa (6-8 frasi ciascuno)
 
-OUTPUT FINALE:
-- circa 200 parole
-- Narrazione unica e coerente
-- Fatti artistici e analogie integrati organicamente
-- Tono accessibile ma informativo
-- Informazioni obbligatorie da includere: {artwork_specific_facts}
+Descrizione sistematica di TUTTI gli elementi visivi
+Composizione, prospettiva, uso della luce
+Dettagli tecnici (pennellate, colori, materiali)
+Particolarità formali e innovazioni
+[INSERIRE 1-2 ANALOGIE distribuite nei due paragrafi]
 
-Informazioni opera:
-- Titolo: {artwork_data['title']}
-- Artista: {artwork_data['artist']}
-- Anno: {artwork_data['year']}
-- Stile: {artwork_data['style']}
+PARAGRAFO 4 - Simbologia e significato (5-6 frasi)
 
-Informazioni di base sull'opera:
+Interpretazione simbolica degli elementi
+Temi iconografici e messaggi
+Riferimenti culturali dell'epoca
+[INSERIRE 1 ANALOGIA nella parte finale]
+
+LUNGHEZZA MINIMA: 350-400 parole
+
+INTEGRAZIONE DELL'INTERESSE - REGOLE FERREE
+Interesse del visitatore: {selected_interest}
+OBIETTIVO: 3-4 analogie discrete distribuite uniformemente nel testo
+
+COME INTEGRARE LE ANALOGIE:
+ANALOGIE EFFICACI (da seguire):
+
+Descrivono aspetti compositivi/tecnici SPECIFICI
+Sono integrate grammaticalmente nella frase
+Evocano il campo semantico senza nominarlo
+Illuminano realmente la comprensione dell'opera
+Almeno UNA per paragrafo (tranne l'introduzione dove è facoltativa)
+
+ANALOGIE BANALI (da evitare assolutamente):
+
+Paragoni superficiali aggiunti come commenti
+Nominare esplicitamente l'interesse o sue varianti
+Analogie generiche non legate a elementi specifici
+Frasi separate con "come", "simile a", "ricorda"
+
+
+ESEMPI CONCRETI PER INTERESSE "SOCIAL MEDIA"
+Campo semantico da evocare: connessione, visibilità, attenzione, condivisione, flussi, reazioni, presenza, propagazione, aggregazione, rete, interazione, segnali, circolazione, esposizione, risonanza
+ORRIBILE (esplicito):
+
+"come sui social media..."
+"questa immagine virale..."
+"condivisione tipica dei social..."
+"il post dell'artista..."
+
+EFFICACE (esempi da integrare):
+Per composizione/struttura:
+
+"Lo sguardo procede per accumuli successivi, passando da un nucleo di attenzione all'altro"
+"La composizione genera flussi visuali che si propagano dal centro verso le periferie"
+"Gli elementi si organizzano in reti di rimandi che amplificano la loro presenza"
+
+Per colore/luce:
+
+"I contrasti cromatici catturano l'attenzione e la redistribuiscono secondo gerarchie di visibilità"
+"Le campiture di colore si attivano reciprocamente, generando catene di reazioni visuali"
+
+Per figure/elementi:
+
+"Le figure si dispongono secondo logiche di esposizione e riconoscibilità"
+"Ogni elemento compete per quote di visibilità all'interno dello spazio compositivo"
+"La disposizione stabilisce chi occupa posizioni centrali e chi marginalità nel sistema visivo"
+
+Per simbolismo/significato:
+
+"L'opera mette in scena dinamiche di aggregazione attorno a un nucleo catalizzatore"
+"Il dipinto articola tensioni tra presenza individuale e circolazione collettiva"
+"La scena riflette meccanismi di amplificazione simbolica e costruzione di risonanza"
+
+
+STRATEGIA DI DISTRIBUZIONE
+PARAGRAFO 1 (Introduzione):
+
+Facoltativa, ma utile se si può connettere a "presenza scenografica", "dimensione pubblica", "esposizione"
+
+PARAGRAFO 2 (Analisi visiva 1):
+
+OBBLIGATORIA: inserire 1 analogia legata a composizione/flussi visuali/struttura
+
+PARAGRAFO 3 (Analisi visiva 2):
+
+OBBLIGATORIA: inserire 1 analogia legata a colore/attenzione/visibilità/propagazione
+
+PARAGRAFO 4 (Simbologia):
+
+OBBLIGATORIA: inserire 1 analogia legata a aggregazione/presenza/dinamiche relazionali
+
+TOTALE: minimo 3 analogie, ideale 4
+
+VINCOLI ASSOLUTI
+OBBLIGATORIO:
+
+Minimo 350 parole
+3-4 analogie discrete (almeno 3, massimo 4)
+Ogni elemento visivo rilevante descritto
+Dati storici precisi e verificabili
+Usare tutte le informazioni in {artwork_specific_facts}
+
+SEVERAMENTE VIETATO:
+
+Nominare l'interesse o suoi sinonimi diretti (es. "social", "media", "post", "condivisione", "like")
+Usare formule come "come un...", "simile a un...", "ricorda..."
+Analogie generiche non legate a elementi specifici
+Descrizioni superficiali o incomplete
+Paragrafi conclusivi riassuntivi
+Non dividere esplicitamente i paragrafin inserendo il titolo
+
+
+DATI DELL'OPERA
+Titolo: {artwork_data['title']}
+Artista: {artwork_data['artist']}
+Anno: {artwork_data['year']}
+Tecnica/Dimensioni: {artwork_data['style']}
 {artwork_data['standard_description']}
+Informazioni specifiche da includere:
+{artwork_specific_facts}
 """
             description = self._call_openrouter_api(prompt)
             if description:
