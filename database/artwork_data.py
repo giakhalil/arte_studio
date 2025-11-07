@@ -104,19 +104,35 @@ def get_artwork_description(artwork, experimental_group, top_interests):
     from api.description_generator import DescriptionGenerator
     generator = DescriptionGenerator()
     artworks_ids = [a['id'] for a in ARTWORKS]
+    
     if 'artwork_interest_map' not in st.session_state:
         shuffled_interests = random.sample(top_interests, len(top_interests))
         artwork_interest_map = dict(zip(artworks_ids, shuffled_interests))
         st.session_state.artwork_interest_map = artwork_interest_map
     else:
         artwork_interest_map = st.session_state.artwork_interest_map
-    
+    artwork_id = artwork['id']
+    cached_descriptions = st.session_state.get('generated_descriptions', {})
+    cached = cached_descriptions.get(artwork_id)
+
+    if cached:
+        same_artwork = (
+            cached.get('artwork_title') == artwork['title'] and
+            cached.get('artwork_artist') == artwork['artist']
+        )
+        same_group = cached.get('experimental_group') == experimental_group
+        same_interests = cached.get('top_interests') == top_interests
+
+        if same_artwork and same_group and same_interests:
+            
+            return cached['description']
+        
     if experimental_group == 'B':  
         description = generator.get_personalized_description(artwork, artwork_interest_map)
     else:  
         description = generator.get_standard_description(artwork)  
     
-    artwork_id = artwork['id']
+    
     if 'generated_descriptions' not in st.session_state:
         st.session_state.generated_descriptions = {}
     
