@@ -487,6 +487,7 @@ def render():
                     }
 
                     final_data['generated_descriptions'] = st.session_state.get('generated_descriptions', {})
+                    final_data['artwork_selected_interests'] = st.session_state.get('artwork_interests', {})
                     
                     try:
                         save_user_data(final_data)

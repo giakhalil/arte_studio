@@ -101,11 +101,15 @@ def render():
 
     with col_desc:
         st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
-        description = get_artwork_description(
+        description, selected_interest = get_artwork_description(
             artwork,
             st.session_state.experimental_group,
             st.session_state.top_3_interests
         )
+        if 'artwork_interests' not in st.session_state:
+            st.session_state.artwork_interests = {}
+        st.session_state.artwork_interests[artwork['id']] = selected_interest
+        
         st.markdown("### Descrizione dell'opera")
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 

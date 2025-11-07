@@ -125,12 +125,14 @@ def get_artwork_description(artwork, experimental_group, top_interests):
 
         if same_artwork and same_group and same_interests:
             
-            return cached['description']
+            return cached['description'], cached.get('selected_interest')
         
     if experimental_group == 'B':  
         description = generator.get_personalized_description(artwork, artwork_interest_map)
+        selected_interest = artwork_interest_map.get(artwork_id)
     else:  
-        description = generator.get_standard_description(artwork)  
+        description = generator.get_standard_description(artwork)
+        selected_interest = None  
     
     
     if 'generated_descriptions' not in st.session_state:
@@ -141,7 +143,8 @@ def get_artwork_description(artwork, experimental_group, top_interests):
         'experimental_group': experimental_group,
         'top_interests': top_interests,
         'artwork_title': artwork['title'],
-        'artwork_artist': artwork['artist']
+        'artwork_artist': artwork['artist'],
+        'selected_interest': selected_interest
     }
     
-    return description
+    return description, selected_interest
