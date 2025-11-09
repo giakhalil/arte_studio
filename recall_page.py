@@ -500,7 +500,7 @@ def render():
                 
                 st.markdown("""
                 <div class="success-box">
-                <h4>Studio Completato!</h4>
+                <div style="font-size: 1.2rem; font-weight: bold; color: #856404; margin-bottom: 10px;">Studio Completato!</div>
                 <p>Grazie mille per aver partecipato a questo studio. I tuoi contributi sono preziosi per la nostra ricerca sull'apprendimento personalizzato nell'arte!</p>
                 </div>
                 """, unsafe_allow_html=True)
