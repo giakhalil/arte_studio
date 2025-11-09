@@ -1,12 +1,3 @@
-:root {
-  color-scheme: light only;
-}
-
-html, body, #root, .main, .stApp {
-  background-color: white !important;
-  color: black !important;
-}
-
 .main-title {
   font-size: 2.5rem;
   font-weight: bold;
