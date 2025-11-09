@@ -438,7 +438,7 @@ def render():
                 
                 st.markdown(f"""
                 <div class="warning-box">
-                <h4>ℹ️ Informazioni sulla Sperimentazione</h4>
+                <div style="font-size: 1.2rem; font-weight: bold; color: #856404; margin-bottom: 10px;">ℹ️ Informazioni sulla Sperimentazione</div>
                 <p>Hai fatto parte del <strong>{group_name}</strong>.</p>
                 <p>{'Le descrizioni delle opere che hai letto erano personalizzate in base ai tuoi interessi.' if st.session_state.experimental_group == 'B' else 'Le descrizioni delle opere che hai letto erano descrizioni standard, identiche per tutti i partecipanti.'}</p>
                 </div>
