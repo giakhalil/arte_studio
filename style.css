@@ -7,78 +7,44 @@ html, body, #root, .main, .stApp {
   color: black !important;
 }
 
-* {
-  color: black !important;
-}
-
-.stMarkdown p, .stMarkdown li, .stMarkdown span {
-  color: black !important;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: black !important;
-}
-
 .main-title {
   font-size: 2.5rem;
   font-weight: bold;
   text-align: center;
   margin-bottom: 2rem;
-  color: black !important;
 }
 
 .section-header {
   font-size: 1.5rem;
   font-weight: bold;
   margin: 1.5rem 0 1rem 0;
-  color: black !important;
 }
 
 .warning-box {
-  background-color: #fff3cd !important;
-  color: #856404 !important;
-  border: 1px solid #ffeaa7 !important;
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeaa7;
   border-radius: 8px;
   padding: 15px;
   margin: 10px 0;
 }
 
 .description-box {
-  background-color: white !important;
-  color: #333333 !important;
+  background-color: white;
+  color: #333333;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid #e0e0e0 !important;
+  border: 1px solid #e0e0e0;
   line-height: 1.6;
 }
 
 .success-box {
-  background-color: #d1edff !important;
-  color: #055160 !important;
-  border: 1px solid #b6d7fe !important;
+  background-color: #d1edff;
+  color: #055160;
+  border: 1px solid #b6d7fe;
   border-radius: 8px;
   padding: 15px;
   margin: 10px 0;
-}
-
-.stButton>button {
-  background-color: #0d6efd !important;
-  color: white !important;
-  border: 1px solid #0d6efd !important;
-}
-
-.stTextInput>div>div>input, .stSelectbox>div>div>select {
-  background-color: white !important;
-  color: black !important;
-  border: 1px solid #ced4da !important;
-}
-
-.stProgress > div > div > div {
-  background-color: #0d6efd !important;
-}
-
-.stProgress > div > div {
-  background-color: #e9ecef !important;
 }
 
 @media (max-width: 768px) {
