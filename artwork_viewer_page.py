@@ -50,7 +50,7 @@ def render():
     
     st.markdown("""
     <div class="warning-box">
-        <h4 style="color: #000000 !important;">Istruzioni importanti</h4>
+        <h4 style="color: #856404 !important;">Istruzioni importanti</h4>
         <ul>
             <li>Leggi attentamente la descrizione e osserva l'opera</li>
             <li><strong>Non prendere appunti</strong></li>
