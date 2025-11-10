@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import json
 import random
+import time
 
 
 class DescriptionGenerator:
@@ -51,36 +52,44 @@ class DescriptionGenerator:
         
         return facts_map.get(artwork_id)
     
-    def _call_openrouter_api(self, prompt):
-        try:
-            response = requests.post(
-                url=self.api_url,
-                headers={
-                    "Authorization": f"Bearer {self.api_key}",
-                    "Content-Type": "application/json",
-                    "HTTP-Referer": "https://artestudio.streamlit.app/",
-                    "X-Title": "Arte studio",
-                },
-                data=json.dumps({
-                    "model": "openai/gpt-4o-mini-2024-07-18",
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": prompt
-                        }
-                    ],
-                    "max_tokens": 1500,
-                    "temperature": 0.7
-                }),
-                timeout=60
-            )
-            
-            response.raise_for_status()
-            result = response.json()
-            return result['choices'][0]['message']['content']
-            
-        except Exception as e:
-            return None
+    def _call_openrouter_api(self, prompt, retries=3):
+        for attempt in range(retries):    
+            try:
+                response = requests.post(
+                    url=self.api_url,
+                    headers={
+                        "Authorization": f"Bearer {self.api_key}",
+                        "Content-Type": "application/json",
+                        "HTTP-Referer": "https://artestudio.streamlit.app/",
+                        "X-Title": "Arte studio",
+                    },
+                    data=json.dumps({
+                        "model": "openai/gpt-4o-mini-2024-07-18",
+                        "messages": [
+                            {
+                                "role": "user",
+                                "content": prompt
+                            }
+                        ],
+                        "max_tokens": 1500,
+                        "temperature": 0.7
+                    }),
+                    timeout=60
+                )
+                
+                response.raise_for_status()
+                result = response.json()
+                if "choices" in result and result["choices"]:
+                    return result["choices"][0]["message"]["content"]
+                else:
+                    raise ValueError("Risposta API priva del campo 'choices'")
+                
+            except Exception as e:
+                if attempt < retries - 1:
+                    time.sleep(2)
+                    continue
+                print(f"[OpenRouter API Error] {e}")
+                return None
     
     def get_standard_description(self, artwork_data):
         if self.use_real_api:
