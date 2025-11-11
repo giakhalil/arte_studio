@@ -23,6 +23,14 @@ def render():
         st.session_state.app_state = "art_viewing"
         st.rerun()
 
+    if 'recall_test_started' not in st.session_state:
+        st.session_state.recall_test_started = False
+        st.session_state.current_recall_artwork_index = 0
+        st.session_state.recall_answers = {}
+        st.session_state.test_submitted = False
+        st.session_state.data_saved = False
+        st.session_state.feedback_given = False
+
     st.markdown('<div class="main-title">Test di Memoria</div>', unsafe_allow_html=True)
 
     RECALL_QUESTIONS = {

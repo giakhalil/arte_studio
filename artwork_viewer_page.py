@@ -21,6 +21,12 @@ def render():
         st.session_state.app_state = "interests"
         st.rerun()
 
+    if 'current_artwork_index' not in st.session_state:
+        st.session_state.current_artwork_index = 0
+        st.session_state.artwork_start_time = None
+        st.session_state.viewing_completed = False
+        st.session_state.page_was_inactive = False
+
     current_index = st.session_state.current_artwork_index
     from database.artwork_data import get_artwork_by_index, get_artwork_description
     artwork = get_artwork_by_index(current_index)
