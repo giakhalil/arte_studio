@@ -118,10 +118,10 @@ PARAGRAFO 4 - Simbologia e significato (5-6 frasi)
 LUNGHEZZA MINIMA: 350-400 parole
 
 STRATEGIA DI DISTRIBUZIONE
-PARAGRAFO 1 (Introduzione):
-PARAGRAFO 2 (Analisi visiva 1):
-PARAGRAFO 3 (Analisi visiva 2):
-PARAGRAFO 4 (Simbologia):
+PARAGRAFO 1 (Introduzione)
+PARAGRAFO 2 (Analisi visiva 1)
+PARAGRAFO 3 (Analisi visiva 2)
+PARAGRAFO 4 (Simbologia)
 
 VINCOLI ASSOLUTI
 OBBLIGATORIO:
@@ -134,7 +134,7 @@ SEVERAMENTE VIETATO:
 - Inserire analogie, paragoni o confronti estranei all’opera
 - Descrizioni superficiali o incomplete
 - Paragrafi conclusivi riassuntivi
-- Non dividere esplicitamente i paragrafin inserendo il titolo
+- Non dividere esplicitamente i paragrafi inserendo il titolo
 
 DATI DELL'OPERA
 Titolo: {artwork_data['title']}

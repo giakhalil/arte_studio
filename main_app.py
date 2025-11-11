@@ -28,6 +28,7 @@ def initialize_session_state():
     user_data_keys = {
         "demographics": None,
         "interest_ratings": {category: 1 for category in INTEREST_CATEGORIES},
+        "interest_categories": INTEREST_CATEGORIES,
         "top_3_interests": [],
         "experimental_group": None,
         "participant_id": None,
