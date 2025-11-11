@@ -12,8 +12,7 @@ def interessi_page():
             pass
 
     load_css()
-    
-    interest_categories = st.session_state.interest_categories
+
     if not st.session_state.get('demographics'):
         st.error("❌ Accesso non consentito. Completa prima la pagina iniziale.")
         time.sleep(1)
@@ -31,6 +30,26 @@ def interessi_page():
     - Per favore valuta quanto sei interessato a ciascuna delle seguenti categorie.
     - Usa le slider per dare un voto da 1 a 5 per ogni interesse.
     """)
+
+    interest_categories = [
+        "Sport",
+        "Musica", 
+        "Natura e Animali",
+        "Tecnologia e Gaming",
+        "Cibo e Cucina",
+        "Viaggi",
+        "Film e TV",
+        "Moda e Design",
+        "Scienza",
+        "Letteratura",
+        "Fotografia",
+        "Social Media",
+        "Storia",
+        "Attività all'aperto"
+    ]
+
+    if 'interest_ratings' not in st.session_state:
+        st.session_state.interest_ratings = {category: 1 for category in interest_categories}
 
     st.markdown('<div class="section-header">Valuta i tuoi interessi</div>', unsafe_allow_html=True)
     st.caption("(1 = Per niente interessato, 5 = Molto interessato)")
