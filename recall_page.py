@@ -508,6 +508,7 @@ def render():
                         'top_3_interests': st.session_state.top_3_interests,
                         'experimental_group': st.session_state.experimental_group,
                         'interests_page_time': st.session_state.interests_time_spent,
+                        'extra_time_requested': st.session_state.get('extra_time_requested', False),
                         'recall_test': {
                             'recall_answers': st.session_state.recall_answers,
                             'total_recall_score': total_score,
