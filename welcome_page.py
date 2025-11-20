@@ -91,7 +91,7 @@ def show_demographics_section():
                 ["", "Mai", "Raramente (1-2 volte/anno)", "Qualche volta (3-6 volte/anno)", "Spesso (più di 6 volte/anno)"]
             )
             needs_extra_time = st.checkbox(
-                "Richiedo tempo aggiuntivo per la lettura (opzione consigliata per DSA)", 
+                "**Richiedo tempo aggiuntivo per la lettura (opzione consigliata per DSA)**", 
                 key="extra_time_needed"
             )
 
