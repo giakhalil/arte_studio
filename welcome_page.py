@@ -94,7 +94,8 @@ def show_demographics_section():
                 "**Richiedo tempo aggiuntivo per la lettura (opzione consigliata per DSA)**", 
                 key="extra_time_needed"
             )
-
+            st.session_state.extra_time_requested = needs_extra_time
+            
             if needs_extra_time:
                 st.session_state.extra_time_factor = 90  
             else:

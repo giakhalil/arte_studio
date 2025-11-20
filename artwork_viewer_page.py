@@ -34,6 +34,9 @@ def render():
     if not artwork:
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
+        
+    if 'extra_time_requested' not in st.session_state:
+        st.session_state.extra_time_requested = False
 
     BASE_TIME = 1 
     extra_time = st.session_state.get('extra_time_factor', 0)
