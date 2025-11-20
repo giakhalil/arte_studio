@@ -478,7 +478,7 @@ def render():
                 st.success(f"### ✅ Test completato! Punteggio totale: {total_score}/{total_questions}")
                 
                 st.markdown("---")
-                st.markdown("Il tuo feedback")
+                st.subheader("Il tuo feedback")
                 st.markdown("Ci piacerebbe conoscere la tua opinione sull'esperienza:")
                 
                 with st.form("feedback_form"):
