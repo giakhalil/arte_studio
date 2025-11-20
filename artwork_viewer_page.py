@@ -121,7 +121,7 @@ def render():
         st.session_state.artwork_viewing_times[artwork['id']] = elapsed_display
         
         # DEBUG
-        print(f"Opera corrente: {st.session_state.current_artwork_index}, Totale opere: {len(artworks)}")
+        print(f"Opera corrente: {st.session_state.current_artwork_index}, Totale opere: 3")
         
         st.session_state.current_artwork_index += 1
         
