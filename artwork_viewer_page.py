@@ -111,6 +111,10 @@ def render():
 
     st.markdown("---")
 
+    elapsed_display = time.time() - st.session_state.artwork_start_time
+    minutes = int(elapsed_display // 60)
+    seconds = int(elapsed_display % 60)
+
     if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
         if 'artwork_viewing_times' not in st.session_state:
             st.session_state.artwork_viewing_times = {}
