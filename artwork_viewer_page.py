@@ -127,16 +127,18 @@ def render():
             'timestamp': time.time()
         }
         
-        print(f"PRIMA - Opere viste: {len(st.session_state.artworks_viewed)}")
-        print(f"Aggiungendo opera: {artwork['title']} (ID: {artwork['id']})")
-        
         st.session_state.artworks_viewed.append(artwork_data)
         st.session_state.artwork_viewing_times[artwork['id']] = elapsed_time
-        st.session_state.current_artwork_start = time.time()
         
-        print(f"DOPO - Opere viste: {len(st.session_state.artworks_viewed)}")
-        print(f"Lista completa: {[a['artwork_id'] for a in st.session_state.artworks_viewed]}")
+        print(f"Opera completata: {artwork['title']}")
+        print(f"Totale opere viste: {len(st.session_state.artworks_viewed)}")
         
-        time.sleep(0.1)
+        if len(st.session_state.artworks_viewed) >= 3:
+            print("Tutte le opere completate - vai al recall")
+            st.session_state.viewing_completed = True
+            st.session_state.app_state = "recall"
+        else:
+            print(f"Prossima opera sarà index: {len(st.session_state.artworks_viewed)}")
+            st.session_state.current_artwork_start = time.time()
         
         st.rerun()
