@@ -55,10 +55,10 @@ def render():
         <ul>
             <li>Leggi attentamente la descrizione e osserva l'opera</li>
             <li><strong>Non prendere appunti</strong></li>
-            <li><strong>NON ricarica la pagina!</strong></li>
             <li><strong>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</strong></li>
             <li>Il passaggio alla prossima opera avverrà automaticamente</li>
             <li>Cerca di comprendere e ricordare quanto più possibile</li>
+            <li><strong>NON RICARICARE LA PAGINA!</strong></li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
