@@ -47,6 +47,11 @@ def render():
     st.progress(min(progress, 1.0), text=f"Opera {current_index + 1} di 3")
 
     countdown_ph = st.empty()
+    st.markdown(f"""
+    <div class="timer-container" style="position: sticky; top: 0; background: white; padding: 10px; border: 2px solid #ff6b6b; border-radius: 5px; z-index: 1000;">
+        <h3 style="color: #ff6b6b; margin: 0;">⏰ Tempo rimanente: <span id="countdown">{mm:02d}:{ss:02d}</span></h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     st.markdown("""
     <div class="warning-box">
