@@ -111,7 +111,8 @@ def render():
 
     st.markdown("---")
 
-    elapsed_display = (time.time() - st.session_state.artwork_start_time) / 60
+    start_time = st.session_state.get('artwork_start_time', time.time())
+    elapsed_display = (time.time() - start_time) / 60
 
     if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
         st.session_state.artwork_viewing_times[artwork['id']] = elapsed_display
