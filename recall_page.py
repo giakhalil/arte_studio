@@ -420,7 +420,7 @@ def render():
                     st.success("✅ **Test completato!**")
                     
                     st.markdown("""
-                    ## 🎯 Prima di vedere i tuoi risultati...
+                    ## Prima di vedere i tuoi risultati...
                     
                     **Breve spiegazione dello studio:**
                     
@@ -432,7 +432,7 @@ def render():
                     
                     st.markdown("""
                     <div style="background: #f0f2f6; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0;">
-                        <h3>🚀 Pronto/a a scoprire i tuoi risultati?</h3>
+                        <h3>Pronto/a a scoprire i tuoi risultati?</h3>
                         <p>Vedrai il tuo punteggio, il gruppo a cui appartieni e potrai lasciare un feedback.</p>
                     </div>
                     """, unsafe_allow_html=True)
@@ -527,6 +527,7 @@ def render():
                 <div class="success-box">
                 <div style="font-size: 1.2rem; font-weight: bold; color: #856404; margin-bottom: 10px;">Studio Completato!</div>
                 <p>Grazie mille per aver partecipato a questo studio. I tuoi contributi sono preziosi per la nostra ricerca sull'apprendimento personalizzato nell'arte!</p>
+                <p>Verrete reindirizzati alla pagina iniziale!</strong></p>
                 </div>
                 """, unsafe_allow_html=True)
                 
