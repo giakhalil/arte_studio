@@ -25,14 +25,15 @@ def render():
         st.session_state.app_state = "interests"
         st.rerun()
 
-    if 'artworks_viewed' not in st.session_state:
-        st.session_state.artworks_viewed = []
+    if 'current_artwork_index' not in st.session_state:
+        st.session_state.current_artwork_index = 0
         st.session_state.artwork_viewing_times = {}
         st.session_state.artwork_interests = {}
         st.session_state.current_artwork_start = time.time()
         st.session_state.viewing_completed = False
+        st.session_state.artworks_viewed = []
 
-    current_index = len(st.session_state.artworks_viewed)
+    current_index = st.session_state.current_artwork_index
     
     if current_index >= 3:
         st.session_state.viewing_completed = True
@@ -45,7 +46,10 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
 
-    elapsed_time = time.time() - st.session_state.current_artwork_start
+    if f"start_time_{current_index}" not in st.session_state:
+        st.session_state[f"start_time_{current_index}"] = time.time()
+
+    elapsed_time = time.time() - st.session_state[f"start_time_{current_index}"]
 
     st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")
     
@@ -119,26 +123,27 @@ def render():
     button_text = "Procedi all'opera successiva" if current_index < 2 else "Completa visualizzazione opere"
     
     if st.button(button_text, type="primary", use_container_width=True):
+        viewing_time = time.time() - st.session_state[f"start_time_{current_index}"]
+        
         artwork_data = {
             'artwork_id': artwork['id'],
             'title': artwork['title'],
-            'viewing_time': elapsed_time,
+            'viewing_time': viewing_time,
             'interest_used': st.session_state.artwork_interests.get(artwork['id']),
             'timestamp': time.time()
         }
         
         st.session_state.artworks_viewed.append(artwork_data)
-        st.session_state.artwork_viewing_times[artwork['id']] = elapsed_time
+        st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
+        
+        st.session_state.current_artwork_index += 1
         
         print(f"Opera completata: {artwork['title']}")
-        print(f"Totale opere viste: {len(st.session_state.artworks_viewed)}")
+        print(f"Prossima opera sarà index: {st.session_state.current_artwork_index}")
         
-        if len(st.session_state.artworks_viewed) >= 3:
+        if st.session_state.current_artwork_index >= 3:
             print("Tutte le opere completate - vai al recall")
             st.session_state.viewing_completed = True
             st.session_state.app_state = "recall"
-        else:
-            print(f"Prossima opera sarà index: {len(st.session_state.artworks_viewed)}")
-            st.session_state.current_artwork_start = time.time()
         
         st.rerun()
