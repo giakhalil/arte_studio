@@ -16,54 +16,58 @@ def render():
     load_css()
 
     required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
-    if not all(state in st.session_state for state in required_states):
+    if not all(st.session_state.get(state) for state in required_states):
+        st.error("⚠ Accesso non consentito. Completa prima il profilo.")
         st.session_state.app_state = "interests"
         st.rerun()
 
-    from database.artwork_data import get_all_artworks
-    artworks = get_all_artworks()
-
-    if "artwork_viewing_times" not in st.session_state:
+    if 'artworks_viewed' not in st.session_state:
+        st.session_state.artworks_viewed = []
         st.session_state.artwork_viewing_times = {}
+        st.session_state.artwork_interests = {}
+        st.session_state.current_artwork_start = time.time()
+        st.session_state.viewing_completed = False
 
-    viewed = list(st.session_state.artwork_viewing_times.keys())
-
-    if len(viewed) >= len(artworks):
-        st.session_state.total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
+    from database.artwork_data import get_artwork_by_index, get_artwork_description
+    
+    current_index = len(st.session_state.artworks_viewed)
+    
+    if current_index >= 3:
         st.session_state.viewing_completed = True
         st.session_state.app_state = "recall"
         st.rerun()
+    
+    artwork = get_artwork_by_index(current_index)
 
-    current_artwork = artworks[len(viewed)]
-    art_id = current_artwork["id"]
+    if not artwork:
+        st.error("Errore nel caricamento dell'opera.")
+        st.stop()
 
-    # INIZIALIZZAZIONE SICURA DEL TIMER
-    if "artwork_start_time" not in st.session_state:
-        st.session_state.artwork_start_time = time.time()
+    elapsed_time = time.time() - st.session_state.current_artwork_start
 
-    st.progress((len(viewed) + 1) / len(artworks), text=f"Opera {len(viewed) + 1} di {len(artworks)}")
-
+    st.progress((current_index) / 3, text=f"Opera {current_index + 1} di 3")
+    
     st.markdown("""
     <div class="warning-box">
         <div style="font-size: 1.2rem; font-weight: bold; color: #856404; margin-bottom: 10px;">Istruzioni importanti</div>
         <ul>
             <li>Leggi attentamente la descrizione e osserva l'opera</li>
             <li><strong>Non prendere appunti</strong></li>
-            <li><strong>Prenditi tutto il tempo che ti serve</strong></li>
-            <li>Non aprire altre schede o finestre nel browser</li>
-            <li>Quando hai finito, clicca il pulsante per procedere</li>
+            <li><strong>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</strong></li>
+            <li>Clicca sul pulsante quando sei pronto per proseguire</li>
+            <li>Cerca di comprendere e ricordare quanto più possibile</li>
             <li><strong>NON RICARICARE LA PAGINA!</strong></li>
         </ul>
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown(f'<div class="section-header">"{current_artwork["title"]}"</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
 
     col_img, col_desc = st.columns([1, 1])
 
     with col_img:
         try:
-            image_filename = current_artwork['image_url']
+            image_filename = artwork['image_url']
             possible_paths = [
                 os.path.join("images", image_filename),
                 os.path.join(os.getcwd(), "images", image_filename),
@@ -91,34 +95,38 @@ def render():
                     image_found = True
                     break
             if not image_found:
-                st.error(f"Immagine non trovata: {current_artwork['image_url']}")
+                st.error(f"Immagine non trovata: {artwork['image_url']}")
         except Exception as e:
             st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
 
     with col_desc:
-        st.markdown(f"**Artista:** {current_artwork['artist']} | **Anno:** {current_artwork['year']} | **Stile:** {current_artwork['style']}")
-        from database.artwork_data import get_artwork_description
+        st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
         description, selected_interest = get_artwork_description(
-            current_artwork,
+            artwork,
             st.session_state.experimental_group,
             st.session_state.top_3_interests
         )
-        if 'artwork_interests' not in st.session_state:
-            st.session_state.artwork_interests = {}
-        st.session_state.artwork_interests[current_artwork['id']] = selected_interest
+        
+        st.session_state.artwork_interests[artwork['id']] = selected_interest
         
         st.markdown("### Descrizione dell'opera")
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
 
-    if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
-        try:
-            start_time = float(st.session_state.artwork_start_time)
-            elapsed = (time.time() - start_time) / 60  
-        except:
-            elapsed = 0  
+    button_text = "Procedi all'opera successiva" if current_index < 2 else "Completa visualizzazione opere"
+    
+    if st.button(button_text, type="primary", use_container_width=True):
+        artwork_data = {
+            'artwork_id': artwork['id'],
+            'title': artwork['title'],
+            'viewing_time': elapsed_time,
+            'interest_used': st.session_state.artwork_interests.get(artwork['id']),
+            'timestamp': time.time()
+        }
         
-        st.session_state.artwork_viewing_times[art_id] = elapsed
-        st.session_state.artwork_start_time = time.time()  
+        st.session_state.artworks_viewed.append(artwork_data)
+        st.session_state.artwork_viewing_times[artwork['id']] = elapsed_time
+        st.session_state.current_artwork_start = time.time()
+        
         st.rerun()
