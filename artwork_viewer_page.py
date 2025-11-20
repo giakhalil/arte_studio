@@ -45,7 +45,7 @@ def render():
 
     elapsed_time = time.time() - st.session_state.current_artwork_start
 
-    st.progress((current_index) / 3, text=f"Opera {current_index + 1} di 3")
+    st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")
     
     st.markdown("""
     <div class="warning-box">
