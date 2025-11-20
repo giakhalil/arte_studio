@@ -414,9 +414,34 @@ def render():
         
         else:
             if not st.session_state.feedback_given:
-                st.session_state.test_submitted = True
-                test_duration = time.time() - st.session_state.test_start_time
-                
+                if not st.session_state.get('show_results', False):
+                    st.session_state.test_submitted = True
+                    test_duration = time.time() - st.session_state.test_start_time
+                    st.success("✅ **Test completato!**")
+                    
+                    st.markdown("""
+                    ## 🎯 Prima di vedere i tuoi risultati...
+                    
+                    **Breve spiegazione dello studio:**
+                    
+                    Questo ricerca esplora se **descrizioni personalizzate** basate sui tuoi interessi 
+                    aiutano a ricordare meglio le opere d'arte rispetto a descrizioni standard.
+                    
+                    Sei stato assegnato casualmente a uno dei due gruppi sperimentali.
+                    """)
+                    
+                    st.markdown("""
+                    <div style="background: #f0f2f6; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0;">
+                        <h3>🚀 Pronto/a a scoprire i tuoi risultati?</h3>
+                        <p>Vedrai il tuo punteggio, il gruppo a cui appartieni e potrai lasciare un feedback.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    if st.button("**Vedi i Miei Risultati**", type="primary", use_container_width=True):
+                        st.session_state.show_results = True
+                        st.rerun()
+                    return
+
                 total_score = 0
                 total_questions = 0
                 
