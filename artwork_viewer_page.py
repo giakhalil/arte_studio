@@ -14,6 +14,10 @@ def render():
                 st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     load_css()
+    
+    from database.artwork_data import get_artwork_by_index, get_artwork_description, initialize_artwork_order
+    
+    initialize_artwork_order()
 
     required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
     if not all(st.session_state.get(state) for state in required_states):
@@ -28,8 +32,6 @@ def render():
         st.session_state.current_artwork_start = time.time()
         st.session_state.viewing_completed = False
 
-    from database.artwork_data import get_artwork_by_index, get_artwork_description
-    
     current_index = len(st.session_state.artworks_viewed)
     
     if current_index >= 3:
@@ -125,8 +127,16 @@ def render():
             'timestamp': time.time()
         }
         
+        print(f"PRIMA - Opere viste: {len(st.session_state.artworks_viewed)}")
+        print(f"Aggiungendo opera: {artwork['title']} (ID: {artwork['id']})")
+        
         st.session_state.artworks_viewed.append(artwork_data)
         st.session_state.artwork_viewing_times[artwork['id']] = elapsed_time
         st.session_state.current_artwork_start = time.time()
+        
+        print(f"DOPO - Opere viste: {len(st.session_state.artworks_viewed)}")
+        print(f"Lista completa: {[a['artwork_id'] for a in st.session_state.artworks_viewed]}")
+        
+        time.sleep(0.1)
         
         st.rerun()
