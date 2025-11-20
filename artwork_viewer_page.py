@@ -37,6 +37,7 @@ def render():
     current_artwork = artworks[len(viewed)]
     art_id = current_artwork["id"]
 
+    # INIZIALIZZAZIONE SICURA DEL TIMER
     if "artwork_start_time" not in st.session_state:
         st.session_state.artwork_start_time = time.time()
 
@@ -112,8 +113,12 @@ def render():
     st.markdown("---")
 
     if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
-        elapsed = time.time() - st.session_state.artwork_start_time
-        st.session_state.artwork_viewing_times[art_id] = elapsed / 60 
-        st.session_state.artwork_start_time = time.time()
+        try:
+            start_time = float(st.session_state.artwork_start_time)
+            elapsed = (time.time() - start_time) / 60  
+        except:
+            elapsed = 0  
+        
+        st.session_state.artwork_viewing_times[art_id] = elapsed
+        st.session_state.artwork_start_time = time.time()  
         st.rerun()
-
