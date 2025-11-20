@@ -24,6 +24,7 @@ def render():
     if 'current_artwork_index' not in st.session_state:
         st.session_state.current_artwork_index = 0
         st.session_state.artwork_start_time = None
+        st.session_state.artwork_viewing_times = {}
         st.session_state.viewing_completed = False
         st.session_state.page_was_inactive = False
 
@@ -111,9 +112,7 @@ def render():
 
     st.markdown("---")
 
-    elapsed_display = time.time() - st.session_state.artwork_start_time
-    minutes = int(elapsed_display // 60)
-    seconds = int(elapsed_display % 60)
+    elapsed_display = time.time() - st.session_state.artwork_start_time / 60
 
     if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
         if 'artwork_viewing_times' not in st.session_state:
