@@ -133,11 +133,7 @@ def render():
         while remaining_time > 0:
             mm = int(remaining_time // 60)
             ss = int(remaining_time % 60)
-            st.markdown(f"""
-            <div class="timer-container" style="position: sticky; top: 0; background: white; padding: 10px; border: 2px solid #ff6b6b; border-radius: 5px; z-index: 1000;">
-            <h3 style="color: #ff6b6b; margin: 0;">⏰ Tempo rimanente: <span id="countdown">{mm:02d}:{ss:02d}</span></h3>
-            </div>
-            """, unsafe_allow_html=True)
+            countdown_ph.metric("Tempo rimanente", f"{mm:02d}:{ss:02d}")
             time.sleep(1)
             elapsed_time = time.time() - st.session_state.artwork_start_time
             remaining_time = max(VIEWING_TIME - elapsed_time, 0)
