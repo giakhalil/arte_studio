@@ -123,16 +123,15 @@ def render():
         # DEBUG
         print(f"Opera corrente: {st.session_state.current_artwork_index}, Totale opere: 3")
         
-        st.session_state.current_artwork_index += 1
-        
-        if st.session_state.current_artwork_index >= 3:
+        if st.session_state.current_artwork_index < 2:
+            st.session_state.current_artwork_index += 1
+            st.session_state.artwork_start_time = time.time()  
+            print(f"Prossima opera index: {st.session_state.current_artwork_index}")
+            st.rerun()
+        else:
             st.session_state.viewing_completed = True
             total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
             st.session_state.total_viewing_time = total_viewing_time
-            print("ULTIMA OPERA - Andando al recall")
+            print("COMPLETATO - Vai al recall")
             st.session_state.app_state = "recall"
-        else:
-            st.session_state.artwork_start_time = time.time()
-            print(f"Passando all'opera {st.session_state.current_artwork_index}")
-        
-        st.rerun()
+            st.rerun()
