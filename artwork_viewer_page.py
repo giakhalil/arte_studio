@@ -35,7 +35,9 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
 
-    VIEWING_TIME = 4*60
+    BASE_TIME = 260 
+    extra_time = st.session_state.get('extra_time_factor', 0)
+    VIEWING_TIME = BASE_TIME + extra_time
 
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
