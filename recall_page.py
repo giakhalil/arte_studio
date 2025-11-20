@@ -471,9 +471,9 @@ def render():
                 
                 st.markdown(f"""
                 <div class="warning-box">
-                <div style="font-size: 2rem; font-weight: bold; color: #856404; margin-bottom: 10px;">ℹ️ Informazioni sulla Sperimentazione</div>
-                <p>Hai fatto parte del <strong>{group_name}</strong>.</p>
-                <p>{'Le descrizioni delle opere che hai letto erano personalizzate in base ai tuoi interessi.' if st.session_state.experimental_group == 'B' else 'Le descrizioni delle opere che hai letto erano descrizioni standard, identiche per tutti i partecipanti.'}</p>
+                <div style="font-size: 1.5rem; font-weight: bold; color: #856404; margin-bottom: 15px;">ℹ️ Informazioni sulla Sperimentazione</div>
+                <p style="font-size: 1.3rem;">Hai fatto parte del <strong style="font-size: 1.4rem;">{group_name}</strong>.</p>
+                <p style="font-size: 1.3rem;">{'Le descrizioni delle opere che hai letto erano personalizzate in base ai tuoi interessi.' if st.session_state.experimental_group == 'B' else 'Le descrizioni delle opere che hai letto erano descrizioni standard, identiche per tutti i partecipanti.'}</p>
                 </div>
                 """, unsafe_allow_html=True)
                 
