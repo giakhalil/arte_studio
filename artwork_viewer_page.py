@@ -115,27 +115,19 @@ def render():
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
-    
-    col_back, col_next = st.columns([1, 1])
 
-    with col_back:
-        if st.button("Opera precedente", use_container_width=True, disabled=(current_idx == 0)):
-            st.session_state.artwork_viewing_times.setdefault(current_id, time.time() - st.session_state.artwork_start_time)
-            st.session_state.current_idx = max(0, current_idx - 1)
+    label = "Procedi all'opera successiva" if current_idx < len(order) - 1 else "Ho terminato"
+    if st.button(label, type="primary", use_container_width=True):
+        st.session_state.artwork_viewing_times.setdefault(current_id, time.time() - st.session_state.artwork_start_time)
+        if current_idx < len(order) - 1:
+            st.session_state.current_idx += 1
             st.session_state.artwork_start_time = time.time()
             st.rerun()
+        else:
+            total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
+            st.session_state.total_viewing_time = total_viewing_time
+            st.session_state.viewing_completed = True
+            st.session_state.app_state = "recall"
+            st.rerun()
 
-    with col_next:
-        label = "Procedi all'opera successiva" if current_idx < len(order) - 1 else "Ho terminato"
-        if st.button(label, type="primary", use_container_width=True):
-            st.session_state.artwork_viewing_times.setdefault(current_id, time.time() - st.session_state.artwork_start_time)
-            if current_idx < len(order) - 1:
-                st.session_state.current_idx += 1
-                st.session_state.artwork_start_time = time.time()
-                st.rerun()
-            else:
-                total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
-                st.session_state.total_viewing_time = total_viewing_time
-                st.session_state.viewing_completed = True
-                st.session_state.app_state = "recall"
-                st.rerun()
+
