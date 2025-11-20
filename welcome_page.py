@@ -90,16 +90,6 @@ def show_demographics_section():
                 "**Con quale frequenza visiti musei?**",
                 ["", "Mai", "Raramente (1-2 volte/anno)", "Qualche volta (3-6 volte/anno)", "Spesso (più di 6 volte/anno)"]
             )
-            needs_extra_time = st.checkbox(
-                "**Richiedo tempo aggiuntivo per la lettura (opzione consigliata per DSA)**", 
-                key="extra_time_needed"
-            )
-            st.session_state.extra_time_requested = needs_extra_time
-            
-            if needs_extra_time:
-                st.session_state.extra_time_factor = 90  
-            else:
-                st.session_state.extra_time_factor = 0
         
         demographics_complete = all([age >= 18, gender, education, art_familiarity, museum_visits])
         

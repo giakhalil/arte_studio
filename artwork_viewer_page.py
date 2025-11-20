@@ -35,23 +35,11 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
 
-    if 'extra_time_requested' not in st.session_state:
-        st.session_state.extra_time_requested = False
-
-    BASE_TIME = 260
-    extra_time = st.session_state.get('extra_time_factor', 0)
-    VIEWING_TIME = BASE_TIME + extra_time
-
     if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
 
-    elapsed_time = time.time() - st.session_state.artwork_start_time
-    remaining_time = max(VIEWING_TIME - elapsed_time, 0)
-    progress = elapsed_time / VIEWING_TIME
 
-    st.progress(min(progress, 1.0), text=f"Opera {current_index + 1} di 3")
-
-    countdown_ph = st.empty()
+    st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")
     
     
     st.markdown("""
@@ -60,8 +48,9 @@ def render():
         <ul>
             <li>Leggi attentamente la descrizione e osserva l'opera</li>
             <li><strong>Non prendere appunti</strong></li>
-            <li><strong>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</strong></li>
-            <li>Il passaggio alla prossima opera avverrà automaticamente</li>
+            <li><strong>Prenditi tutto il tempo che ti serve</strong></li>
+            <li>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</li>
+            <li>Quando hai finito, clicca il pulsante per procedere</li>
             <li>Cerca di comprendere e ricordare quanto più possibile</li>
             <li><strong>NON RICARICARE LA PAGINA!</strong></li>
         </ul>
@@ -122,26 +111,25 @@ def render():
 
     st.markdown("---")
 
-    if remaining_time <= 0:
-        if not st.session_state.viewing_completed:
-            if current_index < 2:
-                st.session_state.current_artwork_index += 1
-                st.session_state.artwork_start_time = None
-                st.rerun()
-            else:
-                st.session_state.viewing_completed = True
-                st.session_state.artwork_start_time = None
-                st.success("✅ Visualizzazione opere completata! Procedendo al test...")
-                time.sleep(2)
-                st.session_state.app_state = "recall"
-                st.rerun()
-    else:
-        while remaining_time > 0:
-            mm = int(remaining_time // 60)
-            ss = int(remaining_time % 60)
-            countdown_ph.metric("Tempo rimanente", f"{mm:02d}:{ss:02d}")
-            time.sleep(1)
-            elapsed_time = time.time() - st.session_state.artwork_start_time
-            remaining_time = max(VIEWING_TIME - elapsed_time, 0)
+    elapsed_display = time.time() - st.session_state.artwork_start_time
+    minutes = int(elapsed_display // 60)
+    seconds = int(elapsed_display % 60)
+
+    st.info(f"**Tempo trascorso su questa opera:** {minutes} minuti e {seconds} secondi")
+
+    if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
+        if 'artwork_viewing_times' not in st.session_state:
+            st.session_state.artwork_viewing_times = {}
         
-        st.rerun()
+        st.session_state.artwork_viewing_times[artwork['id']] = elapsed_display
+        
+        if current_index < 2:
+            st.session_state.current_artwork_index += 1
+            st.session_state.artwork_start_time = time.time()
+            st.rerun()
+        else:
+            st.session_state.viewing_completed = True
+            total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
+            st.session_state.total_viewing_time = total_viewing_time
+            st.session_state.app_state = "recall"
+            st.rerun()
