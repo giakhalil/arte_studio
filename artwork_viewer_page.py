@@ -23,25 +23,24 @@ def render():
 
     if 'current_artwork_index' not in st.session_state:
         st.session_state.current_artwork_index = 0
-        st.session_state.artwork_start_time = None
+        st.session_state.artwork_start_time = time.time()
         st.session_state.artwork_viewing_times = {}
         st.session_state.viewing_completed = False
-        st.session_state.page_was_inactive = False
 
     current_index = st.session_state.current_artwork_index
+    st.write(f"Opera {current_index + 1} di 3")
+
     from database.artwork_data import get_artwork_by_index, get_artwork_description
     artwork = get_artwork_by_index(current_index)
 
     if not artwork:
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
-
-    if st.session_state.artwork_start_time is None:
+    
+    if 'artwork_start_time' not in st.session_state:
         st.session_state.artwork_start_time = time.time()
 
-
-    st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")
-    
+    st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")    
     
     st.markdown("""
     <div class="warning-box">
@@ -112,26 +111,17 @@ def render():
 
     st.markdown("---")
 
-    elapsed_display = time.time() - st.session_state.artwork_start_time / 60
+    elapsed_display = (time.time() - st.session_state.artwork_start_time) / 60
 
     if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
-        if 'artwork_viewing_times' not in st.session_state:
-            st.session_state.artwork_viewing_times = {}
-        
         st.session_state.artwork_viewing_times[artwork['id']] = elapsed_display
         
-        # DEBUG
-        print(f"Opera corrente: {st.session_state.current_artwork_index}, Totale opere: 3")
-        
-        if st.session_state.current_artwork_index < 2:
+        if current_index < 2:
             st.session_state.current_artwork_index += 1
             st.session_state.artwork_start_time = time.time()  
-            print(f"Prossima opera index: {st.session_state.current_artwork_index}")
-            st.rerun()
+            st.experimental_rerun()  
         else:
             st.session_state.viewing_completed = True
-            total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
-            st.session_state.total_viewing_time = total_viewing_time
-            print("COMPLETATO - Vai al recall")
+            st.session_state.total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
             st.session_state.app_state = "recall"
-            st.rerun()
+            st.experimental_rerun()
