@@ -466,8 +466,9 @@ def render():
                 <p style="font-size: 1.3rem;">{'Le descrizioni delle opere che hai letto erano personalizzate in base ai tuoi interessi.' if st.session_state.experimental_group == 'B' else 'Le descrizioni delle opere che hai letto erano descrizioni standard, identiche per tutti i partecipanti.'}</p>
                 </div>
                 """, unsafe_allow_html=True)
-                
-                st.markdown("Riepilogo delle tue risposte")
+                st.markdown("---")
+
+                st.subheader("Riepilogo delle tue risposte")
                 
                 for i, (artwork_id, answers) in enumerate(st.session_state.recall_answers.items()):
                     st.markdown(f"**Opera {i+1}:**")
@@ -475,9 +476,6 @@ def render():
                     st.write("---")
                 
                 st.success(f"### ✅ Test completato! Punteggio totale: {total_score}/{total_questions}")
-                
-                st.markdown("---")
-
                 
                 st.markdown("---")
                 st.markdown("Il tuo feedback")
