@@ -91,7 +91,7 @@ def interessi_page():
             st.session_state.top_3_interests = top_3_interests
 
             if 'experimental_group' not in st.session_state:
-                st.session_state.experimental_group = 'B' #random.choice(['A', 'B'])
+                st.session_state.experimental_group = random.choice(['A', 'B'])
 
             st.session_state.participant_id = generate_participant_id()
             st.session_state.data_saved = True 
