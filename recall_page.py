@@ -424,11 +424,20 @@ def render():
                     
                     **Breve spiegazione dello studio:**
                     
-                    Questo ricerca esplora se **descrizioni personalizzate** basate sui tuoi interessi 
-                    aiutano a ricordare meglio le opere d'arte rispetto a descrizioni standard.
-                    
-                    Sei stato assegnato casualmente a uno dei due gruppi sperimentali.
-                    """)
+                    Questa ricerca esplora se **descrizioni personalizzate** delle opere d'arte, che includono analogie basate sui tuoi interessi personali, 
+                    aiutino a ricordare meglio le informazioni rispetto alle descrizioni standard.
+                    All'inizio della sperimentazione, sei stato assegnato casualmente a uno dei due gruppi sperimentali:
+
+                    - **Gruppo A**: Ha ricevuto descrizioni standard
+                    - **Gruppo B**: Ha ricevuto descrizioni personalizzate con analogie
+
+                    Tutti i partecipanti hanno completato il questionario sugli interessi, ma soltanto per il Gruppo B tali preferenze sono state utilizzate per generare, 
+                    tramite intelligenza artificiale, descrizioni **personalizzate sulla base del tuo profilo**.
+
+                    Il confronto sistematico tra i due gruppi ci permetterà di valutare se la personalizzazione dei contenuti migliora effettivamente l'apprendimento artistico.
+
+                    Ora potrai scoprire a quale gruppo appartieni e visualizzare i risultati ottenuti.
+                                        """)
                     
                     st.markdown("""
                     <div style="background: #f0f2f6; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0;">
