@@ -10,38 +10,45 @@ def render():
     def load_css():
         css_path = os.path.join(os.getcwd(), "style.css")
         if os.path.exists(css_path):
-            with open(css_path) as f:
+            with open(css_path, "r", encoding="utf-8") as f:
                 st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-
     load_css()
 
     required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
-    if not all(st.session_state.get(state) for state in required_states):
+    if not all(state in st.session_state for state in required_states):
         st.error("⚠ Accesso non consentito. Completa prima il profilo.")
         st.session_state.app_state = "interests"
         st.rerun()
 
-    if 'current_artwork_index' not in st.session_state:
-        st.session_state.current_artwork_index = 0
-        st.session_state.artwork_start_time = time.time()
+    if 'artworks' not in st.session_state:
+        from database.artwork_data import get_artwork_by_index
+        artworks = []
+        for i in range(3):
+            aw = get_artwork_by_index(i)
+            if aw:
+                artworks.append(aw)
+        if not artworks:
+            st.error("Errore: nessuna opera trovata.")
+            st.stop()
+        st.session_state.artworks = {aw['id']: aw for aw in artworks}
+        st.session_state.artwork_order = [aw['id'] for aw in artworks]
+        st.session_state.current_idx = 0
+        st.session_state.artwork_start_time = None
         st.session_state.artwork_viewing_times = {}
+        st.session_state.artwork_interests = {}
         st.session_state.viewing_completed = False
 
-    current_index = st.session_state.current_artwork_index
-    st.write(f"Opera {current_index + 1} di 3")
+    artworks_dict = st.session_state.artworks
+    order = st.session_state.artwork_order
+    current_idx = st.session_state.current_idx
+    current_id = order[current_idx]
+    artwork = artworks_dict[current_id]
 
-    from database.artwork_data import get_artwork_by_index, get_artwork_description
-    artwork = get_artwork_by_index(current_index)
-
-    if not artwork:
-        st.error("Errore nel caricamento dell'opera.")
-        st.stop()
-    
-    if 'artwork_start_time' not in st.session_state:
+    if st.session_state.artwork_start_time is None:
         st.session_state.artwork_start_time = time.time()
 
-    st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")    
-    
+    st.progress((current_idx + 1) / len(order), text=f"Opera {current_idx + 1} di {len(order)}")
+
     st.markdown("""
     <div class="warning-box">
         <div style="font-size: 1.2rem; font-weight: bold; color: #856404; margin-bottom: 10px;">Istruzioni importanti</div>
@@ -63,7 +70,7 @@ def render():
 
     with col_img:
         try:
-            image_filename = artwork['image_url']
+            image_filename = artwork.get('image_url', '')
             possible_paths = [
                 os.path.join("images", image_filename),
                 os.path.join(os.getcwd(), "images", image_filename),
@@ -91,38 +98,44 @@ def render():
                     image_found = True
                     break
             if not image_found:
-                st.error(f"Immagine non trovata: {artwork['image_url']}")
+                st.error(f"Immagine non trovata: {artwork.get('image_url', '')}")
         except Exception as e:
             st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
 
     with col_desc:
-        st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
+        st.markdown(f"**Artista:** {artwork.get('artist','-')} | **Anno:** {artwork.get('year','-')} | **Stile:** {artwork.get('style','-')}")
+        from database.artwork_data import get_artwork_description
         description, selected_interest = get_artwork_description(
             artwork,
             st.session_state.experimental_group,
             st.session_state.top_3_interests
         )
-        if 'artwork_interests' not in st.session_state:
-            st.session_state.artwork_interests = {}
-        st.session_state.artwork_interests[artwork['id']] = selected_interest
-        
+        st.session_state.artwork_interests[current_id] = selected_interest
         st.markdown("### Descrizione dell'opera")
         st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
+    
+    col_back, col_next = st.columns([1, 1])
 
-    start_time = st.session_state.get('artwork_start_time', time.time())
-    elapsed_display = (time.time() - start_time) / 60
+    with col_back:
+        if st.button("Opera precedente", use_container_width=True, disabled=(current_idx == 0)):
+            st.session_state.artwork_viewing_times.setdefault(current_id, time.time() - st.session_state.artwork_start_time)
+            st.session_state.current_idx = max(0, current_idx - 1)
+            st.session_state.artwork_start_time = time.time()
+            st.rerun()
 
-    if st.button("Procedi all'opera successiva", type="primary", use_container_width=True):
-        st.session_state.artwork_viewing_times[artwork['id']] = elapsed_display
-        
-        if current_index < 2:
-            st.session_state.current_artwork_index += 1
-            st.session_state.artwork_start_time = time.time()  
-            st.experimental_rerun()  
-        else:
-            st.session_state.viewing_completed = True
-            st.session_state.total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
-            st.session_state.app_state = "recall"
-            st.experimental_rerun()
+    with col_next:
+        label = "Procedi all'opera successiva" if current_idx < len(order) - 1 else "Ho terminato"
+        if st.button(label, type="primary", use_container_width=True):
+            st.session_state.artwork_viewing_times.setdefault(current_id, time.time() - st.session_state.artwork_start_time)
+            if current_idx < len(order) - 1:
+                st.session_state.current_idx += 1
+                st.session_state.artwork_start_time = time.time()
+                st.rerun()
+            else:
+                total_viewing_time = sum(st.session_state.artwork_viewing_times.values())
+                st.session_state.total_viewing_time = total_viewing_time
+                st.session_state.viewing_completed = True
+                st.session_state.app_state = "recall"
+                st.rerun()
