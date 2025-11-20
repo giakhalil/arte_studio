@@ -436,12 +436,11 @@ def render():
 
                     Il confronto sistematico tra i due gruppi ci permetterà di valutare se la personalizzazione dei contenuti migliora effettivamente l'apprendimento artistico.
 
-                    Ora potrai scoprire a quale gruppo appartieni e visualizzare i risultati ottenuti.
                                         """)
                     
                     st.markdown("""
                     <div style="background: #f0f2f6; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0;">
-                        <h3>Pronto/a a scoprire i tuoi risultati?</h3>
+                        <h4>Pronto/a a scoprire i tuoi risultati?</h3>
                         <p>Vedrai il tuo punteggio, il gruppo a cui appartieni e potrai lasciare un feedback.</p>
                     </div>
                     """, unsafe_allow_html=True)
