@@ -68,7 +68,7 @@ def render():
     """, unsafe_allow_html=True)
 
     st.markdown(f"""
-    <div style="font-size: 1.8rem; font-weight: bold; text-align: center"; margin-bottom: 10px>
+    <div style="font-size: 1.8rem; font-weight: bold; text-align: center; margin-bottom: 30px;">
         {artwork["title"]}
     </div>
     """, unsafe_allow_html=True)
