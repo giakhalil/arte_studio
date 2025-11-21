@@ -29,25 +29,27 @@ def render():
         st.error("Errore ordine opere.")
         st.stop()
 
-    artwork_ids = [st.session_state.artwork_order[0], st.session_state.artwork_order[1], st.session_state.artwork_order[2]]
-    
     if 'current_artwork' not in st.session_state:
         st.session_state.current_artwork = 0
-        st.session_state.artwork_data = {}
-        for i, idx in enumerate(artwork_ids):
-            artwork = get_artwork_by_index(i)
-            st.session_state.artwork_data[i] = {
-                'id': artwork['id'],
-                'title': artwork['title'],
-                'artist': artwork['artist'],
-                'year': artwork['year'],
-                'style': artwork['style'],
-                'image_url': artwork['image_url'],
-                'start_time': time.time()
-            }
+        st.session_state.button_clicked = False
 
     current_idx = st.session_state.current_artwork
-    artwork = st.session_state.artwork_data[current_idx]
+    
+    if current_idx >= 3:
+        st.session_state.viewing_completed = True
+        st.session_state.app_state = "recall"
+        st.rerun()
+
+    artwork = get_artwork_by_index(current_idx)
+
+    if not artwork:
+        st.error("Errore nel caricamento dell'opera.")
+        st.stop()
+
+    if f"start_time_{current_idx}" not in st.session_state:
+        st.session_state[f"start_time_{current_idx}"] = time.time()
+
+    elapsed_time = time.time() - st.session_state[f"start_time_{current_idx}"]
 
     st.progress((current_idx + 1) / 3, text=f"Opera {current_idx + 1} di 3")
     
@@ -99,28 +101,30 @@ def render():
     with col_desc:
         st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
         
-        from database.artwork_data import ARTWORKS
-        artwork_obj = next((art for art in ARTWORKS if art['id'] == artwork['id']), None)
-        if artwork_obj:
-            description, selected_interest = get_artwork_description(
-                artwork_obj,
-                st.session_state.experimental_group,
-                st.session_state.top_3_interests
-            )
-            
-            if 'artwork_interests' not in st.session_state:
-                st.session_state.artwork_interests = {}
-            st.session_state.artwork_interests[artwork['id']] = selected_interest
-            
-            st.markdown("### Descrizione dell'opera")
-            st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
+        description, selected_interest = get_artwork_description(
+            artwork,
+            st.session_state.experimental_group,
+            st.session_state.top_3_interests
+        )
+        
+        if 'artwork_interests' not in st.session_state:
+            st.session_state.artwork_interests = {}
+        st.session_state.artwork_interests[artwork['id']] = selected_interest
+        
+        st.markdown("### Descrizione dell'opera")
+        st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
 
     button_text = "Procedi all'opera successiva" if current_idx < 2 else "Completa visualizzazione opere"
     
-    if st.button(button_text, type="primary", use_container_width=True):
-        viewing_time = time.time() - artwork['start_time']
+    if st.button(button_text, type="primary", use_container_width=True, key=f"btn_{current_idx}"):
+        if st.session_state.get('button_clicked', False):
+            return
+            
+        st.session_state.button_clicked = True
+        
+        viewing_time = time.time() - st.session_state[f"start_time_{current_idx}"]
         
         if 'artworks_viewed' not in st.session_state:
             st.session_state.artworks_viewed = []
@@ -136,10 +140,11 @@ def render():
         })
         st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
         
-        if current_idx < 2:
-            st.session_state.current_artwork += 1
-            st.rerun()
-        else:
+        st.session_state.current_artwork += 1
+        st.session_state.button_clicked = False
+        
+        if st.session_state.current_artwork >= 3:
             st.session_state.viewing_completed = True
             st.session_state.app_state = "recall"
-            st.rerun()
+        
+        st.rerun()
