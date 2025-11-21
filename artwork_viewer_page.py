@@ -6,6 +6,16 @@ import base64
 
 sys.path.append(os.path.dirname(__file__))
 
+def scroll_to_top():
+    st.markdown(
+        """
+        <script>
+            window.scrollTo(0, 0); 
+        </script>
+        """,
+        unsafe_allow_html=True
+    )
+
 def render():
     def load_css():
         css_path = os.path.join(os.getcwd(), "style.css")
@@ -48,8 +58,6 @@ def render():
 
     if f"start_time_{current_idx}" not in st.session_state:
         st.session_state[f"start_time_{current_idx}"] = time.time()
-
-    elapsed_time = time.time() - st.session_state[f"start_time_{current_idx}"]
 
     st.progress((current_idx + 1) / 3, text=f"Opera {current_idx + 1} di 3")
     
@@ -152,4 +160,5 @@ def render():
             st.session_state.viewing_completed = True
             st.session_state.app_state = "recall"
         
+        scroll_to_top()
         st.rerun()
