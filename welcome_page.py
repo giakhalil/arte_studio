@@ -30,8 +30,8 @@ def show_consent_section():
         st.markdown("""
         **Cosa farete:**
         - Compilare un breve questionario iniziale (8-10 min)
-        - Visualizzare 3 opere d'arte con descrizioni (12 min)
-        - Rispondere a domande sulle opere viste (10 min)
+        - Visualizzare 3 opere d'arte con descrizioni (10-15 min)
+        - Rispondere a domande sulle opere viste (5-10 min)
         
         **Condizioni sperimentali:**
         I partecipanti vengono assegnati casualmente a uno di due gruppi che vedranno descrizioni leggermente diverse.
