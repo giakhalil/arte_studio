@@ -16,7 +16,7 @@ def render():
     load_css()
     
     from database.artwork_data import get_artwork_by_index, get_artwork_description, initialize_artwork_order
-   
+    
     initialize_artwork_order()
 
     required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
@@ -27,22 +27,14 @@ def render():
 
     if 'current_artwork_index' not in st.session_state:
         st.session_state.current_artwork_index = 0
-    if 'artwork_viewing_times' not in st.session_state:
         st.session_state.artwork_viewing_times = {}
-    if 'artwork_interests' not in st.session_state:
         st.session_state.artwork_interests = {}
-    
-    if 'artworks_viewed' not in st.session_state:
         st.session_state.artworks_viewed = []
-    
-    if 'viewing_completed' not in st.session_state:
         st.session_state.viewing_completed = False
-    
-    if 'artwork_start_times' not in st.session_state:
         st.session_state.artwork_start_times = {}
 
     current_index = st.session_state.current_artwork_index
-   
+    
     if current_index >= 3:
         st.session_state.viewing_completed = True
         st.session_state.app_state = "recall"
@@ -54,6 +46,9 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
 
+    if 'artwork_start_times' not in st.session_state:
+        st.session_state.artwork_start_times = {}
+    
     if artwork['id'] not in st.session_state.artwork_start_times:
         st.session_state.artwork_start_times[artwork['id']] = time.time()
 
@@ -121,6 +116,8 @@ def render():
             st.session_state.top_3_interests
         )
         
+        if 'artwork_interests' not in st.session_state:
+            st.session_state.artwork_interests = {}
         st.session_state.artwork_interests[artwork['id']] = selected_interest
         
         st.markdown("### Descrizione dell'opera")
@@ -131,7 +128,6 @@ def render():
     button_text = "Procedi all'opera successiva" if current_index < 2 else "Completa visualizzazione opere"
     
     if st.button(button_text, type="primary", use_container_width=True):
-
         viewing_time = time.time() - st.session_state.artwork_start_times[artwork['id']]
         
         artwork_data = {
@@ -139,20 +135,17 @@ def render():
             'title': artwork['title'],
             'viewing_time': viewing_time,
             'interest_used': st.session_state.artwork_interests.get(artwork['id']),
-            'timestamp': time.time(),
+            'timestamp': time.time()
         }
         
-
         if 'artworks_viewed' not in st.session_state:
             st.session_state.artworks_viewed = []
         st.session_state.artworks_viewed.append(artwork_data)
-        
         
         if 'artwork_viewing_times' not in st.session_state:
             st.session_state.artwork_viewing_times = {}
         st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
         
-       
         st.session_state.current_artwork_index += 1
         
         if st.session_state.current_artwork_index >= 3:
