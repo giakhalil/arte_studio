@@ -420,44 +420,36 @@ def render():
                     st.success("✅ **Test completato!**")
                     
                     st.markdown("""
-                    <div class="success-box" style="
-                        /* Colore di sfondo neutro che funziona bene in Light/Dark Mode */
-                        background-color: #f7f7f7; 
-                        /* Bordo laterale con colore scuro per alto contrasto */
-                        border-left: 5px solid #6c757d; 
-                        padding: 20px;
-                        border-radius: 5px;
-                        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-                    ">
-                        <div style="font-size: 1.5rem; font-weight: bold; color: #343a40; margin-bottom: 15px;">
-                            ## Prima di vedere i tuoi risultati... 🔬
-                        </div>
-                        
-                        <div style="font-size: 1.1rem; margin-bottom: 20px;">
-                            <strong style="color: #6c757d;">Breve spiegazione dello studio:</strong>
-                            <p style="color: #343a40;">Questa ricerca esplora se **descrizioni personalizzate** delle opere d'arte, che includono analogie basate sui tuoi interessi personali, aiutino a ricordare meglio le informazioni rispetto alle descrizioni standard.</p>
-                        </div>
+                    ## Prima di vedere i tuoi risultati...
+                    
+                    **Breve spiegazione dello studio:**
+                    
+                    Questa ricerca esplora se **descrizioni personalizzate** delle opere d'arte, che includono analogie basate sui tuoi interessi personali, 
+                    aiutino a ricordare meglio le informazioni rispetto alle descrizioni standard.
+                    All'inizio della sperimentazione, sei stato assegnato casualmente a uno dei due gruppi sperimentali:
 
-                        <p style="color: #343a40;">All'inizio della sperimentazione, sei stato assegnato casualmente a uno dei due gruppi sperimentali:</p>
-                        
-                        <ul style="margin-top: 10px; color: #343a40;">
-                            <li><strong style="color: #dc3545;">Gruppo A</strong>: Ha ricevuto descrizioni standard</li>
-                            <li><strong style="color: #28a745;">Gruppo B</strong>: Ha ricevuto descrizioni personalizzate con analogie</li>
-                        </ul>
+                    - **Gruppo A**: Ha ricevuto descrizioni standard
+                    - **Gruppo B**: Ha ricevuto descrizioni personalizzate con analogie
 
-                        <p style="color: #343a40; margin-top: 15px;">Tutti i partecipanti hanno completato il questionario sugli interessi, ma soltanto per il **Gruppo B** tali preferenze sono state utilizzate per generare, tramite intelligenza artificiale, descrizioni **personalizzate sulla base del tuo profilo**.</p>
-                        
-                        <p style="font-style: italic; margin-top: 20px; border-top: 1px dashed #adb5bd; padding-top: 10px; color: #6c757d;">
-                            Il confronto sistematico tra i due gruppi ci permetterà di valutare se la personalizzazione dei contenuti migliora effettivamente l'apprendimento artistico.
-                        </p>
-                    </div>
-                    """, unsafe_allow_html=True)
-                                        
+                    Tutti i partecipanti hanno completato il questionario sugli interessi, ma soltanto per il Gruppo B tali preferenze sono state utilizzate per generare, 
+                    tramite intelligenza artificiale, descrizioni **personalizzate sulla base del tuo profilo**.
+
+                    Il confronto sistematico tra i due gruppi ci permetterà di valutare se la personalizzazione dei contenuti migliora effettivamente l'apprendimento artistico.
+
+                                        """)
+                    
                     st.markdown("""
-                    <div style="background: #f0f2f6; padding: 20px; border-radius: 10px; text-align: center; margin: 20px 0;">
-                        <h4>Pronto/a a scoprire i tuoi risultati?</h3>
-                        <p>Vedrai il tuo punteggio, il gruppo a cui appartieni e potrai lasciare un feedback.</p>
-                    </div>
+                        <div style="
+                            background: var(--secondary-background-color);
+                            padding: 20px; 
+                            border-radius: 10px; 
+                            text-align: center; 
+                            margin: 20px 0;
+                            border: 1px solid var(--border-color);
+                        ">
+                            <h4 style="color: var(--text-color); margin-bottom: 10px;">Pronto/a a scoprire i tuoi risultati?</h4>
+                            <p style="color: var(--text-color); margin: 0;">Vedrai il tuo punteggio, il gruppo a cui appartieni e potrai lasciare un feedback.</p>
+                        </div>
                     """, unsafe_allow_html=True)
                     
                     if st.button("**Vedi i Miei Risultati**", type="primary", use_container_width=True):
