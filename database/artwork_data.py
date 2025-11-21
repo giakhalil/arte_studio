@@ -87,6 +87,9 @@ def initialize_artwork_order():
         artwork_indices = list(range(len(ARTWORKS)))
         random.shuffle(artwork_indices)
         st.session_state.artwork_order = artwork_indices
+
+        st.session_state.artwork_order_ids = [ARTWORKS[i]['id'] for i in artwork_indices]
+        st.session_state.artwork_order_titles = [ARTWORKS[i]['title'] for i in artwork_indices]
         print(f"DEBUG: Ordine opere randomizzato: {st.session_state.artwork_order}")
 
 def get_artwork_by_index(index): 
@@ -101,6 +104,15 @@ def get_artwork_by_index(index):
 def get_all_artworks():
     initialize_artwork_order()
     return [ARTWORKS[i] for i in st.session_state.artwork_order]
+
+def get_artwork_order_for_database():
+    """Restituisce l'ordine delle opere per il salvataggio nel database"""
+    if 'artwork_order_ids' in st.session_state and 'artwork_order_titles' in st.session_state:
+        return {
+            'artwork_ids': st.session_state.artwork_order_ids,
+            'artwork_titles': st.session_state.artwork_order_titles
+        }
+    return None
 
 def get_artwork_description(artwork, experimental_group, top_interests):
     from api.description_generator import DescriptionGenerator

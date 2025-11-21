@@ -508,6 +508,9 @@ def render():
                     total_score = sum(answers.get('recall_score', 0) for answers in st.session_state.recall_answers.values())
                     total_questions = sum(answers.get('total_recall_questions', 0) for answers in st.session_state.recall_answers.values())
                     
+                    from database.artwork_data import get_artwork_order_for_database
+                    artwork_order_data = get_artwork_order_for_database()
+                    
                     final_data = {
                         'participant_id': st.session_state.participant_id,
                         'demographics': st.session_state.demographics,
@@ -527,7 +530,9 @@ def render():
                         'user_feedback': st.session_state.get('user_feedback', ''),
                         'study_completed': True,
                     }
-
+                    
+                    if artwork_order_data:
+                        final_data['artwork_order'] = artwork_order_data
                     final_data['generated_descriptions'] = st.session_state.get('generated_descriptions', {})
                     final_data['artwork_selected_interests'] = st.session_state.get('artwork_interests', {})
                     
