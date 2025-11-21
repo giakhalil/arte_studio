@@ -14,14 +14,6 @@ def render():
                 st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     load_css()
-
-    st.markdown("""
-    <script>
-        const main = window.parent.document.querySelector('[data-testid="stAppViewContainer"]');
-        if (main) { main.scrollTo({top: 0, behavior: 'instant'}); }
-    </script>
-    """, unsafe_allow_html=True)
-
     
     from database.artwork_data import get_artwork_by_index, get_artwork_description, initialize_artwork_order
     
