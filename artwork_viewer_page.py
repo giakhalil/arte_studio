@@ -127,7 +127,11 @@ def render():
             
         st.session_state.button_clicked = True
         
-        viewing_time = (time.time() - st.session_state[f"start_time_{current_idx}"])/60
+        viewing_time_seconds = time.time() - st.session_state[f"start_time_{current_idx}"]
+        
+        minutes = int(viewing_time_seconds // 60)
+        seconds = int(viewing_time_seconds % 60)
+        viewing_time_formatted = f"{minutes}:{seconds:02d}" 
         
         if 'artworks_viewed' not in st.session_state:
             st.session_state.artworks_viewed = []
@@ -137,11 +141,11 @@ def render():
         st.session_state.artworks_viewed.append({
             'artwork_id': artwork['id'],
             'title': artwork['title'],
-            'viewing_time': viewing_time,
+            'viewing_time': viewing_time_formatted,
             'interest_used': st.session_state.artwork_interests.get(artwork['id']),
             'timestamp': time.time()
         })
-        st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
+        st.session_state.artwork_viewing_times[artwork['id']] = viewing_time_formatted,
         
         st.session_state.current_artwork += 1
         st.session_state.button_clicked = False
