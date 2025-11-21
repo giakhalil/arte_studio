@@ -6,16 +6,6 @@ import base64
 
 sys.path.append(os.path.dirname(__file__))
 
-def scroll_to_top():
-    st.markdown(
-        """
-        <script>
-            window.scrollTo(0, 0); 
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
-
 def render():
     def load_css():
         css_path = os.path.join(os.getcwd(), "style.css")
@@ -24,6 +14,12 @@ def render():
                 st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     load_css()
+
+    st.markdown("""
+    <script>
+        window.parent.document.querySelector('section.main').scrollTo(0, 0);
+    </script>
+    """, unsafe_allow_html=True)
     
     from database.artwork_data import get_artwork_by_index, get_artwork_description, initialize_artwork_order
     
@@ -159,6 +155,4 @@ def render():
         if st.session_state.current_artwork >= 3:
             st.session_state.viewing_completed = True
             st.session_state.app_state = "recall"
-        
-        scroll_to_top()
         st.rerun()
