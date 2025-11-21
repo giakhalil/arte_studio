@@ -67,7 +67,12 @@ def render():
     </div>
     """, unsafe_allow_html=True)
 
-    st.markdown(f'<div class="section-header">"{artwork["title"]}"</div>', unsafe_allow_html=True)
+    st.markdown(f"""
+    <div style="font-size: 1.8rem; font-weight: bold; color: #856404; margin-bottom: 20px; text-align: center; padding: 15px; background: #fff3cd; border-radius: 8px; border: 1px solid #ffeaa7;">
+        {artwork["title"]}
+    </div>
+    """, unsafe_allow_html=True)
+
 
     col_img, col_desc = st.columns([1, 1])
 
