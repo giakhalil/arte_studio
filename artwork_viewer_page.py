@@ -60,6 +60,7 @@ def render():
             <li><strong>Non aprire altre schede o finestre nel browser</strong></li>
             <li>Clicca sul pulsante quando sei pronto per proseguire</li>
             <li>Cerca di comprendere e ricordare quanto più possibile</li>
+            <li><strong>Attendi un attimo</strong> - le descrizioni compariranno automaticamente</li>
             <li><strong>NON RICARICARE LA PAGINA!</strong></li>
         </ul>
     </div>
