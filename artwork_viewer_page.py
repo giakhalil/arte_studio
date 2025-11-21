@@ -25,14 +25,21 @@ def render():
         st.session_state.app_state = "interests"
         st.rerun()
 
-
     if 'current_artwork_index' not in st.session_state:
         st.session_state.current_artwork_index = 0
+    if 'artwork_viewing_times' not in st.session_state:
         st.session_state.artwork_viewing_times = {}
+    if 'artwork_interests' not in st.session_state:
         st.session_state.artwork_interests = {}
+    
+    if 'artworks_viewed' not in st.session_state:
         st.session_state.artworks_viewed = []
+    
+    if 'viewing_completed' not in st.session_state:
         st.session_state.viewing_completed = False
-        st.session_state.artwork_start_times = {}  
+    
+    if 'artwork_start_times' not in st.session_state:
+        st.session_state.artwork_start_times = {}
 
     current_index = st.session_state.current_artwork_index
    
@@ -135,17 +142,18 @@ def render():
             'timestamp': time.time(),
         }
         
+
+        if 'artworks_viewed' not in st.session_state:
+            st.session_state.artworks_viewed = []
         st.session_state.artworks_viewed.append(artwork_data)
-        st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
-         
-       # DEBUG
-        next_index = current_index + 1
-        if next_index < 3:
-            next_artwork = get_artwork_by_index(next_index)
-            st.write(f"DEBUG: Opera corrente ({current_index}): {artwork['title']}")
-            st.write(f"DEBUG: Prossima opera ({next_index}): {next_artwork['title'] if next_artwork else 'Nessuna'}")
         
-        st.session_state.current_artwork_index = next_index
+        
+        if 'artwork_viewing_times' not in st.session_state:
+            st.session_state.artwork_viewing_times = {}
+        st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
+        
+       
+        st.session_state.current_artwork_index += 1
         
         if st.session_state.current_artwork_index >= 3:
             st.session_state.viewing_completed = True
