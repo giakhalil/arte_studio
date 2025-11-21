@@ -7,14 +7,6 @@ import base64
 sys.path.append(os.path.dirname(__file__))
 
 def render():
-    st.markdown("""
-    <script>
-    if (sessionStorage.getItem('scrollToTop') === 'true') {
-        window.scrollTo(0, 0);
-        sessionStorage.removeItem('scrollToTop');
-    }
-    </script>
-    """, unsafe_allow_html=True)
     def load_css():
         css_path = os.path.join(os.getcwd(), "style.css")
         if os.path.exists(css_path):
@@ -159,10 +151,5 @@ def render():
         if st.session_state.current_artwork >= 3:
             st.session_state.viewing_completed = True
             st.session_state.app_state = "recall"
-        st.markdown("""
-        <script>
-        // Salva la posizione di scroll prima del rerun
-        sessionStorage.setItem('scrollToTop', 'true');
-        </script>
-        """, unsafe_allow_html=True)
+        
         st.rerun()
