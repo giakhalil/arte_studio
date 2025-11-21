@@ -21,40 +21,35 @@ def render():
 
     required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
     if not all(st.session_state.get(state) for state in required_states):
-        st.error("⚠ Accesso non consentito. Completa prima il profilo.")
+        st.error("Accesso non consentito.")
         st.session_state.app_state = "interests"
         st.rerun()
 
-    if 'current_artwork_index' not in st.session_state:
-        st.session_state.current_artwork_index = 0
-        st.session_state.artwork_viewing_times = {}
-        st.session_state.artwork_interests = {}
-        st.session_state.artworks_viewed = []
-        st.session_state.viewing_completed = False
-        st.session_state.artwork_start_times = {}
-
-    current_index = st.session_state.current_artwork_index
-    
-    if current_index >= 3:
-        st.session_state.viewing_completed = True
-        st.session_state.app_state = "recall"
-        st.rerun()
-    
-    artwork = get_artwork_by_index(current_index)
-
-    if not artwork:
-        st.error("Errore nel caricamento dell'opera.")
+    if 'artwork_order' not in st.session_state:
+        st.error("Errore ordine opere.")
         st.stop()
 
-    if 'artwork_start_times' not in st.session_state:
-        st.session_state.artwork_start_times = {}
+    artwork_ids = [st.session_state.artwork_order[0], st.session_state.artwork_order[1], st.session_state.artwork_order[2]]
     
-    if artwork['id'] not in st.session_state.artwork_start_times:
-        st.session_state.artwork_start_times[artwork['id']] = time.time()
+    if 'current_artwork' not in st.session_state:
+        st.session_state.current_artwork = 0
+        st.session_state.artwork_data = {}
+        for i, idx in enumerate(artwork_ids):
+            artwork = get_artwork_by_index(i)
+            st.session_state.artwork_data[i] = {
+                'id': artwork['id'],
+                'title': artwork['title'],
+                'artist': artwork['artist'],
+                'year': artwork['year'],
+                'style': artwork['style'],
+                'image_url': artwork['image_url'],
+                'start_time': time.time()
+            }
 
-    elapsed_time = time.time() - st.session_state.artwork_start_times[artwork['id']]
+    current_idx = st.session_state.current_artwork
+    artwork = st.session_state.artwork_data[current_idx]
 
-    st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")
+    st.progress((current_idx + 1) / 3, text=f"Opera {current_idx + 1} di 3")
     
     st.markdown("""
     <div class="warning-box">
@@ -62,7 +57,7 @@ def render():
         <ul>
             <li>Leggi attentamente la descrizione e osserva l'opera</li>
             <li><strong>Non prendere appunti</strong></li>
-            <li><strong>Non aprire altre schede o finestre nel browser, altrimenti i tuoi dati NON veranno considerati</strong></li>
+            <li><strong>Non aprire altre schede o finestre nel browser</strong></li>
             <li>Clicca sul pulsante quando sei pronto per proseguire</li>
             <li>Cerca di comprendere e ricordare quanto più possibile</li>
             <li><strong>NON RICARICARE LA PAGINA!</strong></li>
@@ -80,21 +75,14 @@ def render():
             possible_paths = [
                 os.path.join("images", image_filename),
                 os.path.join(os.getcwd(), "images", image_filename),
-                image_filename if os.path.isabs(image_filename) else None
             ]
-            possible_paths = [p for p in possible_paths if p]
             image_found = False
             for image_path in possible_paths:
                 if os.path.exists(image_path):
                     with open(image_path, "rb") as img_file:
                         img_bytes = img_file.read()
                         img_base64 = base64.b64encode(img_bytes).decode()
-                    if image_path.lower().endswith('.png'):
-                        mime_type = "image/png"
-                    elif image_path.lower().endswith(('.jpg', '.jpeg')):
-                        mime_type = "image/jpeg"
-                    else:
-                        mime_type = "image/jpeg"
+                    mime_type = "image/jpeg"
                     st.markdown(f"""
                     <div style="display: flex; justify-content: center; align-items: center; padding: 20px;">
                         <img src="data:{mime_type};base64,{img_base64}" 
@@ -106,50 +94,52 @@ def render():
             if not image_found:
                 st.error(f"Immagine non trovata: {artwork['image_url']}")
         except Exception as e:
-            st.error(f"⚠ Errore nel caricamento dell'immagine: {e}")
+            st.error(f"Errore nel caricamento dell'immagine: {e}")
 
     with col_desc:
         st.markdown(f"**Artista:** {artwork['artist']} | **Anno:** {artwork['year']} | **Stile:** {artwork['style']}")
-        description, selected_interest = get_artwork_description(
-            artwork,
-            st.session_state.experimental_group,
-            st.session_state.top_3_interests
-        )
         
-        if 'artwork_interests' not in st.session_state:
-            st.session_state.artwork_interests = {}
-        st.session_state.artwork_interests[artwork['id']] = selected_interest
-        
-        st.markdown("### Descrizione dell'opera")
-        st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
+        from database.artwork_data import ARTWORKS
+        artwork_obj = next((art for art in ARTWORKS if art['id'] == artwork['id']), None)
+        if artwork_obj:
+            description, selected_interest = get_artwork_description(
+                artwork_obj,
+                st.session_state.experimental_group,
+                st.session_state.top_3_interests
+            )
+            
+            if 'artwork_interests' not in st.session_state:
+                st.session_state.artwork_interests = {}
+            st.session_state.artwork_interests[artwork['id']] = selected_interest
+            
+            st.markdown("### Descrizione dell'opera")
+            st.markdown(f'<div class="description-box">{description}</div>', unsafe_allow_html=True)
 
     st.markdown("---")
 
-    button_text = "Procedi all'opera successiva" if current_index < 2 else "Completa visualizzazione opere"
+    button_text = "Procedi all'opera successiva" if current_idx < 2 else "Completa visualizzazione opere"
     
     if st.button(button_text, type="primary", use_container_width=True):
-        viewing_time = time.time() - st.session_state.artwork_start_times[artwork['id']]
+        viewing_time = time.time() - artwork['start_time']
         
-        artwork_data = {
+        if 'artworks_viewed' not in st.session_state:
+            st.session_state.artworks_viewed = []
+        if 'artwork_viewing_times' not in st.session_state:
+            st.session_state.artwork_viewing_times = {}
+            
+        st.session_state.artworks_viewed.append({
             'artwork_id': artwork['id'],
             'title': artwork['title'],
             'viewing_time': viewing_time,
             'interest_used': st.session_state.artwork_interests.get(artwork['id']),
             'timestamp': time.time()
-        }
-        
-        if 'artworks_viewed' not in st.session_state:
-            st.session_state.artworks_viewed = []
-        st.session_state.artworks_viewed.append(artwork_data)
-        
-        if 'artwork_viewing_times' not in st.session_state:
-            st.session_state.artwork_viewing_times = {}
+        })
         st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
         
-        st.session_state.current_artwork_index += 1
-        
-        if st.session_state.current_artwork_index >= 3:
+        if current_idx < 2:
+            st.session_state.current_artwork += 1
+            st.rerun()
+        else:
             st.session_state.viewing_completed = True
             st.session_state.app_state = "recall"
-        
-        st.rerun()
+            st.rerun()
