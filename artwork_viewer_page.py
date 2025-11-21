@@ -16,7 +16,7 @@ def render():
     load_css()
     
     from database.artwork_data import get_artwork_by_index, get_artwork_description, initialize_artwork_order
-    
+   
     initialize_artwork_order()
 
     required_states = ['demographics', 'top_3_interests', 'experimental_group', 'participant_id']
@@ -25,19 +25,17 @@ def render():
         st.session_state.app_state = "interests"
         st.rerun()
 
+
     if 'current_artwork_index' not in st.session_state:
         st.session_state.current_artwork_index = 0
         st.session_state.artwork_viewing_times = {}
-        st.session_state.artwork_interests = {} 
+        st.session_state.artwork_interests = {}
         st.session_state.artworks_viewed = []
         st.session_state.viewing_completed = False
-
+        st.session_state.artwork_start_times = {}  
 
     current_index = st.session_state.current_artwork_index
-    if f"start_time_{current_index}" not in st.session_state:
-        st.session_state[f"start_time_{current_index}"] = time.time()
-
-
+   
     if current_index >= 3:
         st.session_state.viewing_completed = True
         st.session_state.app_state = "recall"
@@ -49,7 +47,10 @@ def render():
         st.error("Errore nel caricamento dell'opera.")
         st.stop()
 
-    elapsed_time = time.time() - st.session_state[f"start_time_{current_index}"]
+    if artwork['id'] not in st.session_state.artwork_start_times:
+        st.session_state.artwork_start_times[artwork['id']] = time.time()
+
+    elapsed_time = time.time() - st.session_state.artwork_start_times[artwork['id']]
 
     st.progress((current_index + 1) / 3, text=f"Opera {current_index + 1} di 3")
     
@@ -113,9 +114,6 @@ def render():
             st.session_state.top_3_interests
         )
         
-   
-        if 'artwork_interests' not in st.session_state:
-            st.session_state.artwork_interests = {}
         st.session_state.artwork_interests[artwork['id']] = selected_interest
         
         st.markdown("### Descrizione dell'opera")
@@ -127,33 +125,29 @@ def render():
     
     if st.button(button_text, type="primary", use_container_width=True):
 
-        viewing_time = time.time() - st.session_state[f"start_time_{current_index}"]
+        viewing_time = time.time() - st.session_state.artwork_start_times[artwork['id']]
         
         artwork_data = {
             'artwork_id': artwork['id'],
             'title': artwork['title'],
             'viewing_time': viewing_time,
             'interest_used': st.session_state.artwork_interests.get(artwork['id']),
-            'timestamp': time.time()
+            'timestamp': time.time(),
         }
         
- 
-        if 'artworks_viewed' not in st.session_state:
-            st.session_state.artworks_viewed = []
         st.session_state.artworks_viewed.append(artwork_data)
-        
-
-        if 'artwork_viewing_times' not in st.session_state:
-            st.session_state.artwork_viewing_times = {}
         st.session_state.artwork_viewing_times[artwork['id']] = viewing_time
+         
+       # DEBUG
+        next_index = current_index + 1
+        if next_index < 3:
+            next_artwork = get_artwork_by_index(next_index)
+            st.write(f"DEBUG: Opera corrente ({current_index}): {artwork['title']}")
+            st.write(f"DEBUG: Prossima opera ({next_index}): {next_artwork['title'] if next_artwork else 'Nessuna'}")
         
-        st.session_state.current_artwork_index += 1
-        
-        print(f"Opera completata: {artwork['title']}")
-        print(f"Prossima opera sarà index: {st.session_state.current_artwork_index}")
+        st.session_state.current_artwork_index = next_index
         
         if st.session_state.current_artwork_index >= 3:
-            print("Tutte le opere completate - vai al recall")
             st.session_state.viewing_completed = True
             st.session_state.app_state = "recall"
         

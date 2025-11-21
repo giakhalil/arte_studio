@@ -87,12 +87,15 @@ def initialize_artwork_order():
         artwork_indices = list(range(len(ARTWORKS)))
         random.shuffle(artwork_indices)
         st.session_state.artwork_order = artwork_indices
+        print(f"DEBUG: Ordine opere randomizzato: {st.session_state.artwork_order}")
 
 def get_artwork_by_index(index): 
     initialize_artwork_order()
     if 0 <= index < len(st.session_state.artwork_order):
         real_index = st.session_state.artwork_order[index]
-        return ARTWORKS[real_index]
+        artwork = ARTWORKS[real_index]
+        print(f"DEBUG: Index {index} -> Real index {real_index} -> Opera: {artwork['title']}")
+        return artwork
     return None
 
 def get_all_artworks():
@@ -100,7 +103,6 @@ def get_all_artworks():
     return [ARTWORKS[i] for i in st.session_state.artwork_order]
 
 def get_artwork_description(artwork, experimental_group, top_interests):
-    
     from api.description_generator import DescriptionGenerator
     generator = DescriptionGenerator()
     artworks_ids = [a['id'] for a in ARTWORKS]
@@ -111,11 +113,12 @@ def get_artwork_description(artwork, experimental_group, top_interests):
         st.session_state.artwork_interest_map = artwork_interest_map
     else:
         artwork_interest_map = st.session_state.artwork_interest_map
+        
     artwork_id = artwork['id']
     cached_descriptions = st.session_state.get('generated_descriptions', {})
-    cached = cached_descriptions.get(artwork_id)
 
-    if cached:
+    if artwork_id in cached_descriptions:
+        cached = cached_descriptions[artwork_id]
         same_artwork = (
             cached.get('artwork_title') == artwork['title'] and
             cached.get('artwork_artist') == artwork['artist']
@@ -124,16 +127,14 @@ def get_artwork_description(artwork, experimental_group, top_interests):
         same_interests = cached.get('top_interests') == top_interests
 
         if same_artwork and same_group and same_interests:
-            
             return cached['description'], cached.get('selected_interest')
-        
+    
     if experimental_group == 'B':  
         description = generator.get_personalized_description(artwork, artwork_interest_map)
         selected_interest = artwork_interest_map.get(artwork_id)
     else:  
         description = generator.get_standard_description(artwork)
-        selected_interest = None  
-    
+        selected_interest = None
     
     if 'generated_descriptions' not in st.session_state:
         st.session_state.generated_descriptions = {}
