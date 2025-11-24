@@ -27,7 +27,6 @@ def render():
     st.markdown("""
     **Cosa succederà ora:**
     - Vedrai 3 opere d'arte, una alla volta
-    - Ogni opera sarà visibile per **4 minuti esatti**
     - Leggi attentamente la descrizione
     - **Non prendere appunti**
     - Dopo le 3 opere, risponderai a domande su ciò che ricordi
